@@ -37,7 +37,7 @@ namespace Chloe.Admin.Areas.SystemManage.Controllers
         [HttpGet]
         public ActionResult GetModels(Pagination pagination, string keyword)
         {
-            PagedData<inv_users> pagedData = this.CreateService<IUserAppService>().GetPageData(pagination, keyword);
+            PagedData<MALU_Users> pagedData = this.CreateService<IUserAppService>().GetPageData(pagination, keyword);
             return this.SuccessData(pagedData);
         }
 

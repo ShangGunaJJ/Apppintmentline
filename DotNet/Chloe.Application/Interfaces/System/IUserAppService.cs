@@ -25,7 +25,7 @@ namespace Chloe.Application.Interfaces.System
         void AddUser(AddUserInput input);
         void UpdateUser(UpdateUserInput input);
         List<SimpleUserModel> GetSimpleModels();
-        PagedData<inv_users> GetPageData(Pagination page, string keyword);
+        PagedData<MALU_Users> GetPageData(Pagination page, string keyword);
         int UpdateUserTheme(string t);
     }
 }

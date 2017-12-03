@@ -13,7 +13,7 @@ namespace Chloe.Entities
 
         public int PageIndex { get; set; }
 
-        public inv_main SearcherValues { get; set; }
+        public ApprovalAppData SearcherValues { get; set; }
 
         public string SortColumn { get; set; }
 

@@ -31,7 +31,7 @@ namespace Chloe.Admin.Areas.SystemManage.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult GetInvData(int PageSize, int PageIndex, inv_main SearcherValues, string OrderBy, string SortColumn)
+        public ActionResult GetInvData(int PageSize, int PageIndex, ApprovalAppData SearcherValues, string OrderBy, string SortColumn)
         {
             var InvService = this.CreateService<IInvAppService>();
             Searcher sear = new Searcher()
@@ -70,7 +70,7 @@ namespace Chloe.Admin.Areas.SystemManage.Controllers
         [HttpPost]
         public ActionResult GetDetail(int id)
         {
-            List<inv_detail> des = this.CreateService<IInvAppService>().getDetail(id);
+            List<AppointmentData> des = this.CreateService<IInvAppService>().getDetail(id);
             Result<object> result = Result.CreateResult<object>(ResultStatus.OK, des);
             return this.JsonContent(result);
         }

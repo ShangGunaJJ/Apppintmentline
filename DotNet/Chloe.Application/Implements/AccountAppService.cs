@@ -21,7 +21,7 @@ namespace Chloe.Application.Implements
         /// <param name="user"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public bool CheckLogin(string userName, string password, out inv_users user, out Sys_Role role, out string msg)
+        public bool CheckLogin(string userName, string password, out MALU_Users user, out Sys_Role role, out string msg)
         {
             userName.NotNullOrEmpty();
             password.NotNullOrEmpty();
@@ -31,8 +31,6 @@ namespace Chloe.Application.Implements
             role = null;
             var Role = this.DbContext.GetSys_Role();
             var users = this.DbContext.GetInv_users().LeftJoin(Role, (u, r) => u.RoleId == r.Id);
-            var Company = this.DbContext.GetInv_company();
-
             var view = users.Select((u, r) => new { User = u, Role = r });
 
 
@@ -50,7 +48,7 @@ namespace Chloe.Application.Implements
             //    return false;
             //}
 
-            inv_users userEntity = viewEntity.User;
+            MALU_Users userEntity = viewEntity.User;
             string dbPassword = PasswordHelper.EncryptMD5Password(password, "invtax");
             if (dbPassword != userEntity.password)
             {
@@ -66,7 +64,7 @@ namespace Chloe.Application.Implements
         {
             if (this.Session._IsAdmin)
             {
-                return this.DbContext.Query<inv_users>().Where(a => GetCompanysID.Contains(a.companyguid)).Select(a => a.Id).ToList();
+                return this.DbContext.Query<MALU_Users>().Where(a => GetCompanysID.Contains(a.companyguid)).Select(a => a.Id).ToList();
             }
             return null;
         }
@@ -82,7 +80,7 @@ namespace Chloe.Application.Implements
 
             AdminSession session = this.Session;
 
-            inv_users userLogOn = this.DbContext.Query<inv_users>().Where(a => a.Id == session.UserId).First();
+            MALU_Users userLogOn = this.DbContext.Query<MALU_Users>().Where(a => a.Id == session.UserId).First();
 
             string encryptedOldPassword = PasswordHelper.Encrypt(oldPassword, "invtax");
 
@@ -93,7 +91,7 @@ namespace Chloe.Application.Implements
 
             this.DbContext.DoWithTransaction(() =>
             {
-                this.DbContext.Update<inv_users>(a => a.Id == session.UserId, a => new inv_users() { password = newEncryptedPassword });
+                this.DbContext.Update<MALU_Users>(a => a.Id == session.UserId, a => new MALU_Users() { password = newEncryptedPassword });
                 // this.Log(Entities.Enums.LogType.Update, "Account", true, "用户[{0}]修改密码".ToFormat(session.UserId));
             });
         }
@@ -104,7 +102,7 @@ namespace Chloe.Application.Implements
 
             var session = this.Session;
 
-            this.DbContext.Update<inv_users>(a => a.Id == session.UserId, a => new inv_users()
+            this.DbContext.Update<MALU_Users>(a => a.Id == session.UserId, a => new MALU_Users()
             {
                 RealName = input.RealName,
                 Gender = input.Gender,

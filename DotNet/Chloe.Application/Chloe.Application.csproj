@@ -72,7 +72,6 @@
     <Compile Include="CurrentAssembly.cs" />
     <Compile Include="Implements\AccountAppService.cs" />
     <Compile Include="Implements\Inv\InvAppService.cs" />
-    <Compile Include="Implements\System\CompanyAppService.cs" />
     <Compile Include="Implements\System\DutyAppService.cs" />
     <Compile Include="Implements\System\ModuleAppService.cs" />
     <Compile Include="Implements\System\RoleAppService.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Implements\Wiki\WikiDocumentAppService.cs" />
     <Compile Include="Implements\Wiki\WikiMenuItemAppService.cs" />
     <Compile Include="Interfaces\IAccountAppService.cs" />
-    <Compile Include="Interfaces\System\ICompanyAppService.cs" />
     <Compile Include="Interfaces\System\IDutyAppService.cs" />
     <Compile Include="Interfaces\System\IModuleAppService.cs" />
     <Compile Include="Interfaces\System\IRoleAuthorizeAppService.cs" />

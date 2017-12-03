@@ -19,7 +19,7 @@ namespace Chloe.Application.Interfaces
         /// <param name="user"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        bool CheckLogin(string userName, string password, out inv_users user,out Sys_Role role, out string msg);
+        bool CheckLogin(string userName, string password, out MALU_Users user,out Sys_Role role, out string msg);
         /// <summary>
         /// 
         /// </summary>

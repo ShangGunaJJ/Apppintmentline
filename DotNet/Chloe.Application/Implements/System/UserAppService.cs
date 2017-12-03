@@ -19,18 +19,18 @@ namespace Chloe.Application.Implements.System
     {
         public void EnableAccount(string userId)
         {
-            this.DbContext.Enable<inv_users>(userId);
+            this.DbContext.Enable<MALU_Users>(userId);
         }
         public void DisableAccount(string userId)
         {
-            this.DbContext.Disable<inv_users>(userId);
+            this.DbContext.Disable<MALU_Users>(userId);
         }
         public void RevisePassword(string userId, string pwdText)
         {
             userId.NotNullOrEmpty("用户 Id 不能为空");
             PasswordHelper.EnsurePasswordLegal(pwdText);
 
-            var user = this.DbContext.QueryByKey<inv_users>(userId);
+            var user = this.DbContext.QueryByKey<MALU_Users>(userId);
             if (user == null || user.username.ToLower() == AppConsts.AdminUserName)
                 throw new Ace.Exceptions.InvalidDataException("用户不存在");
 
@@ -39,13 +39,13 @@ namespace Chloe.Application.Implements.System
 
             this.DbContext.DoWithTransaction(() =>
             {
-                this.DbContext.Update<inv_users>(a => a.Id == userId, a => new inv_users() { password = encryptedPassword });
+                this.DbContext.Update<MALU_Users>(a => a.Id == userId, a => new MALU_Users() { password = encryptedPassword });
                 this.Log(Entities.Enums.LogType.Update, "User", true, "重置用户[{0}]密码".ToFormat(userId));
             });
         }
         public List<SimpleUserModel> GetSimpleModels()
         {
-            var models = this.DbContext.Query<inv_users>().Select(a => new SimpleUserModel() { Id = a.Id, Name = a.RealName }).ToList();
+            var models = this.DbContext.Query<MALU_Users>().Select(a => new SimpleUserModel() { Id = a.Id, Name = a.RealName }).ToList();
             return models;
         }
 
@@ -53,7 +53,7 @@ namespace Chloe.Application.Implements.System
         {
             userId.NotNullOrEmpty("用户 Id 不能为空");
 
-            this.DbContext.DeleteByKey<inv_users>(userId);
+            this.DbContext.DeleteByKey<MALU_Users>(userId);
         }
 
         public void AddUser(AddUserInput input)
@@ -66,7 +66,7 @@ namespace Chloe.Application.Implements.System
             if (exists)
                 throw new InvalidDataException("用户名[{0}]已存在".ToFormat(input.UserName));
 
-            inv_users user = this.CreateEntity<inv_users>();
+            MALU_Users user = this.CreateEntity<MALU_Users>();
             user.username = userName;
             user.RoleId = input.RoleId;
             user.DutyId = input.DutyId;
@@ -97,7 +97,7 @@ namespace Chloe.Application.Implements.System
         {
             input.Validate();
 
-            this.DbContext.Update<inv_users>(a => a.Id == input.Id, a => new inv_users()
+            this.DbContext.Update<MALU_Users>(a => a.Id == input.Id, a => new MALU_Users()
             {
                 //OrganizeId = input.OrganizeId,
                 RoleId = input.RoleId,
@@ -112,12 +112,12 @@ namespace Chloe.Application.Implements.System
         }
         public int UpdateUserTheme(string t)
         {
-            return this.DbContext.Update<inv_users>(a => a.Id == this.Session.UserId, a => new inv_users()
+            return this.DbContext.Update<MALU_Users>(a => a.Id == this.Session.UserId, a => new MALU_Users()
             {
                 Theme = t
             });
         }
-        public PagedData<inv_users> GetPageData(Pagination page, string keyword)
+        public PagedData<MALU_Users> GetPageData(Pagination page, string keyword)
         {
             var q = this.DbContext.GetInv_users();
 
@@ -125,7 +125,7 @@ namespace Chloe.Application.Implements.System
             q = q.Where(a => a.username != AppConsts.AdminUserName);
             q = q.OrderBy(a => a.companyname).ThenByDesc(a => a.createtime);
 
-            PagedData<inv_users> pagedData = q.TakePageData(page);
+            PagedData<MALU_Users> pagedData = q.TakePageData(page);
 
             return pagedData;
         }

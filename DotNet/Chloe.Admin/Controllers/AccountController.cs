@@ -51,7 +51,7 @@ namespace Chloe.Admin.Controllers
             const string moduleName = "系统登录";
             string ip = WebHelper.GetUserIP();
 
-            inv_users user;
+            MALU_Users user;
             Sys_Role role;
             string msg;
             if (!accountAppService.CheckLogin(userName, password, out user,out role, out msg))
@@ -81,10 +81,7 @@ namespace Chloe.Admin.Controllers
                 session._IsAdmin = false;
                 session.IsAgent = false;
             }
-            //session.RolUserId = accountAppService.GetRolePeople(this.CreateService<ICompanyAppService>().GetCompanysID());
-            var company = this.CreateService<ICompanyAppService>().GetCompaneyByID(user.companyguid);
-            session.CompanyName = company[0].name;
-            session.SH = company[0].sh;
+
             this.CurrentSession = session;
 
             this.CreateService<ISysLogAppService>().LogAsync(user.Id, user.RealName, ip, LogType.Login, moduleName, true, "登录成功");
@@ -113,7 +110,7 @@ namespace Chloe.Admin.Controllers
         public ActionResult Index()
         {
             var service = this.CreateService<IEntityAppService>();
-            inv_users user = service.GetByKey<inv_users>(this.CurrentSession.UserId);
+            MALU_Users user = service.GetByKey<MALU_Users>(this.CurrentSession.UserId);
           
             Sys_Duty duty = string.IsNullOrEmpty(user.DutyId) ? null : service.GetByKey<Sys_Duty>(user.DutyId);
             Sys_Role role = string.IsNullOrEmpty(user.RoleId) ? null : service.GetByKey<Sys_Role>(user.RoleId);
@@ -160,7 +157,7 @@ namespace Chloe.Admin.Controllers
 
     public class UserModel
     {
-        public inv_users User { get; set; }
+        public MALU_Users User { get; set; }
         public string DepartmentName { get; set; }
         public string DutyName { get; set; }
         public string RoleName { get; set; }
