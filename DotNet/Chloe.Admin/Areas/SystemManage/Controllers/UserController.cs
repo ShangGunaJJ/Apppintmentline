@@ -22,12 +22,10 @@ namespace Chloe.Admin.Areas.SystemManage.Controllers
         // GET: SystemManage/User
         public ActionResult Index()
         {
-            List<SelectOption> CompanyList = SelectOption.CreateList(this.CreateService<ICompanyAppService>().GetSimpleModels());
             List<SelectOption> dutyModelList = SelectOption.CreateList(this.CreateService<IUserAppService>().GetSimpleModels());
 
             List<SelectOption> roleList = SelectOption.CreateList(this.CreateService<IRoleAppService>().GetSimpleModels());
 
-            this.ViewBag.CompanyList = CompanyList;
             this.ViewBag.UserList = dutyModelList;
             this.ViewBag.RoleList = roleList;
 

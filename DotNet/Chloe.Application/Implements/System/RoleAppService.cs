@@ -29,7 +29,7 @@ namespace Chloe.Application.Implements.System
             var q = this.DbContext.Query<Sys_Role>();
             if (this.Session._IsAdmin || this.Session.IsAgent)
             {
-                q = q.Where(a => a.EnCode != "SysAdmin" && a.EnCode != "Agent");
+                q = q.Where(a => a.EnCode != "Admin" && a.EnCode != "Agent");
             }
 
             var ret = q.Select(a => new SimpleRoleModel() { Id = a.Id, Name = a.Name });

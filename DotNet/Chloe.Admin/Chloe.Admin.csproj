@@ -139,12 +139,11 @@
     <Content Include="Content\richuxisan\EMW-matrix.ttf" />
     <Content Include="Areas\SystemManage\Views\_ViewStart.cshtml" />
     <Content Include="Areas\SystemManage\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Scan\Index.cshtml" />
-    <Content Include="Areas\SystemManage\Views\ScanHouse\Index.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Company\TryKeyword.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Notice\Index.cshtml" />
-    <Content Include="Areas\SystemManage\Views\ScanHouse\Print.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Scan\ImportExecl.cshtml" />
+    <Content Include="Areas\Appointment\Views\web.config" />
+    <Content Include="Areas\Appointment\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Appointment\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Appointment\Views\PlaceInfo\Index.cshtml" />
+    <Content Include="Areas\Appointment\Views\PlaceInfo\Index-js.cshtml" />
     <None Include="Properties\PublishProfiles\Invtax.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -156,8 +155,6 @@
     <Content Include="Areas\WikiManage\Views\WikiDocument\Document-js.cshtml" />
     <Content Include="Areas\SystemManage\Views\Role\Index-js.cshtml" />
     <Content Include="Areas\SystemManage\Views\Module\Index-js.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Duty\Index-js.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Company\Index-js.cshtml" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\bootstrap\bootstrap.min.js" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -686,14 +683,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\SystemManage\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Appointment\AppointmentAreaRegistration.cs" />
+    <Compile Include="Areas\Appointment\Controllers\PlaceInfoController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DutyController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\ModuleController.cs" />
-    <Compile Include="Areas\SystemManage\Controllers\NoticeController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\RoleAuthorizeController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\RoleController.cs" />
-    <Compile Include="Areas\SystemManage\Controllers\ScanController.cs" />
-    <Compile Include="Areas\SystemManage\Controllers\ScanHouseController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\UserController.cs" />
     <Compile Include="Areas\SystemManage\SystemManageAreaRegistration.cs" />
     <Compile Include="Areas\WikiManage\Controllers\WikiDocumentController.cs" />
@@ -758,8 +753,6 @@
     <Content Include="Views\Shared\_tfoot.cshtml" />
     <Content Include="Views\Home\template.cshtml" />
     <Content Include="Views\Home\template-js.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Company\Index.cshtml" />
-    <Content Include="Areas\SystemManage\Views\Duty\Index.cshtml" />
     <Content Include="Areas\WikiManage\Views\web.config" />
     <Content Include="Areas\WikiManage\Views\WikiDocument\Document.cshtml" />
     <Content Include="Areas\WikiManage\Views\WikiDocument\Index.cshtml" />
@@ -788,6 +781,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Appointment\Models\" />
     <Folder Include="Areas\SystemManage\Models\" />
     <Folder Include="Areas\WikiManage\Models\" />
     <Folder Include="Areas\WikiManage\Views\Shared\" />
@@ -795,6 +789,7 @@
     <Folder Include="Content\img\samples\" />
     <Folder Include="Content\Temptale\" />
     <Folder Include="Models\" />
+    <Folder Include="WeChatApp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ace.Web.Mvc\Ace.Web.Mvc.csproj">

@@ -2,7 +2,7 @@
 using Chloe.Admin.Common.Tree;
 using Chloe.Application.Interfaces;
 using Chloe.Application.Interfaces.System;
-using Chloe.Application.Models.Company;
+ 
 using Chloe.Application.Models.Duty;
 using Chloe.Entities;
 using Chloe.Admin.Common;
@@ -22,10 +22,10 @@ namespace Chloe.Admin.Areas.SystemManage.Controllers
     {
         public ActionResult Index()
         {
-            List<SelectOption> departmentList = SelectOption.CreateList(this.CreateService<ICompanyAppService>().GetSimpleModels());
+            //    List<SelectOption> departmentList = SelectOption.CreateList(this.CreateService<ICompanyAppService>().GetSimpleModels());
 
-            this.ViewBag.DepartmentList = departmentList;
-            this.ViewBag.DepartmentListString = JsonHelper.Serialize(departmentList);
+            //    this.ViewBag.DepartmentList = departmentList;
+            //    this.ViewBag.DepartmentListString = JsonHelper.Serialize(departmentList);
 
             return View();
         }

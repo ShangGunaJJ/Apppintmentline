@@ -70,7 +70,7 @@ namespace Chloe.Admin.Controllers
             session.CompanyID = user.companyguid;
             session.LoginTime = DateTime.Now;
             session.ThemeName = user.Theme;
-            session.IsAdmin = user.username.ToLower() == AppConsts.AdminUserName;
+            session.IsAdmin = user.username.ToLower() == AppConsts.Admin;
             if (role != null)
             {
                 session._IsAdmin = role.EnCode.ToLower() == AppConsts.Admin;

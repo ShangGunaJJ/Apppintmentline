@@ -34,23 +34,7 @@ namespace Chloe.Admin.Controllers
         }
         public ActionResult Home() {
             this.ViewBag.CurrentSession = this.CurrentSession;
-            var InvService = this.CreateService<IInvAppService>();
-            int special; int ordinary; int electronic; int ordinaryG;
-            InvService.GetInvTypeNum(out special, out ordinary, out electronic, out ordinaryG);
-            this.ViewBag.special = special;
-            this.ViewBag.ordinary = ordinary;
-            this.ViewBag.electronic = electronic;
-            this.ViewBag.ordinaryG = ordinaryG;
-            var CompanyAppService = this.CreateService<ICompanyAppService>();
-            int userPages = CompanyAppService.GetUserPages();
-
-            inv_company com = CompanyAppService.GetUserCompany();
-
-            this.ViewBag.totle = com.totlePage;
-            this.ViewBag.UseTotle = userPages;
-            this.ViewBag.remaining = com.totlePage - userPages;
-            this.ViewBag.Con = InvService.GetNotice();
-
+         
             return View();
         }
         [HttpGet]

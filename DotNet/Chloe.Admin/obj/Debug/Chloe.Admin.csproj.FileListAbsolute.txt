@@ -180,6 +180,7 @@ C:\Users\ShangGuanJJ\Desktop\Invtax发票管理系统\invtax\Invtax_\DotNet\Chlo
 C:\Users\ShangGuanJJ\Desktop\Invtax发票管理系统\invtax\Invtax_\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.csprojResolveAssemblyReference.cache
 C:\Users\ShangGuanJJ\Desktop\Invtax发票管理系统\invtax\Invtax_\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.dll
 C:\Users\ShangGuanJJ\Desktop\Invtax发票管理系统\invtax\Invtax_\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.pdb
+C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.csprojResolveAssemblyReference.cache
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\Chloe.Admin.dll.config
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\Chloe.Admin.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\Chloe.Admin.pdb
@@ -240,6 +241,5 @@ C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\zh-Hans\System.Web.Webpages.Razor.resources.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\zh-Hans\System.Web.Helpers.resources.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\zh-Hans\System.Web.Mvc.resources.dll
-C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.csprojResolveAssemblyReference.cache
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Admin\obj\Debug\Chloe.Admin.pdb

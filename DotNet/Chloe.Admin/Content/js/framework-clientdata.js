@@ -20,7 +20,6 @@ $.clientsInit = function () {
             async: false,
             success: function (ret) {
                 var data = ret.Data;
-
                 dataJson.dataItems = data.dataItems;
                 dataJson.organize = data.organize;
                 dataJson.role = data.role;

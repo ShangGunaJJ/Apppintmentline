@@ -52,6 +52,7 @@
     <Compile Include="AdjustAppointmentData.cs" />
     <Compile Include="AppointmentData.cs" />
     <Compile Include="ApprovalAppData.cs" />
+    <Compile Include="Sys_Company.cs" />
     <Compile Include="MALU_Business.cs" />
     <Compile Include="MALU_DefaultSetting.cs" />
     <Compile Include="FileData.cs" />

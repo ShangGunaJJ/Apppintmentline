@@ -4,7 +4,6 @@
 }
 @this.Partial("Index-js")
 <script>
-    var CompanyList = @this.RawSerialize(this.ViewBag.CompanyList);
     var UserList = @this.RawSerialize(this.ViewBag.UserList);
     var roleList = @this.RawSerialize(this.ViewBag.RoleList);
 </script>
@@ -42,9 +41,7 @@
                 <th style="width:20px;"></th>
                 <th>用户名</th>
                 <th>姓名</th>
-                <th>公司名称</th>
                 <th>角色</th>
-              
                 <th>性别</th>
                 <th>手机</th>
                 <th>创建人</th>
@@ -56,9 +53,7 @@
                 <td data-bind="text:$parent.GetOrdinal($index())"></td>
                 <td data-bind="text:username"></td>
                 <td data-bind="text:RealName"></td>
-                <td data-bind="text:$ace.getOptionTextByValue(CompanyList,companyguid())"></td>
                 <td data-bind="text:$ace.getOptionTextByValue(roleList,RoleId())"></td>
-              
                 <td data-bind="text:(Gender()==1&&'男')||(Gender()==2&&'女')||''"></td>
                 <td data-bind="text:MobilePhone"></td>
                 <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUserId())"></td>
@@ -99,9 +94,7 @@
                 <tr>
                     <td class="formTitle">公司</td>
                     <td class="formValue">
-                        <select id="companyguid" name="companyguid" class="form-control required" data-bind="value:Model().companyguid,event:{change:function(){ }}">
-                            @this.SelectOptions(this.ViewBag.CompanyList)
-                        </select>
+                       
                     </td>   
                     <td class="formTitle">手机</td>
                     <td class="formValue">
