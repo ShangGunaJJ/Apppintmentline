@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chloe.Application.Implements.Appointment
 {
-    public class FileDataService: AdminAppService,IFileDataService
+   public class PlaceInfoService: AdminAppService,IPlaceInfoService
     {
         public string Delete(List<string> id)
         {
@@ -18,10 +18,10 @@ namespace Chloe.Application.Implements.Appointment
             int mValue = 0;
             try
             {
-                mValue = this.DbContext.Delete<FileData>(a => id.Contains(a.Id));
+                mValue = this.DbContext.Delete<PlaceInfo>(a => id.Contains(a.Id));
                 if (mValue > 0)
                 {
-                    detailCount = this.DbContext.Delete<FileData>(a => id.Contains(a.Id));
+                    detailCount = this.DbContext.Delete<PlaceInfo>(a => id.Contains(a.Id));
                 }
             }
             catch (Exception e)
@@ -30,25 +30,29 @@ namespace Chloe.Application.Implements.Appointment
             }
             return "成功删除" + mValue + detailCount + "条。";
         }
-        public FileData Add(AddFileDataInput input)
+        public PlaceInfo Add(AddPlaceInfoInput input)
         {
-            FileData entity = new FileData();
+            PlaceInfo entity = new PlaceInfo();
             entity.CreateTime = DateTime.Now;
             entity.Id = input.Id;
+            entity.Address = input.Address;
+            entity.Code = input.Code;
+            entity.Describe = input.Describe;
             entity.CreateUser = input.CreateUser;
-            entity.FileName = input.FileName;
-            entity.FileUrl = input.FileUrl;
+            entity.PlaceName = input.PlaceName;
             return this.DbContext.Insert(entity);
         }
-        public int Update(AddFileDataInput input)
+        public int Update(UpdatePlaceInfoInput input)
         {
 
-            if (this.DbContext.Update<FileData>(a => a.Id == input.Id, a => new FileData()
+            if (this.DbContext.Update<PlaceInfo>(a => a.Id == input.Id, a => new PlaceInfo()
             {
-                CreateTime = DateTime.Now,
-                FileName=input.FileName,
-                FileUrl=input.FileUrl
-            }) > 0)
+                Address = input.Address,
+                Code = input.Code,
+                Describe = input.Describe,
+                PlaceName=input.PlaceName,
+                UpdateTime= DateTime.Now
+        }) > 0)
             {
                 return 1;
             }

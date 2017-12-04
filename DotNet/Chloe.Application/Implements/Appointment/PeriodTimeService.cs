@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Chloe.Application.Implements.Appointment
 {
-    public class FileDataService: AdminAppService,IFileDataService
+    public class PeriodTimeService : AdminAppService
     {
         public string Delete(List<string> id)
         {
@@ -18,10 +17,10 @@ namespace Chloe.Application.Implements.Appointment
             int mValue = 0;
             try
             {
-                mValue = this.DbContext.Delete<FileData>(a => id.Contains(a.Id));
+                mValue = this.DbContext.Delete<PeriodTime>(a => id.Contains(a.Id));
                 if (mValue > 0)
                 {
-                    detailCount = this.DbContext.Delete<FileData>(a => id.Contains(a.Id));
+                    detailCount = this.DbContext.Delete<PeriodTime>(a => id.Contains(a.Id));
                 }
             }
             catch (Exception e)
@@ -30,24 +29,25 @@ namespace Chloe.Application.Implements.Appointment
             }
             return "成功删除" + mValue + detailCount + "条。";
         }
-        public FileData Add(AddFileDataInput input)
+        public PeriodTime Add(AddPeriodTimeInput input)
         {
-            FileData entity = new FileData();
+            PeriodTime entity = new PeriodTime();
             entity.CreateTime = DateTime.Now;
             entity.Id = input.Id;
+            entity.SeveraWeeks = input.SeveraWeeks;
+            entity.StratTime = input.StratTime;
+            entity.EndTime = input.EndTime;
             entity.CreateUser = input.CreateUser;
-            entity.FileName = input.FileName;
-            entity.FileUrl = input.FileUrl;
             return this.DbContext.Insert(entity);
         }
-        public int Update(AddFileDataInput input)
+        public int Update(UpdatePeriodTimeInput input)
         {
 
-            if (this.DbContext.Update<FileData>(a => a.Id == input.Id, a => new FileData()
+            if (this.DbContext.Update<PeriodTime>(a => a.Id == input.Id, a => new PeriodTime()
             {
-                CreateTime = DateTime.Now,
-                FileName=input.FileName,
-                FileUrl=input.FileUrl
+                SeveraWeeks = input.SeveraWeeks,
+                StratTime = input.StratTime,
+                EndTime = input.EndTime
             }) > 0)
             {
                 return 1;

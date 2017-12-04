@@ -1,5 +1,5 @@
 ﻿using Ace.IdStrategy;
-using Chloe.Application.Interfaces.System;
+using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
 using System;

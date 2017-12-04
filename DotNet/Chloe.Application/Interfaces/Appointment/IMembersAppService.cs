@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chloe.Application.Interfaces.System
+namespace Chloe.Application.Interfaces.Appointment
 {
     public interface  IMembersAppService: IAppService
     {

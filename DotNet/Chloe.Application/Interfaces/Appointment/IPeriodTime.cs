@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Chloe.Application.Interfaces.Appointment
 {
-    public interface IFileDataService: IAppService
+    public interface  IPeriodTime: IAppService
     {
         string Delete(List<string> id);
-        FileData Add(AddFileDataInput input);
-        int Update(AddFileDataInput input);
+        PeriodTime Add(AddPeriodTimeInput input);
+        int Update(UpdatePeriodTimeInput input);
     }
 }

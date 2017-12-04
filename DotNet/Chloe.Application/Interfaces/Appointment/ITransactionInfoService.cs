@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Chloe.Application.Interfaces.Appointment
 {
-    public interface IFileDataService: IAppService
+    public interface ITransactionInfoService : IAppService
     {
         string Delete(List<string> id);
-        FileData Add(AddFileDataInput input);
-        int Update(AddFileDataInput input);
+        TransactionInfo Add(AddTransactionInfoInput input);
+        int Update(UpdateTransactionInfoInput input);
     }
 }
