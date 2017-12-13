@@ -10,3 +10,5 @@ DotNet/Chloe.Admin/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 DotNet/Ace.Web.Mvc/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 DotNet/.vs/config/applicationhost.config
 DotNet/Ace.Web.Mvc/bin/Debug/Ace.Web.dll
+*.pdb
+*.pdb

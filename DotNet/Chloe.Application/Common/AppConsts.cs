@@ -19,5 +19,13 @@ namespace Chloe.Application.Common
         const string _Agent = "agent";
 
         public static string Agent { get { return _Agent; } }
+
+        const string _AppID_WeChat = "wx704397e6f70bb8d5";
+
+        public static string AppID_WeChat { get { return _AppID_WeChat; } }
+
+        const string _AppSecret_WeChat = "865867c73ac14944ec4eba64d7ebdf52";
+
+        public static string AppSecret_WeChat { get { return _AppSecret_WeChat; } }
     }
 }

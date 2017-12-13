@@ -14,5 +14,6 @@ namespace Chloe.Application.Interfaces.Appointment
         string Delete(List<string> id);
         MALU_Members Add(MALU_Members input);
         int Update(AddMembersInput input);
+        List<MALU_Members> SelectByOpenID(string OpenID);
     }
 }

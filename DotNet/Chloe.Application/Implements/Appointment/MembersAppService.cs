@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chloe.Application.Implements.Appointment
 {
-  public  class MembersAppService: AdminAppService, IMembersAppService
+    public class MembersAppService : AdminAppService, IMembersAppService
     {
         public string Delete(List<string> id)
         {
@@ -28,7 +28,7 @@ namespace Chloe.Application.Implements.Appointment
             {
                 return e.ToString();
             }
-            return "成功删除" + mValue+ detailCount + "条。";
+            return "成功删除" + mValue + detailCount + "条。";
         }
         public MALU_Members Add(MALU_Members input)
         {
@@ -60,6 +60,19 @@ namespace Chloe.Application.Implements.Appointment
                 return 1;
             }
             return 0;
+        }
+
+        public List<MALU_Members> SelectByOpenID(string OpenID)
+        {
+            List<MALU_Members> mml = this.DbContext.Query<MALU_Members>().Select(a => new MALU_Members()
+            {
+                IdCard = a.IdCard,
+                Id = a.Id,
+                MobilePhone = a.MobilePhone,
+                Name = a.Name,
+                WeChatName = a.WeChatName
+            }).Where(a => a.WeChatKey == OpenID).ToList();
+            return mml;
         }
     }
 }
