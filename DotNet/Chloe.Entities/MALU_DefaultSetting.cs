@@ -10,7 +10,7 @@ namespace Chloe.Entities
     {
         public string Id { get; set; }
         /// <summary>
-        /// Key类型
+        /// Key类型 1 微信access_Token ;
         /// </summary>
         public int KeyType { get; set; }
         /// <summary>
