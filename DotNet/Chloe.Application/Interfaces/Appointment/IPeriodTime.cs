@@ -15,5 +15,6 @@ namespace Chloe.Application.Interfaces.Appointment
         string Delete(List<string> id);
         PeriodTime Add(AddPeriodTimeInput input);
         int Update(UpdatePeriodTimeInput input);
+        List<SimpleModelcs> GetPerSimple();
     }
 }

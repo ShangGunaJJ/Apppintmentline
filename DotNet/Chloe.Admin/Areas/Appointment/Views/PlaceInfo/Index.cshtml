@@ -53,91 +53,47 @@
         <tbody data-bind="foreach:Models">
             <tr data-bind="click:$parent.SelectRow">
                 <td data-bind="text:$parent.GetOrdinal($index())"></td>
-                <td data-bind="text:Name"></td>
-                <td data-bind="text:EnCode"></td>
-                <td data-bind="text:Type"></td>
-                <td data-bind="dateString:CreationTime"></td>
-                <td data-bind="text:IsEnabled()?'启用':'禁用'"></td>
-                <td data-bind="text:Description"></td>
+                <td data-bind="text:PlaceName"></td>
+                <td data-bind="text:Code"></td>
+                <td data-bind="text:Address"></td>
+                <td data-bind="dateString:CreateTime"></td>
+                <td data-bind="text:CreateUser"></td>
+                <td data-bind="text:Describe"></td>
             </tr>
         </tbody>
     </table>
 </div>
 
-@Html.BeginDialog(800)
+@using (Html.Dialog()) {
 <div class="modal-body">
-
     <form id="form1">
-        <div class="widget-body">
-            <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
-                <ul class="steps">
-                    <li data-target="#step-1" class="active"><span class="step">1</span>角色信息<span class="chevron"></span></li>
-                    <li data-target="#step-2"><span class="step">2</span>功能权限<span class="chevron"></span></li>
-                </ul>
-            </div>
-            <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
-                <div class="step-pane active" id="step-1" style="margin: 10px; margin-bottom: 0px;">
-                    <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
-                        <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
-                        请填写角色信息，用于创建或修改角色信息！
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">表单信息</h3>
-                        </div>
-                        <div class="panel-body" style="width: 98%;">
-                            <table class="form">
-                                <tr>
-                                    <th class="formTitle">角色名称</th>
-                                    <td class="formValue">
-                                        <input id="FullName" name="Name" type="text" class="form-control required" placeholder="请输入角色名称" data-bind="value:Model().Name" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="formTitle">角色编号</th>
-                                    <td class="formValue">
-                                        <input id="EnCode" name="EnCode" type="text" class="form-control required" placeholder="请输入角色编号" data-bind="value:Model().EnCode" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="formTitle">显示顺序</th>
-                                    <td class="formValue">
-                                        <input id="SortCode" name="SortCode" type="text" class="form-control" placeholder="请输入显示顺序" data-bind="value:Model().SortCode" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="formTitle">是否启用</td>
-                                    <td class="formValue">
-                                        <label><input type="radio" name="IsEnabled" value="true" data-bind="typedChecked:Model().IsEnabled,dataType:'bool'" />是</label>
-                                        <label><input type="radio" name="IsEnabled" value="false" data-bind="typedChecked:Model().IsEnabled,dataType:'bool'" />否</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="formTitle" valign="top" style="padding-top: 5px;">
-                                        备注
-                                    </th>
-                                    <td class="formValue">
-                                        <textarea id="Description" name="Description" class="form-control" style="height: 60px;" data-bind="value:Model().Description"></textarea>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="step-pane" id="step-2">
-                    <div id="permissionTree"></div>
-                </div>
-            </div>
-        </div>
+        <table class="form">
+            <tr>
+                <td class="formTitle">名称</td>
+                <td class="formValue">
+                    <input id="PlaceName" name="PlaceName"  type="text" class="form-control" data-bind="value:Model().PlaceName"></input>
+                </td>
+                <td class="formTitle">地点代码</td>
+                <td class="formValue">
+                    <input id="Code" name="Code" type="text" class="form-control required" placeholder="请输入名称" data-bind="value:Model().Code" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle">地址</td>
+                <td class="formValue">
+                    <input id="Address" name="Address" type="text" class="form-control" data-bind="value:Model().Address" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formTitle" valign="top" style="padding-top: 5px;">
+                    描述
+                </td>
+                <td class="formValue" colspan="3">
+                    <textarea id="Describe" name="Describe" class="form-control" style="height: 100px;" data-bind="value:Model().Describe"></textarea>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
-<div class="modal-footer" id="wizard-actions">
-    <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
-    <a id="btn_next" class="btn btn-default btn-next">下一步</a>
-    <a id="btn_finish" class="btn btn-default" style="display: none;" data-bind="click:Save">完成</a>
-    @*<button id="btn_last" type="button" class="btn btn-default btn-prev">上一步</button>
-        <button id="btn_next" type="button" class="btn btn-default btn-next">下一步</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click:function(){ IsShow(false);}">完成</button>*@
-</div>
 
-@Html.EndDialog()
+}

@@ -21,19 +21,14 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public bool RefAccess_Token()
+        [HttpPost]
+        public ActionResult AddPeriod(AddPlaceInfoInput ti)
         {
-            using (var client = new HttpClient())
+            if (this.CreateService<IPlaceInfoService>().Add(ti).Id != "")
             {
-                var responseString = client.GetStringAsync("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxb852406f4b6056e7&secret=dd7d281c0563dd34d3bf84d54a541680");
-                UpdateDefaultSettingInput de = new UpdateDefaultSettingInput();
-                de.KeyType = 1;
-                de.KeyName = "Acceess_Token";
-                de.Value = responseString.ToString();
-                this.CreateService<IDefaultSettingService>().UpdateByKey(de);
+                return this.AddSuccessMsg();
             }
-            return false;
-        }
+            return this.AddSuccessMsg();
+        } 
     }
 }

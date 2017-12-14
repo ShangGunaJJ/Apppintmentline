@@ -12,7 +12,8 @@ namespace Chloe.Application.Interfaces.Appointment
     public interface  IMembersAppService: IAppService
     {
         string Delete(List<string> id);
-        MALU_Members Add(MALU_Members input);
+        MALU_Members Add(AddMembersInput input);
         int Update(AddMembersInput input);
+        List<MALU_Members> SelectByOpenID(string OpenID);
     }
 }

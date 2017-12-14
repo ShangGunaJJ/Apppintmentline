@@ -1,4 +1,5 @@
-﻿using Ace.Application;
+﻿using Ace;
+using Ace.Application;
 using Chloe.Entities;
 using Chloe.Application.Models.Appointment;
 using System;
@@ -14,5 +15,7 @@ namespace Chloe.Application.Interfaces.Appointment
         string Delete(List<string> id);
         MALU_Business Add(AddBusinessInput input);
         int Update(UpdateBusinessInput input);
+        PagedData<MALU_Business> GetPageData(Pagination page);
+        List<SelBusinessInput> GetBusListByPlace(string PlaceId);
     }
 }

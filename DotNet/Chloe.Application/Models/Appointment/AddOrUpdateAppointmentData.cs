@@ -29,7 +29,7 @@ namespace Chloe.Application.Models.Appointment
         public DateTime? AppointmentDate { get; set; }
 
         /// <summary>
-        /// 预约状态
+        /// 预约状态 -1 失效 0 未开始 1 正在受理 
         /// </summary>
         public int State { get; set; }
 

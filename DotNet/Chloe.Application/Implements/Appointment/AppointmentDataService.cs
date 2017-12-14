@@ -33,8 +33,7 @@ namespace Chloe.Application.Implements.Appointment
         public AppointmentData Add(AddAppointmentDataInput input)
         {
             AppointmentData entity = new AppointmentData();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
+            entity.Id = IdHelper.CreateGuid();
             entity.AppointmentDate = input.AppointmentDate;
             entity.BusinessID = input.BusinessID;
             entity.FileID = input.FileID;
@@ -48,7 +47,6 @@ namespace Chloe.Application.Implements.Appointment
 
             if (this.DbContext.Update<AppointmentData>(a => a.Id == input.Id, a => new AppointmentData()
             {
-                CreateTime = DateTime.Now,
                 AppointmentDate = input.AppointmentDate,
                 BusinessID = input.BusinessID,
                 FileID = input.FileID,
@@ -60,6 +58,10 @@ namespace Chloe.Application.Implements.Appointment
                 return 1;
             }
             return 0;
+        }
+
+        public int SelectAppCount(string BusID) {
+           return this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == BusID).ToList().Count();
         }
     }
 }

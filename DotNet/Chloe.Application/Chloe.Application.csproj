@@ -120,6 +120,7 @@
     <Compile Include="Models\Appointment\AddOrUpdatePeriodTimeInput.cs" />
     <Compile Include="Models\Appointment\AddOrUpdatePlaceInfoInput.cs" />
     <Compile Include="Models\Appointment\AddOrUpdateTransactionInfo.cs" />
+    <Compile Include="Models\Appointment\SimpleModelcs.cs" />
     <Compile Include="Models\Duty\AddorUpdateDutyInput.cs" />
     <Compile Include="Models\Duty\SimpleDutyModel.cs" />
     <Compile Include="Models\Module\AddModuleInput.cs" />

@@ -13,7 +13,7 @@
         ViewModelBase.call(me);
         vmExtend.call(me);
 
-        me.DeleteUrl = "@this.ContentUrl("~/SystemManage/Role/Delete")";
+        me.DeleteUrl = "@this.ContentUrl("~/Appointment/PlaceInfo/Delete")";
         me.DataTable = new DataTableBase(me);
         me.Dialog = new Dialog(me);
     }
@@ -28,7 +28,7 @@
             me.DataTable.SelectedModel(null);
             var data = me.SearchModel();
             data.page = page || 1;
-            $ace.get("@this.ContentUrl("~/SystemManage/Role/GetModels")", data, function (result) {
+            $ace.get("@this.ContentUrl("~/Appointment/PlaceInfo/GetModels")", data, function (result) {
                 me.DataTable.SetModels(result.Data);
             }
           );
@@ -69,17 +69,9 @@
                 return false;
             }
 
-            var permissionIdArr = $("#permissionTree").getCheckedNodes();
-            var permissionIds = "";
-            var c = "";
-            for (var i = 0; i < permissionIdArr.length; i++) {
-                permissionIds += c + permissionIdArr[i];
-                c = ",";
-            }
-            model.permissionIds = permissionIds;
-
+ 
             if (me.EditModel()) {
-                $ace.post("@this.ContentUrl("~/SystemManage/Role/Update")", model, function (result) {
+                $ace.post("@this.ContentUrl("~/PlaceInfo/Update")", model, function (result) {
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();
@@ -87,7 +79,7 @@
                );
             }
             else {
-                $ace.post("@this.ContentUrl("~/SystemManage/Role/Add")", model, function (result) {
+                $ace.post("@this.ContentUrl("~/Appointment/PlaceInfo/AddPeriod")", model, function (result) {
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();

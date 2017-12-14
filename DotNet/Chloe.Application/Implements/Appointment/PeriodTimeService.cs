@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Chloe.Application.Implements.Appointment
 {
-    public class PeriodTimeService : AdminAppService
+    public class PeriodTimeService : AdminAppService, IPeriodTime
     {
         public string Delete(List<string> id)
         {
@@ -31,15 +31,18 @@ namespace Chloe.Application.Implements.Appointment
         }
         public PeriodTime Add(AddPeriodTimeInput input)
         {
-            PeriodTime entity = new PeriodTime();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
+            PeriodTime entity = this.CreateEntity<PeriodTime>();
+
             entity.SeveraWeeks = input.SeveraWeeks;
             entity.StratTime = input.StratTime;
             entity.EndTime = input.EndTime;
             entity.CreateUser = input.CreateUser;
             return this.DbContext.Insert(entity);
         }
+        public List<SimpleModelcs> GetPerSimple() {
+            var models = this.DbContext.Query<PeriodTime>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.StratTime+"-"+a.EndTime }).ToList();
+            return models;
+        } 
         public int Update(UpdatePeriodTimeInput input)
         {
 
@@ -54,5 +57,11 @@ namespace Chloe.Application.Implements.Appointment
             }
             return 0;
         }
+
+        public PlaceInfo Add(AddPlaceInfoInput input)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

@@ -63,10 +63,10 @@ namespace Chloe.Application
             Type entityType = typeof(T);
 
             entity.SetPropertyValue("Id", id ?? IdHelper.CreateGuid());
-            entity.SetPropertyValue("createtime", DateTime.Now);
+            entity.SetPropertyValue("CreateTime", DateTime.Now);
 
             if (this.Session != null)
-                entity.SetPropertyValue("CreateUserId", this.Session.UserId);
+                entity.SetPropertyValue("CreateUser", this.Session.UserId);
 
             //PropertyInfo prop_IsDeleted = entityType.GetProperty("IsDeleted");
             //if (prop_IsDeleted != null)

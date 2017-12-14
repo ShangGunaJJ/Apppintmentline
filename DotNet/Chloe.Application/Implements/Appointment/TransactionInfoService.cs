@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chloe.Application.Implements.Appointment
 {
-    public class TransactionInfoService : AdminAppService
+    public class TransactionInfoService : AdminAppService,ITransactionInfoService
     {
         public string Delete(List<string> id)
         {
@@ -32,9 +32,7 @@ namespace Chloe.Application.Implements.Appointment
         }
         public TransactionInfo Add(AddTransactionInfoInput input)
         {
-            TransactionInfo entity = new TransactionInfo();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
+            TransactionInfo entity = this.CreateEntity<TransactionInfo>();
             entity.TransactionName = input.TransactionName;
             entity.Code = input.Code;
             entity.Describe = input.Describe;
@@ -62,6 +60,11 @@ namespace Chloe.Application.Implements.Appointment
                 return 1;
             }
             return 0;
+        }
+        public List<SimpleModelcs> GetPerSimple()
+        {
+            var models = this.DbContext.Query<TransactionInfo>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.TransactionName }).ToList();
+            return models;
         }
     }
 }

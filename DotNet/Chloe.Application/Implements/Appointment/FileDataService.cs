@@ -32,9 +32,7 @@ namespace Chloe.Application.Implements.Appointment
         }
         public FileData Add(AddFileDataInput input)
         {
-            FileData entity = new FileData();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
+            FileData entity = this.CreateEntity<FileData>();
             entity.CreateUser = input.CreateUser;
             entity.FileName = input.FileName;
             entity.FileUrl = input.FileUrl;

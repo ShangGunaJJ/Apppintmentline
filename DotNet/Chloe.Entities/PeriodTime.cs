@@ -14,8 +14,8 @@ namespace Chloe.Entities
         /// </summary>
         public int SeveraWeeks { get; set; }
 
-        public DateTime? StratTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public string StratTime { get; set; }
+        public string EndTime { get; set; }
         public DateTime? CreateTime { get; set; }
 
         public string CreateUser { get; set; }

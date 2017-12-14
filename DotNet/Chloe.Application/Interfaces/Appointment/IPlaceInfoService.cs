@@ -14,5 +14,6 @@ namespace Chloe.Application.Interfaces.Appointment
         string Delete(List<string> id);
         PlaceInfo Add(AddPlaceInfoInput input);
         int Update(UpdatePlaceInfoInput input);
+        List<SimpleModelcs> GetSimple();
     }
 }

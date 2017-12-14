@@ -22,7 +22,8 @@ namespace Chloe.Application.Models.Appointment
     }
     public class AddMembersInput : AddOrUpdateMembersInput
     {
-
+        public string PhoneVcode { get; set; }
+        public string VCode { get; set; }
     }
     public class UpdateMainInput : AddOrUpdateMembersInput
     {

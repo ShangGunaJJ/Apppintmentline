@@ -147,6 +147,13 @@
     <Content Include="Areas\Appointment\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Appointment\Views\PlaceInfo\Index.cshtml" />
     <Content Include="Areas\Appointment\Views\PlaceInfo\Index-js.cshtml" />
+    <Content Include="Areas\Appointment\Views\Period\Index.cshtml" />
+    <Content Include="Areas\Appointment\Views\Tran\Index.cshtml" />
+    <Content Include="Areas\Appointment\Views\Business\Index.cshtml" />
+    <Content Include="Areas\Appointment\Views\Appointment\Index.cshtml" />
+    <Content Include="Areas\Appointment\Views\Period\Index-js.cshtml" />
+    <Content Include="Areas\Appointment\Views\Business\Index-js.cshtml" />
+    <Content Include="Areas\Appointment\Views\Tran\Index-js.cshtml" />
     <None Include="Properties\PublishProfiles\Invtax.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -904,7 +911,11 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Appointment\AppointmentAreaRegistration.cs" />
+    <Compile Include="Areas\Appointment\Controllers\AppointmentController.cs" />
+    <Compile Include="Areas\Appointment\Controllers\BusinessController.cs" />
+    <Compile Include="Areas\Appointment\Controllers\PeriodController.cs" />
     <Compile Include="Areas\Appointment\Controllers\PlaceInfoController.cs" />
+    <Compile Include="Areas\Appointment\Controllers\TranController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DutyController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\ModuleController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\RoleAuthorizeController.cs" />

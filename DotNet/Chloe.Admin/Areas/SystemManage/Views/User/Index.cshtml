@@ -57,7 +57,7 @@
                 <td data-bind="text:(Gender()==1&&'男')||(Gender()==2&&'女')||''"></td>
                 <td data-bind="text:MobilePhone"></td>
                 <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUserId())"></td>
-                <td data-bind="dateString:createtime"></td>
+                <td data-bind="dateString:CreateTime"></td>
             </tr>
         </tbody>
         @this.Partial("_tfoot")

@@ -14,5 +14,6 @@ namespace Chloe.Application.Interfaces.Appointment
         string Delete(List<string> id);
         TransactionInfo Add(AddTransactionInfoInput input);
         int Update(UpdateTransactionInfoInput input);
+        List<SimpleModelcs> GetPerSimple();
     }
 }

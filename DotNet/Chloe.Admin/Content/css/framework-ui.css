@@ -87,6 +87,7 @@
 /* 设置bootstrap表格div的最小宽度，不然，在小屏显示器下会出现变形 */
 .table-responsive {
 min-width:850px;
+width:100%;
 }
 
 /* start fx-page */

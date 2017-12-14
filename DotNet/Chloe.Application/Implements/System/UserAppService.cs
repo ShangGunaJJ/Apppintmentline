@@ -123,7 +123,7 @@ namespace Chloe.Application.Implements.System
 
             q = q.WhereIfNotNullOrEmpty(keyword, a => a.username.Contains(keyword) || a.RealName.Contains(keyword) || a.MobilePhone.Contains(keyword));
             q = q.Where(a => a.username != AppConsts.AdminUserName);
-            q = q.OrderBy(a => a.companyname).ThenByDesc(a => a.createtime);
+            q = q.OrderBy(a => a.companyname).ThenByDesc(a => a.CreateTime);
 
             PagedData<MALU_Users> pagedData = q.TakePageData(page);
 

@@ -42,6 +42,22 @@ namespace Chloe.Application.Models.Appointment
     {
 
     }
+    public class SelBusinessInput : AddOrUpdateBusinessInput
+    {
+        public string PlaceName { get; set; }
+        /// <summary>
+        /// 业务名称
+        /// </summary>
+        public string TranName { get; set; }
+        /// <summary>
+        /// 当前排队号
+        /// </summary>
+        public string NowAppCode { get; set; }
+        /// <summary>
+        /// 排队人数
+        /// </summary>
+        public int LineUpNumber { get; set; }
+    }
     public class UpdateBusinessInput : AddOrUpdateBusinessInput
     {
         [RequiredAttribute(ErrorMessage = "{0}不能为空")]

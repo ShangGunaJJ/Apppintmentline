@@ -32,13 +32,10 @@ namespace Chloe.Application.Implements.Appointment
         }
         public AdjustAppointmentData Add(AddAdjustAppDataInput input)
         {
-            AdjustAppointmentData entity = new AdjustAppointmentData();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
+            AdjustAppointmentData entity =this.CreateEntity<AdjustAppointmentData>();
             entity.NewAppointmentID = input.NewAppointmentID;
             entity.OldAppointmentID = input.OldAppointmentID;
             entity.remark = input.remark;
-            entity.CreateUser = input.CreateUser;
             return this.DbContext.Insert(entity);
         }
         public int Update(UpdateAdjustAppDataInput input)
@@ -46,7 +43,6 @@ namespace Chloe.Application.Implements.Appointment
 
             if (this.DbContext.Update<AdjustAppointmentData>(a => a.Id == input.Id, a => new AdjustAppointmentData()
             {
-                CreateTime = DateTime.Now,
                 NewAppointmentID=input.NewAppointmentID,
                 OldAppointmentID=input.OldAppointmentID,
                 remark=input.remark

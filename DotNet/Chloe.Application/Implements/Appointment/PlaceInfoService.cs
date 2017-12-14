@@ -32,9 +32,7 @@ namespace Chloe.Application.Implements.Appointment
         }
         public PlaceInfo Add(AddPlaceInfoInput input)
         {
-            PlaceInfo entity = new PlaceInfo();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
+            PlaceInfo entity = this.CreateEntity<PlaceInfo>();
             entity.Address = input.Address;
             entity.Code = input.Code;
             entity.Describe = input.Describe;
@@ -57,6 +55,12 @@ namespace Chloe.Application.Implements.Appointment
                 return 1;
             }
             return 0;
+        }
+
+        public List<SimpleModelcs> GetSimple()
+        {
+            var models = this.DbContext.Query<PlaceInfo>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.PlaceName }).ToList();
+            return models;
         }
     }
 }

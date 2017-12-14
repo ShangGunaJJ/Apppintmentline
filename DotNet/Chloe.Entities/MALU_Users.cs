@@ -46,7 +46,7 @@ namespace Chloe.Entities
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime createtime { get; set; }
+        public DateTime CreateTime { get; set; }
         /// <summary>
         /// 创建用户ID
         /// </summary>

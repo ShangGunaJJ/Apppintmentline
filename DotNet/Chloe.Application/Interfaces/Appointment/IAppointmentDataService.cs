@@ -11,5 +11,8 @@ namespace Chloe.Application.Interfaces.Appointment
 {
    public interface IAppointmentDataService: IAppService
     {
+        AppointmentData Add(AddAppointmentDataInput input);
+        string Delete(List<string> id);
+        int Update(UpdateAppointmentDataInput input);
     }
 }
