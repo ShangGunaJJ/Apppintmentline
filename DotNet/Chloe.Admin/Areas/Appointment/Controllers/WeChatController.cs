@@ -91,7 +91,7 @@ namespace Chloe.Admin.Areas
         }
         [HttpGet]
         public void RefUrl() {
-
+            Response.Redirect("https://open.weixin.qq.com/connect/oauth2/authorizeappid="+  AppConsts.AppID_WeChat  + "&redirect_uri="+Server.UrlEncode("http://47.93.230.40:8000/WeChatapp/dist/example/")+"&response_type=code&scope=SCOPE&state=STATE#wechat_redirect");
         }
 
         [HttpGet]
