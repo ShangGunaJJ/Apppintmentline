@@ -49,6 +49,7 @@ namespace Chloe.Application.Models.Appointment
         /// 业务名称
         /// </summary>
         public string TranName { get; set; }
+        public string PeriodTime { get; set; }
         /// <summary>
         /// 当前排队号
         /// </summary>

@@ -95,7 +95,7 @@ namespace Chloe.Admin.Areas
         }
 
         [HttpGet]
-        public _Access_Token GetUserInfo(string code)
+        public ContentResult GetUserInfo(string code)
         {
             string atstring = HttpGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + AppConsts.AppID_WeChat + "&secret=SECRET&code=" + code + "&grant_type=authorization_code", "");
             _Access_Token at = JsonConvert.DeserializeObject<_Access_Token>(atstring);
@@ -104,11 +104,18 @@ namespace Chloe.Admin.Areas
             UserInfo ui = JsonConvert.DeserializeObject<UserInfo>(UserInfo);
 
             ui.MenInfo = this.CreateService<IMembersAppService>().SelectByOpenID(ui.openid);
-            return at;
+            return this.JsonContent(ui);
         }
         [HttpGet]
         public List<SelBusinessInput> GetBusListByPlace(string PlaceID) {
            List<SelBusinessInput>  sbl= this.CreateService<IBusinessService>().GetBusListByPlace(PlaceID);
+            return sbl;
+        }
+
+        [HttpGet]
+        public List<SelAppointmentData> GetMyBusList(string UserID)
+        {
+            List<SelAppointmentData> sbl = this.CreateService<IAppointmentDataService>().GetBusListByUserID(UserID);
             return sbl;
         }
 

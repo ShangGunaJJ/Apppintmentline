@@ -29,7 +29,7 @@ namespace Chloe.Application.Models.Appointment
         public DateTime? AppointmentDate { get; set; }
 
         /// <summary>
-        /// 预约状态 -1 失效 0 未开始 1 正在受理 
+        /// 预约状态 -1 失效 0 未开始 1 正在受理 2 完成
         /// </summary>
         public int State { get; set; }
 
@@ -51,6 +51,28 @@ namespace Chloe.Application.Models.Appointment
     public class AddAppointmentDataInput : AddOrUpdateAppointmentData
     {
 
+    }
+    public class SelAppointmentData : AddOrUpdateAppointmentData
+    {
+        public string TransactionID { get; set; }
+        public string PlaceId { get; set; }
+        public string PlaceName { get; set; }
+
+        public string PlaceAdderss { get; set; }
+        /// <summary>
+        /// 业务名称
+        /// </summary>
+        public string TranName { get; set; }
+        public string PeriodTimeID { get; set; }
+        public string PeriodTime { get; set; }
+        /// <summary>
+        /// 当前排队号
+        /// </summary>
+        public string NowAppCode { get; set; }
+        /// <summary>
+        /// 排队人数
+        /// </summary>
+        public int LineUpNumber { get; set; }
     }
     public class UpdateAppointmentDataInput : AddOrUpdateAppointmentData
     {

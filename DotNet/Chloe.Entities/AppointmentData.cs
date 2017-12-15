@@ -26,7 +26,7 @@ namespace Chloe.Entities
         public DateTime? AppointmentDate { get; set; }
 
         /// <summary>
-        /// 预约状态
+        /// 预约状态预约状态 -1 失效 0 未开始 1 正在受理  2 已经完成
         /// </summary>
         public int State { get; set; }
 
