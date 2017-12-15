@@ -107,16 +107,16 @@ namespace Chloe.Admin.Areas
             return this.JsonContent(ui);
         }
         [HttpGet]
-        public List<SelBusinessInput> GetBusListByPlace(string PlaceID) {
+        public ContentResult GetBusListByPlace(string PlaceID) {
            List<SelBusinessInput>  sbl= this.CreateService<IBusinessService>().GetBusListByPlace(PlaceID);
-            return sbl;
+            return this.JsonContent(sbl);
         }
 
         [HttpGet]
-        public List<SelAppointmentData> GetMyBusList(string UserID)
+        public ContentResult GetMyBusList(string UserID)
         {
             List<SelAppointmentData> sbl = this.CreateService<IAppointmentDataService>().GetBusListByUserID(UserID);
-            return sbl;
+            return this.JsonContent(sbl);
         }
 
         [HttpPost]

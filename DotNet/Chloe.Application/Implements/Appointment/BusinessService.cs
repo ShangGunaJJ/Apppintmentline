@@ -79,7 +79,9 @@ namespace Chloe.Application.Implements.Appointment
                 TransactionID=b.TransactionID,
                 PlaceName=p.PlaceName,
                 PlaceId=b.PlaceId,
-                TranName=t.TransactionName
+                TranName=t.TransactionName,
+                PeriodTimeId=per.Id,
+                PeriodTime= per.StratTime + "-" + per.EndTime,
             }).Where(a=>a.PlaceId==PlaceId).ToList();
             for (int i = 0; i < view.Count; i++)
             {

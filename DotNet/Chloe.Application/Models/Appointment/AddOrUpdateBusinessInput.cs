@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Chloe.Entities;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,11 +45,13 @@ namespace Chloe.Application.Models.Appointment
     }
     public class SelBusinessInput : AddOrUpdateBusinessInput
     {
+        public string PlaceId { get; set; }
         public string PlaceName { get; set; }
         /// <summary>
         /// 业务名称
         /// </summary>
         public string TranName { get; set; }
+        public string PeriodTimeId { get; set; }
         public string PeriodTime { get; set; }
         /// <summary>
         /// 当前排队号
@@ -58,6 +61,8 @@ namespace Chloe.Application.Models.Appointment
         /// 排队人数
         /// </summary>
         public int LineUpNumber { get; set; }
+
+        public List<PeriodTime> PerList { get; set; }
     }
     public class UpdateBusinessInput : AddOrUpdateBusinessInput
     {
