@@ -68,7 +68,7 @@ namespace Chloe.Application.Implements.Appointment
         }
 
         public List<SelBusinessInput> GetBusListByPlace(string PlaceId)
-        {
+         {
             var q = this.DbContext.Query<MALU_Business>().LeftJoin(this.DbContext.Query<PlaceInfo>(), (b, p) => b.PlaceId == p.Id)
                 .LeftJoin(this.DbContext.Query<PeriodTime>(), (b, p,per) => b.PeriodTimeID == per.Id).
                 LeftJoin(this.DbContext.Query<TransactionInfo>(), (b, p, per,t) => b.TransactionID == t.Id);
@@ -78,15 +78,24 @@ namespace Chloe.Application.Implements.Appointment
                 AppointmentNum=b.AppointmentNum,
                 TransactionID=b.TransactionID,
                 PlaceName=p.PlaceName,
-                PlaceId=b.PlaceId,
+                PlaceAdderss=p.Address,
+                PlaceId =b.PlaceId,
                 TranName=t.TransactionName,
                 PeriodTimeId=per.Id,
                 PeriodTime= per.StratTime + "-" + per.EndTime,
+
             }).Where(a=>a.PlaceId==PlaceId).ToList();
             for (int i = 0; i < view.Count; i++)
             {
-                view[i].LineUpNumber=this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == view[i].Id&&a.State!=-1).ToList().Count();
-                view[i].NowAppCode=this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == view[i].Id && a.State == 1).Select(a => a.MALU_Code).First();
+                string BiD = view[i].Id;
+                view[i].LineUpNumber=this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == BiD && a.State!=-1).Select(a => AggregateFunctions.Count()).First();
+                try
+                {
+                    view[i].NowAppCode = this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == BiD && a.State == 1).Select(a => a.MALU_Code).First();
+                }
+                catch {
+                    view[i].NowAppCode = "";
+                }
             }
             return view;
         }

@@ -25,6 +25,7 @@ namespace Chloe.Admin.Areas
     {
         System.Timers.Timer myTimer = new System.Timers.Timer(10000);
         const string VerifyCodeKey = "session_verifycode";
+        const string App_VerifyCodeKey = "session_verifycode_APP";
         // GET: WeChat
         public ActionResult Index()
         {
@@ -121,15 +122,15 @@ namespace Chloe.Admin.Areas
 
         [HttpPost]
         //return 1 是成功，2是验证码错误，3 失败
-        public int AddUser(AddMembersInput mms)
+        public ContentResult AddUser(AddMembersInput mms)
         {
             string code = WebHelper.GetSession<string>(VerifyCodeKey);
             WebHelper.RemoveSession(VerifyCodeKey);
             if (code.IsNullOrEmpty() || code.ToLower() != mms.VCode.ToLower())
             {
-                return 2;
+                return null;
             }
-            return this.CreateService<IMembersAppService>().Add(mms).Id != "" ? 3 : 1;
+            return this.JsonContent(this.CreateService<IMembersAppService>().Add(mms));
         }
 
         [HttpGet]
@@ -142,7 +143,28 @@ namespace Chloe.Admin.Areas
 
             return this.File(bytes, @"image/Gif");
         }
+        [HttpGet]
+        public ActionResult App_VerifyCode()
+        {
+            string verifyCode = VerifyCodeGenerator.GenVerifyCode();
+            byte[] bytes = VerifyCodeHelper.GetVerifyCodeByteArray(verifyCode);
 
+            WebHelper.SetSession(App_VerifyCodeKey, verifyCode);
+
+            return this.File(bytes, @"image/Gif");
+        }
+        [HttpPost]
+        public ActionResult AddAppointmentTran(AddAppointmentDataInput aapp)
+        {
+            string code = WebHelper.GetSession<string>(App_VerifyCodeKey);
+            WebHelper.RemoveSession(App_VerifyCodeKey);
+            if (code.IsNullOrEmpty() || code.ToLower() != aapp.VCode.ToLower())
+            {
+                return null;
+            }
+            AppointmentData appd = this.CreateService<IAppointmentDataService>().Add(aapp);
+            return this.JsonContent(appd);
+        }
         public string HttpGet(string Url, string postDataStr)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url + (postDataStr == "" ? "" : "?") + postDataStr);

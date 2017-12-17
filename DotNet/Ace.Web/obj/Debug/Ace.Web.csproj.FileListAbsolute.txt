@@ -16,4 +16,3 @@ C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace.Web\bin\Debu
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace.Web\bin\Debug\Ace.Web.pdb
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace.Web\obj\Debug\Ace.Web.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace.Web\obj\Debug\Ace.Web.pdb
-C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace.Web\obj\Debug\Ace.Web.csprojResolveAssemblyReference.cache

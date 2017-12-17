@@ -46,11 +46,12 @@ namespace Chloe.Application.Models.Appointment
         /// <summary>
         /// 创建日期
         /// </summary>
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
     }
     public class AddAppointmentDataInput : AddOrUpdateAppointmentData
     {
-
+        public string Code { get; set; }
+        public string VCode { get; set; }
     }
     public class SelAppointmentData : AddOrUpdateAppointmentData
     {

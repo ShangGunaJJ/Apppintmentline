@@ -47,6 +47,7 @@ namespace Chloe.Application.Models.Appointment
     {
         public string PlaceId { get; set; }
         public string PlaceName { get; set; }
+        public string PlaceAdderss { get; set; }
         /// <summary>
         /// 业务名称
         /// </summary>

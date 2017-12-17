@@ -33,12 +33,17 @@ namespace Chloe.Application.Implements.Appointment
         public AppointmentData Add(AddAppointmentDataInput input)
         {
             AppointmentData entity = new AppointmentData();
+            string _Code = (this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == input.BusinessID).Select(a => AggregateFunctions.Count()).First()+1).ToString();
+            while (_Code.Length < 4) {
+                _Code = "0" + _Code;
+            }
             entity.Id = IdHelper.CreateGuid();
+            entity.CreateTime = DateTime.Now;
             entity.AppointmentDate = input.AppointmentDate;
             entity.BusinessID = input.BusinessID;
             entity.FileID = input.FileID;
-            entity.MALU_Code = input.MALU_Code;
-            entity.MamberID = input.MamberID;
+            entity.MALU_Code = input.Code + _Code;
+            entity.MamberID =  input.MamberID;
             entity.State = input.State;
             return this.DbContext.Insert(entity);
         }
@@ -87,7 +92,9 @@ namespace Chloe.Application.Implements.Appointment
             }).Where(a => a.MamberID == MID).ToList();
             for (int i = 0; i < view.Count; i++)
             {
-                view[i].LineUpNumber = this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == view[i].Id && a.State != -1 && a.State != 2 && a.CreateTime < view[i].CreateTime).ToList().Count();
+                string id = view[i].Id;
+                DateTime cdt =view[i].CreateTime;
+                view[i].LineUpNumber = this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == id && a.State != -1 && a.State != 2 && a.CreateTime < cdt).ToList().Count();
             }
             return view;
         }

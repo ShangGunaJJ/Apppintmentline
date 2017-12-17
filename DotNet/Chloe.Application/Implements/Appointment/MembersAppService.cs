@@ -36,9 +36,9 @@ namespace Chloe.Application.Implements.Appointment
             entity.IdCard = input.IdCard;
             entity.MobilePhone = input.MobilePhone;
             entity.Name = input.Name;
-            entity.PassWord = input.PassWord;
-            entity.WeChatKey = input.WeChatKey;
-            entity.WeChatName = input.WeChatName;
+           // entity.PassWord = input.PassWord;
+            //entity.WeChatKey = input.WeChatKey;
+            //entity.WeChatName = input.WeChatName;
             return this.DbContext.Insert(entity);
         }
         public int Update(AddMembersInput input)

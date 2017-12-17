@@ -17,6 +17,8 @@ namespace Chloe.Entities
         public string IdCard { get; set; }
 
         public DateTime? CreateTime { get; set; }
+
+        public string CreateUser { get; set; }
     }
 
 }

@@ -25,4 +25,3 @@ C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\b
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\bin\Debug\Chloe.Oracle.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.pdb
-C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.csprojResolveAssemblyReference.cache

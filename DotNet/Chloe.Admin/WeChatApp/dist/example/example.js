@@ -2,10 +2,13 @@
  * Created by jf on 2015/9/11.
  * Modified by bear on 2016/9/7.
  */
+window.APPURL="47.93.230.40:8000";
+//var APPURL="http://localhost:7116/"; 
 $(function () {
     var pageManager = {
         $container: $('#container'),
         _pageStack: [],
+        _PlaceId:"",
         _configs: [],
         _pageAppend: function(){},
         _defaultPage: null,
@@ -261,7 +264,7 @@ $(function () {
                 template: '#' + tpl.id
             };
         }
-        pages.home.url = '#';
+        pages.Reg.url = '#';
 
         for (var page in pages) {
             pageManager.push(pages[page]);
@@ -276,20 +279,49 @@ $(function () {
                 }else{
                     $foot.removeClass('j_bottom');
                 }
-            })
-            .setDefault('home')
-            .init();
-    }
+            });
+        IsReg();
 
+    }
+    function IsReg(){
+        var code=GetUrlArgument("code");
+        pageManager.setDefault('Reg'); pageManager.init();
+        // $.get("http://47.93.230.40:8000/WeChat/GetUserInfo?code="+code,function (x) {
+        //     if(x&&x.MenInfo){
+        //         localStorage.setItem("UserInfo",JSON.stringify(x));
+        //         pageManager.setDefault('Default');
+        //     }else{
+        //         pageManager.setDefault('Reg');
+        //     }
+        //     pageManager.init(); 
+        // })
+    }
+    function GetUrlArgument(name) {
+        var url = location.href.replace(/([^\?|&]*)=/g, function (rg) { return (rg || "").toLowerCase() });
+        var val = new RegExp(name.toLowerCase() + "=([^&]*)").exec(url);
+        return val && val[1] || "";
+    }
+    function ShowTool(msg){
+        var $tooltips = $('.js_tooltips');
+        if (msg != '') {
+            $tooltips.text(msg);
+            $tooltips.css('display', 'block');
+            setTimeout(function () {
+                $tooltips.css('display', 'none');
+            }, 2000);
+        }
+    }
     function init(){
         preload();
         fastClick();
         androidInputBugFix();
-        setJSAPI();
+        //setJSAPI();
         setPageManager();
 
         window.pageManager = pageManager;
-        window.home = function(){
+        window.ShowTool=ShowTool;
+        window.GetUrlArgument=GetUrlArgument;
+        window.Reg = function(){
             location.hash = '';
         };
     }
