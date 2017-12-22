@@ -1,4 +1,5 @@
-﻿using Ace.IdStrategy;
+﻿using Ace;
+using Ace.IdStrategy;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
@@ -12,7 +13,7 @@ namespace Chloe.Application.Implements.Appointment
 {
     public class MembersAppService : AdminAppService, IMembersAppService
     {
-        public string Delete(List<string> id)
+        public string Delete(string id)
         {
             int detailCount = 0;
             int mValue = 0;
@@ -71,6 +72,16 @@ namespace Chloe.Application.Implements.Appointment
                 WeChatName = a.WeChatName
             }).Where(a => a.WeChatKey == OpenID).ToList();
             return mml;
+        }
+
+
+        public PagedData<MALU_Members> GetPageData(Pagination page, string keyword)
+        {
+            var q = this.DbContext.Query<MALU_Members>();
+            q.Where(a => a.Name.Contains(keyword) || a.MobilePhone.Contains(keyword));
+            q = q.OrderBy(a => a.CreateTime);
+            PagedData<MALU_Members> pagedData = q.TakePageData(page);
+            return pagedData;
         }
     }
 }

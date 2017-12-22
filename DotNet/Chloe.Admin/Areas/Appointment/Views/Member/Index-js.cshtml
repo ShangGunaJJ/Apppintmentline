@@ -28,7 +28,7 @@
             me.DataTable.SelectedModel(null);
             var data = me.SearchModel();
             data.page = page || 1;
-            $ace.get("@this.ContentUrl("~/Appointment/Period/GetModels")", data, function (result) {
+            $ace.get("@this.ContentUrl("~/Appointment/Member/GetModels")", data, function (result) {
                 me.DataTable.SetModels(result.Data.DataList);
             }
           );
