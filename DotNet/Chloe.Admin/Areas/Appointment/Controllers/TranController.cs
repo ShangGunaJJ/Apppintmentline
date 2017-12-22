@@ -7,6 +7,8 @@ using Chloe.Application.Models.Appointment;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Entities;
 using Chloe.Admin.Common;
+using Ace;
+using Chloe.Application.Interfaces.System;
 
 namespace Chloe.Admin.Areas.Appointment.Controllers
 {
@@ -15,6 +17,8 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         // GET: Appointment/Tran
         public ActionResult Index()
         {
+            List<SelectOption> dutyModelList = SelectOption.CreateList(this.CreateService<IUserAppService>().GetSimpleModels());
+            this.ViewBag.UserList = dutyModelList;
             return View();
         }
         [HttpPost]
@@ -25,10 +29,26 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
             return this.AddSuccessMsg();
         }
 
-        public List<TransactionInfo> GetModels()
+        [HttpGet]
+        public ActionResult GetModels(Pagination pagination, string keyword)
         {
-            List<TransactionInfo> tl = new List<TransactionInfo>();
-            return tl;
+            PagedData<TransactionInfo> pagedData = this.CreateService<ITransactionInfoService>().GetPageData(pagination, keyword);
+            return this.SuccessData(pagedData);
+        }
+
+        [HttpPost]
+        public ActionResult Update(UpdateTransactionInfoInput input)
+        {
+            this.CreateService<ITransactionInfoService>().Update(input);
+            return this.UpdateSuccessMsg();
+        }
+
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            this.CreateService<ITransactionInfoService>().Delete(id);
+            return this.DeleteSuccessMsg();
         }
     }
 }

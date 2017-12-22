@@ -11,6 +11,9 @@
 @this.RefStyle("~/Content/wizard/wizard.css")
 @this.RefScript("~/Content/wizard/wizard.js")
 
+<script>
+    var UserList = @this.RawSerialize(this.ViewBag.UserList);
+</script>
 <div class="topPanel">
     <div class="toolbar">
         <div class="btn-group">
@@ -45,10 +48,10 @@
                 <th style="width:20px;"></th>
                 <th>名称</th>
                 <th>代码</th>
-                <th>说明</th>
                 <th>是否上传文件</th>
                 <th>是否需要审批</th>
                 <th>是否自动编码</th>
+                <th>说明</th>
                 <th>创建时间</th>
                 <th>创建人</th>
             </tr>
@@ -58,12 +61,13 @@
                 <td data-bind="text:$parent.GetOrdinal($index())"></td>
                 <td data-bind="text:TransactionName"></td>
                 <td data-bind="text:Code"></td>
+              
+                <td data-bind="text:(IsUploadFile()==0&&'否')||(IsUploadFile()==1&&'是')||''"></td>
+                <td data-bind="text:(IsApproval()==0&&'否')||(IsApproval()==1&&'是')||''"></td>
+                <td data-bind="text:(IsAutoCode()==0&&'否')||(IsAutoCode()==1&&'是')||''"></td>
                 <td data-bind="text:Describe"></td>
-                <td data-bind="text:IsUploadFile"></td>
-                <td data-bind="text:IsApproval"></td>
-                <td data-bind="text:IsAutoCode"></td>
                 <td data-bind="dateString:CreateTime"></td>
-                <td data-bind="text:CreateUser"></td>
+                <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUser())"></td> 
             </tr>
         </tbody>
     </table>

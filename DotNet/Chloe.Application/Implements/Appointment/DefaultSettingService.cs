@@ -44,8 +44,7 @@ namespace Chloe.Application.Implements.Appointment
         {
             MALU_DefaultSetting entity = this.CreateEntity<MALU_DefaultSetting>();
             entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id;
-            entity.CreateUser = input.CreateUser;
+            entity.Id = input.Id; 
             entity.KeyName = input.KeyName;
             entity.KeyType = input.KeyType;
             entity.Value = input.Value;

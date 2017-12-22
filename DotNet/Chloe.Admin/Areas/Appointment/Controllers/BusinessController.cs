@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ace;
+using Chloe.Application.Interfaces.System;
 
 namespace Chloe.Admin.Areas.Appointment.Controllers
 {
@@ -22,10 +23,11 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
 
             List<SelectOption> PlaceList = SelectOption.CreateList(this.CreateService<IPlaceInfoService>().GetSimple());
             List<SelectOption> TranList = SelectOption.CreateList(this.CreateService<ITransactionInfoService>().GetPerSimple());
-
+            List<SelectOption> dutyModelList = SelectOption.CreateList(this.CreateService<IUserAppService>().GetSimpleModels());
             this.ViewBag.PerList = PerList;
             this.ViewBag.PlaceList = PlaceList;
             this.ViewBag.TranList = TranList;
+            this.ViewBag.UserList = dutyModelList;
             return View();
         }
 
@@ -45,6 +47,19 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
             PagedData<MALU_Business> pagedData = this.CreateService<IBusinessService>().GetPageData(pagination);
             return this.SuccessData(pagedData);
         }
+        [HttpPost]
+        public ActionResult Update(UpdateBusinessInput input)
+        {
+            this.CreateService<IBusinessService>().Update(input);
+            return this.UpdateSuccessMsg();
+        }
 
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            this.CreateService<IBusinessService>().Delete(id);
+            return this.DeleteSuccessMsg();
+        }
     }
 }

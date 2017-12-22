@@ -1,4 +1,5 @@
-﻿using Ace.IdStrategy;
+﻿using Ace;
+using Ace.IdStrategy;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
@@ -11,7 +12,7 @@ namespace Chloe.Application.Implements.Appointment
 {
     public class PeriodTimeService : AdminAppService, IPeriodTime
     {
-        public string Delete(List<string> id)
+        public string Delete(string id)
         {
             int detailCount = 0;
             int mValue = 0;
@@ -35,8 +36,7 @@ namespace Chloe.Application.Implements.Appointment
 
             entity.SeveraWeeks = input.SeveraWeeks;
             entity.StratTime = input.StratTime;
-            entity.EndTime = input.EndTime;
-            entity.CreateUser = input.CreateUser;
+            entity.EndTime = input.EndTime; 
             return this.DbContext.Insert(entity);
         }
         public List<SimpleModelcs> GetPerSimple() {
@@ -58,9 +58,13 @@ namespace Chloe.Application.Implements.Appointment
             return 0;
         }
 
-        public PlaceInfo Add(AddPlaceInfoInput input)
+        public PagedData<PeriodTime> GetPageData(Pagination page, string keyword)
         {
-            throw new NotImplementedException();
+            var q = this.DbContext.Query<PeriodTime>();
+            //q.Where(a => a.PlaceName.Contains(keyword) || a.Code.Contains(keyword));
+            q = q.OrderBy(a => a.CreateTime);
+            PagedData<PeriodTime> pagedData = q.TakePageData(page);
+            return pagedData;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Ace.IdStrategy;
+﻿using Ace;
+using Ace.IdStrategy;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
@@ -12,7 +13,7 @@ namespace Chloe.Application.Implements.Appointment
 {
    public class PlaceInfoService: AdminAppService,IPlaceInfoService
     {
-        public string Delete(List<string> id)
+        public string Delete(string id)
         {
             int detailCount = 0;
             int mValue = 0;
@@ -35,8 +36,7 @@ namespace Chloe.Application.Implements.Appointment
             PlaceInfo entity = this.CreateEntity<PlaceInfo>();
             entity.Address = input.Address;
             entity.Code = input.Code;
-            entity.Describe = input.Describe;
-            entity.CreateUser = input.CreateUser;
+            entity.Describe = input.Describe; 
             entity.PlaceName = input.PlaceName;
             return this.DbContext.Insert(entity);
         }
@@ -61,6 +61,15 @@ namespace Chloe.Application.Implements.Appointment
         {
             var models = this.DbContext.Query<PlaceInfo>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.PlaceName }).ToList();
             return models;
+        }
+
+        public PagedData<PlaceInfo> GetPageData(Pagination page, string keyword)
+        {
+            var q = this.DbContext.Query<PlaceInfo>();
+            q.Where(a => a.PlaceName.Contains(keyword) || a.Code.Contains(keyword));
+            q = q.OrderBy(a => a.CreateTime); 
+            PagedData<PlaceInfo> pagedData = q.TakePageData(page);
+            return pagedData;
         }
     }
 }

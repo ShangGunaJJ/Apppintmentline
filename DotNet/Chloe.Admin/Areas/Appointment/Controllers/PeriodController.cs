@@ -7,6 +7,8 @@ using Chloe.Application.Models.Appointment;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Admin.Common;
 using Chloe.Entities;
+using Ace;
+using Chloe.Application.Interfaces.System;
 
 namespace Chloe.Admin.Areas.Appointment.Controllers
 {
@@ -15,6 +17,8 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         // GET: Appointment/Period
         public ActionResult Index()
         {
+            List<SelectOption> dutyModelList = SelectOption.CreateList(this.CreateService<IUserAppService>().GetSimpleModels());
+            this.ViewBag.UserList = dutyModelList;
             return View();
         }
 
@@ -28,10 +32,25 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
             return this.SuccessMsg("失败！");
         }
         [HttpGet]
-        public ActionResult GetModels() {           
-            List<PeriodTime> data = null;
-            this.SuccessData(data);
-            return null;
+        public ActionResult GetModels(Pagination pagination, string keyword)
+        {
+            PagedData<PeriodTime> pagedData = this.CreateService<IPeriodTime>().GetPageData(pagination, keyword);
+            return this.SuccessData(pagedData);
+        }
+
+        [HttpPost]
+        public ActionResult Update(UpdatePeriodTimeInput input)
+        {
+            this.CreateService<IPeriodTime>().Update(input);
+            return this.UpdateSuccessMsg();
+        }
+
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            this.CreateService<IPeriodTime>().Delete(id);
+            return this.DeleteSuccessMsg();
         }
     }
 }

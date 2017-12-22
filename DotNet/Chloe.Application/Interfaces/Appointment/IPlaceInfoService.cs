@@ -6,14 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ace;
 
 namespace Chloe.Application.Interfaces.Appointment
 {
     public interface IPlaceInfoService: IAppService
     {
-        string Delete(List<string> id);
+        string Delete(string id);
         PlaceInfo Add(AddPlaceInfoInput input);
         int Update(UpdatePlaceInfoInput input);
         List<SimpleModelcs> GetSimple();
+        PagedData<PlaceInfo> GetPageData(Pagination page, string keyword);
     }
 }

@@ -66,7 +66,16 @@ namespace Chloe.Application
             entity.SetPropertyValue("CreateTime", DateTime.Now);
 
             if (this.Session != null)
-                entity.SetPropertyValue("CreateUser", this.Session.UserId);
+            {
+                try
+                {
+
+                    entity.SetPropertyValue("CreateUser", this.Session.UserId);
+                }
+                catch {
+                    entity.SetPropertyValue("CreateUserId", this.Session.UserId);
+                }
+            }
 
             //PropertyInfo prop_IsDeleted = entityType.GetProperty("IsDeleted");
             //if (prop_IsDeleted != null)

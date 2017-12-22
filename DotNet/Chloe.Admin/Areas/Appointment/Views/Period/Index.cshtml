@@ -9,7 +9,9 @@
 @this.RefScript("~/Content/select2/select2.min.js")
 @this.RefStyle("~/Content/wizard/wizard.css")
 @this.RefScript("~/Content/wizard/wizard.js")
-
+<script>
+    var UserList = @this.RawSerialize(this.ViewBag.UserList);
+</script>
 <div class="topPanel">
     <div class="toolbar">
         <div class="btn-group">
@@ -56,7 +58,7 @@
                 <td data-bind="text:EndTime"></td>
                 <td data-bind="text:SeveraWeeks"></td>
                 <td data-bind="dateString:CreateTime"></td>
-                <td data-bind="text:CreateUser"></td>
+                <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUser())"></td> 
             </tr>
         </tbody>
     </table>

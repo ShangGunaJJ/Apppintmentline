@@ -12,7 +12,7 @@ namespace Chloe.Application.Implements.Appointment
 {
     public class BusinessService: AdminAppService,IBusinessService
     {
-        public string Delete(List<string> id)
+        public string Delete(string id)
         {
             int detailCount = 0;
             int mValue = 0;
@@ -32,8 +32,7 @@ namespace Chloe.Application.Implements.Appointment
         }
         public MALU_Business Add(AddBusinessInput input)
         {
-            MALU_Business entity = this.CreateEntity<MALU_Business>();
-            entity.CreateUser = input.CreateUser;
+            MALU_Business entity = this.CreateEntity<MALU_Business>(); 
             entity.AppointmentNum = input.AppointmentNum;
             entity.IsWeekEnd = (IsWeekEnd)input.IsWeekEnd;
             entity.PeriodTimeID = input.PeriodTimeID;

@@ -12,7 +12,7 @@ namespace Chloe.Application.Interfaces.Appointment
 {
     public interface IBusinessService :IAppService
     {
-        string Delete(List<string> id);
+        string Delete(string id);
         MALU_Business Add(AddBusinessInput input);
         int Update(UpdateBusinessInput input);
         PagedData<MALU_Business> GetPageData(Pagination page);

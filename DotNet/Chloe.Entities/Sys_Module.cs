@@ -20,7 +20,7 @@ namespace Chloe.Entities
         public bool IsPublic { get; set; }
         public int? SortCode { get; set; }
         public string Description { get; set; }
-        public DateTime createtime { get; set; }
+        public DateTime CreateTime { get; set; }
         public string CreateUserId { get; set; }
         public DateTime? LastModifyTime { get; set; }
         public string LastModifyUserId { get; set; }

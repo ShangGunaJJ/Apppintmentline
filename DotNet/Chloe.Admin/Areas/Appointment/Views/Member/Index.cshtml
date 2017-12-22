@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Index.cshtml";
 }
@@ -11,9 +10,6 @@
 @this.RefStyle("~/Content/wizard/wizard.css")
 @this.RefScript("~/Content/wizard/wizard.js")
 <script>
-    var PerList = @this.RawSerialize(this.ViewBag.PerList);
-    var PlaceList = @this.RawSerialize(this.ViewBag.PlaceList);
-    var TranList = @this.RawSerialize(this.ViewBag.TranList);
     var UserList = @this.RawSerialize(this.ViewBag.UserList);
 </script>
 <div class="topPanel">
@@ -48,26 +44,21 @@
         <thead>
             <tr>
                 <th style="width:20px;"></th>
-                <th>业务类型</th>
-                <th>地点</th>
+                <th>微信编码</th>
+                <th>会员号</th>
                 <th>真实名称</th>
-                <th>时间段</th>
-                <th>是否是周末</th>
-                <th>可预约数量</th> 
-                <th>添加时间/th> 
-                <th>添加人</th> 
+                <th>手机号</th>
+                <th>注册时间</th> 
             </tr>
         </thead>
         <tbody data-bind="foreach:Models">
             <tr data-bind="click:$parent.SelectRow">
-                <td data-bind="text:$parent.GetOrdinal($index())"></td> 
-                <td data-bind="text:$ace.getOptionTextByValue(TranList,TransactionID())"></td> 
-                <td data-bind="text:$ace.getOptionTextByValue(PlaceList,PlaceId())"></td> 
-                <td data-bind="text:$ace.getOptionTextByValue(PerList,PeriodTimeID())"></td> 
-                <td data-bind="text:(IsWeekEnd()==1&&'是')||(IsWeekEnd()==0&&'否')||''"></td>
-                <td data-bind="text:AppointmentNum"></td>
+                <td data-bind="text:$parent.GetOrdinal($index())"></td>
+                <td data-bind="text:StratTime"></td>
+                <td data-bind="text:EndTime"></td>
+                <td data-bind="text:SeveraWeeks"></td>
                 <td data-bind="dateString:CreateTime"></td>
-                <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUser())"></td> 
+                <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUser())"></td>
             </tr>
         </tbody>
     </table>
@@ -79,30 +70,29 @@
         <form id="form1">
             <table class="form">
                 <tr>
-                    <td class="formTitle">业务类型</td>
+                    <td class="formTitle">开始时间</td>
                     <td class="formValue">
-                        <select id="TransactionID" name="TransactionID" class="form-control required" data-bind="value:Model().TransactionID">
-                            @this.SelectOptions(this.ViewBag.TranList)
-                        </select>
+                        <input id="StratTime" name="StratTime" type="text" class="form-control" data-bind="value:Model().StratTime"></input>
                     </td>
-                    <td class="formTitle">地点</td>
+                    <td class="formTitle">结束时间</td>
                     <td class="formValue">
-                        <select id="PlaceId" name="PlaceId" class="form-control required" data-bind="value:Model().PlaceId">
-                            @this.SelectOptions(this.ViewBag.PlaceList)
-                        </select>
+                        <input id="EndTime" name="EndTime" type="text" class="form-control required" placeholder="请输入名称" data-bind="value:Model().EndTime" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="formTitle">时间段</td>
+                    <td class="formTitle">星期几</td>
                     <td class="formValue">
-                        <select id="PeriodTimeID" name="PeriodTimeID" class="form-control required" data-bind="value:Model().PeriodTimeID">
-                            @this.SelectOptions(this.ViewBag.PerList)
+                        <select id="SeveraWeeks" name="SeveraWeeks" class="form-control required" data-bind="value:Model().SeveraWeeks">
+                            <option value="">==请选择==</option>
+                            <option value="1" title="expand">1</option>
+                            <option value="2" title="iframe">2</option>
+                            <option value="3" title="open">3</option>
+                            <option value="4" title="blank">4</option>
+                            <option value="5" title="blank">5</option>
+                            <option value="6" title="blank">6</option>
+                            <option value="7" title="blank">7</option>
                         </select>
                     </td>
-                    <td class="formTitle">可预约数量</td>
-                     <td class="formValue">
-                          <input id="AppointmentNum" name="AppointmentNum" type="text" class="form-control required" placeholder="请输入名称" data-bind="value:Model().AppointmentNum" />
-                     </td>
                 </tr>
             </table>
         </form>

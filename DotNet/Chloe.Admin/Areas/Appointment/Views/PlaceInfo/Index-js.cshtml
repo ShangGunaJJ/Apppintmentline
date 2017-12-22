@@ -29,7 +29,7 @@
             var data = me.SearchModel();
             data.page = page || 1;
             $ace.get("@this.ContentUrl("~/Appointment/PlaceInfo/GetModels")", data, function (result) {
-                me.DataTable.SetModels(result.Data);
+                me.DataTable.SetModels(result.Data.DataList);
             }
           );
         }

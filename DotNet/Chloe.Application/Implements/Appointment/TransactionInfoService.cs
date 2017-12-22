@@ -1,4 +1,5 @@
-﻿using Ace.IdStrategy;
+﻿using Ace;
+using Ace.IdStrategy;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
@@ -12,7 +13,7 @@ namespace Chloe.Application.Implements.Appointment
 {
     public class TransactionInfoService : AdminAppService,ITransactionInfoService
     {
-        public string Delete(List<string> id)
+        public string Delete(string id)
         {
             int detailCount = 0;
             int mValue = 0;
@@ -36,7 +37,6 @@ namespace Chloe.Application.Implements.Appointment
             entity.TransactionName = input.TransactionName;
             entity.Code = input.Code;
             entity.Describe = input.Describe;
-            entity.CreateUser = input.CreateUser;
             entity.IsUploadFile = input.IsUploadFile;
             entity.IsApproval = input.IsApproval;
             entity.IsAutoCode = input.IsAutoCode;
@@ -65,6 +65,14 @@ namespace Chloe.Application.Implements.Appointment
         {
             var models = this.DbContext.Query<TransactionInfo>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.TransactionName }).ToList();
             return models;
+        }
+        public PagedData<TransactionInfo> GetPageData(Pagination page, string keyword)
+        {
+            var q = this.DbContext.Query<TransactionInfo>();
+            q.Where(a => a.TransactionName==keyword || a.Code==keyword); 
+            q = q.OrderBy(a => a.CreateTime);
+            PagedData<TransactionInfo> pagedData = q.TakePageData(page);
+            return pagedData;
         }
     }
 }

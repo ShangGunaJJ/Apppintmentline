@@ -154,6 +154,8 @@
     <Content Include="Areas\Appointment\Views\Period\Index-js.cshtml" />
     <Content Include="Areas\Appointment\Views\Business\Index-js.cshtml" />
     <Content Include="Areas\Appointment\Views\Tran\Index-js.cshtml" />
+    <Content Include="Areas\Appointment\Views\Member\Index.cshtml" />
+    <Content Include="Areas\Appointment\Views\Member\Index-js.cshtml" />
     <None Include="Properties\PublishProfiles\Invtax.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -913,6 +915,7 @@
     <Compile Include="Areas\Appointment\AppointmentAreaRegistration.cs" />
     <Compile Include="Areas\Appointment\Controllers\AppointmentController.cs" />
     <Compile Include="Areas\Appointment\Controllers\BusinessController.cs" />
+    <Compile Include="Areas\Appointment\Controllers\MemberController.cs" />
     <Compile Include="Areas\Appointment\Controllers\PeriodController.cs" />
     <Compile Include="Areas\Appointment\Controllers\PlaceInfoController.cs" />
     <Compile Include="Areas\Appointment\Controllers\TranController.cs" />

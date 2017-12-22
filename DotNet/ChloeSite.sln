@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{41E40640-D62B-49F3-8D5A-753918F3648F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{7A807EE4-F4F2-4176-AD2D-282EABD96124}"
+	ProjectSection(SolutionItems) = preProject
+		Chloe.Application\SessionAppServiceBase.cs = Chloe.Application\SessionAppServiceBase.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{49CA3808-C7FA-4615-BE94-A0DE393AA944}"
 EndProject
