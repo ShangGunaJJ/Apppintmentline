@@ -20,8 +20,7 @@
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" style="display:none" data-bind="click:Edit,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-pencil-square-o"></i>修改</button>
-            <button class="btn btn-primary" data-bind="click:Delete,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-trash-o"></i>删除</button>
-            <button class="btn btn-primary" style="display:none" data-bind="click:Add"><i class="fa fa-plus"></i>添加</button>
+ 
         </div>
     </div>
     <div class="search">
@@ -58,47 +57,17 @@
         <tbody data-bind="foreach:Models">
             <tr data-bind="click:$parent.SelectRow">
                 <td data-bind="text:$parent.GetOrdinal($index())"></td>
-                <td data-bind="text:StratTime"></td>
-                <td data-bind="text:EndTime"></td>
-                <td data-bind="text:SeveraWeeks"></td>
+                <td data-bind="text:PlaceName"></td>
+                <td data-bind="text:TranName"></td>
+                <td data-bind="text:weiKey"></td>
+                <td data-bind="text:(AppointmentDate()+' '+PeriodTime())"></td>
+                <td data-bind="text:MName"></td>
+                <td data-bind="text:Phone"></td>
+                <td data-bind="text:IdCard"></td>
+                <td data-bind="text:State"></td>
                 <td data-bind="dateString:CreateTime"></td> 
             </tr>
         </tbody>
+        @this.Partial("_tfoot")
     </table>
 </div>
-
-@using (Html.Dialog())
-{
-    <div class="modal-body">
-        <form id="form1">
-            <table class="form">
-                <tr>
-                    <td class="formTitle">开始时间</td>
-                    <td class="formValue">
-                        <input id="StratTime" name="StratTime" type="text" class="form-control" data-bind="value:Model().StratTime"></input>
-                    </td>
-                    <td class="formTitle">结束时间</td>
-                    <td class="formValue">
-                        <input id="EndTime" name="EndTime" type="text" class="form-control required" placeholder="请输入名称" data-bind="value:Model().EndTime" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="formTitle">星期几</td>
-                    <td class="formValue">
-                        <select id="SeveraWeeks" name="SeveraWeeks" class="form-control required" data-bind="value:Model().SeveraWeeks">
-                            <option value="">==请选择==</option>
-                            <option value="1" title="expand">1</option>
-                            <option value="2" title="iframe">2</option>
-                            <option value="3" title="open">3</option>
-                            <option value="4" title="blank">4</option>
-                            <option value="5" title="blank">5</option>
-                            <option value="6" title="blank">6</option>
-                            <option value="7" title="blank">7</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-
-}

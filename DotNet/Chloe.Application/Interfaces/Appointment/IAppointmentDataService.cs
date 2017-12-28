@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ace;
 
 namespace Chloe.Application.Interfaces.Appointment
 {
@@ -15,5 +16,6 @@ namespace Chloe.Application.Interfaces.Appointment
         string Delete(List<string> id);
         int Update(UpdateAppointmentDataInput input);
         List<SelAppointmentData> GetBusListByUserID(string MID);
+        PagedData<SelAppointmentData> GetPageData(Pagination page, string key);
     }
 }

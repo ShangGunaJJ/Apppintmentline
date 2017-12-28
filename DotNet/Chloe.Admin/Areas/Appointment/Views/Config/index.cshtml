@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+@this.Partial("Index-js")
+@this.RefScript("~/Content/ckeditor/ckeditor.js") 
+<div class="mail-body">
+    <div class="view_content">
+       <label>内容编辑</label>
+        <div class="viewIframe">
+            <iframe src="@this.ViewBag.PhoneUrl" width="320" height="568" style="display:inline-block;float:left;"></iframe>
+            <div class="Main">
+                <div id="EditorView"></div>
+            </div>
+            <div class="Tools">
+                <div>
+                    <label>参数别名：</label><input type="text" class="ParName form-control" placeholder="参数标识"/> 
+                    <label>参数值：</label><input type="text" class="ParValue form-control" placeholder="" />
+                </div>
+                <div class="AddParameter btn btn-default">添加参数</div>
+                <div class="Save btn btn-default">保存</div> <br />
+                <label>参数列表</label>
+                <div class="ParList">
+                   
+                </div>
+            </div> 
+        </div>
+
+    </div>
+</div> 
+<style>
+    .html {
+    display:none;
+    }
+    .view_content {
+        min-width: 1080px;
+    }
+    .mail-body {
+     padding:0;
+    }
+    .Main {
+      display:inline-block;
+      height:568px;
+      width:auto;
+      float:left;
+      margin-left:30px;
+    }
+    .viewIframe:after {
+     display:block;
+     content:"";
+     clear:both;
+    }
+    .Tools {
+      display:inline-block;
+      float:left;
+      width:300px;
+      margin-left:30px;
+    }
+    .AddParameter,.Save {
+      display:inline-block;
+      margin-top:8px;
+    }
+    .ParList {
+     min-height:100px;
+     background-color:#ddd;
+     margin-top:5px;
+     padding:10px;
+    }
+    .ParItem {
+      position:relative;
+      display:inline-block;
+      float:left;
+      border:1px solid #ccc;
+      color:#808080;
+      border-radius:4px 0 0 4px;
+      padding:6px;
+      background-color:#FAFAFA;
+      margin-left:4px;
+      margin-bottom:4px;
+    }
+        .ParItem .Name {
+          min-width:40px;
+          text-align:center;
+        }
+        .ParItem .Editor, .ParItem .Delete,.Flag {
+         position:absolute;
+         height:33px;
+         top:0;
+         right:-60px;
+         width:30px;
+         cursor:pointer;vertical-align: middle;
+         line-height: 33px;
+         background-color:#ccc;
+         text-align:center;
+        }
+    .Flag {
+    right:-30px;
+    }
+        .ParItem .Delete {
+        right:-90px;
+        }
+            .ParItem .Delete:hover {
+              background-color:red;
+            }
+    .ParItem:hover {
+      z-index:9;
+          box-shadow: 0px 0px 20px 0px #B3E5FC;
+    }
+    .ParItem > div:not(.Name) {
+       display:none;
+    }
+    .ParItem:hover div {
+         display:inherit; 
+      }
+</style>

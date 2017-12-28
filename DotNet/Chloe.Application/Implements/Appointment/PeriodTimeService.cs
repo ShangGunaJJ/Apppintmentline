@@ -39,6 +39,12 @@ namespace Chloe.Application.Implements.Appointment
             entity.EndTime = input.EndTime; 
             return this.DbContext.Insert(entity);
         }
+
+        public bool IsOKPeriod(AddPeriodTimeInput p)
+        {
+           return this.DbContext.Query<PeriodTime>().Where(a => a.SeveraWeeks == p.SeveraWeeks && a.StratTime == p.StratTime && a.EndTime == p.EndTime).Select(a => AggregateFunctions.Count()).First() == 0;
+        }
+
         public List<SimpleModelcs> GetPerSimple() {
             var models = this.DbContext.Query<PeriodTime>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.StratTime+"-"+a.EndTime }).ToList();
             return models;

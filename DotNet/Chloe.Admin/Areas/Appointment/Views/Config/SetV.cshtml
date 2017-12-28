@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<div class="Main">
+    <label style="background-color: #60BBFF;padding:10px 15px;color:#fff;">参数设置</label>
+    <div class="ParList">
+    <div class="ParaItem">
+        <table class="tableBasic">
+            <tbody>
+ 
+            </tbody>
+        </table>
+        <div class="btn btn-success save" >保存</div>
+    </div>
+    </div>
+</div>
+<script>
+    (function () {
+        var PerList= @this.RawSerialize(this.ViewBag.PerList);
+        var ParHTML="";
+        for (var i = 0; i < PerList.length; i++) { 
+            if(i%2==0)
+                ParHTML+='<tr><td>'+PerList[i].KeyName+'</td><td><input type="text" class="inpMain" value="'+PerList[i].Value+'" /></td>';
+            else
+                ParHTML+='<td>'+PerList[i].KeyName+'</td><td><input type="text" class="inpMain" value="'+PerList[i].Value+'" /></td></tr>';
+        }
+        $(".tableBasic").find("tbody").html(ParHTML);
+        $(".save").click(function(){
+            var Rows=$(".tableBasic").find("tr");
+            for (var i = 0; i < Rows.length; i++) {
+                $ace.post("@this.ContentUrl("~/Config/Update")", { Key:
+                          $(Rows[i]).find("td").eq(0).text(), Value:  $(Rows[i]).find("input").eq(0).val()
+                }, function (result) {
+                    
+                });
+                if( $(Rows[i]).find("td").length>2)
+                    $ace.post("@this.ContentUrl("~/Config/Update")", { Key:
+                         $(Rows[i]).find("td").eq(2).text(), Value:  $(Rows[i]).find("input").eq(1).val()
+                    }, function (result) {
+                        
+                    });
+            }
+        });
+    })();
+</script>
+<style>
+    .save {
+        width:200px;
+        margin: 0 auto;
+    display: block;
+      margin-top:30px;
+    }
+    .Main {
+        max-width: 1080px;
+    }
+    .ParaItem {
+      min-width: 80%; margin: 0 auto;
+    }
+ .tableBasic {
+       width: 100%;
+ background-color: #F9F9F9;
+ color: #666666;
+ border-left: 1px dotted #CCCCCC;
+ border-top: 1px dotted #CCCCCC;
+}
+.tableBasic select {
+ color: #8F8F8F;
+}
+.tableBasic td, .tableBasic th {
+border-right: 1px dotted #CCCCCC;
+
+    border-bottom: 1px dotted #CCCCCC;
+
+    padding: 8px;
+}
+.tableBasic th {
+ background-color: #EEEEEE;
+ height: 16px;
+}
+.tableBasic .child {
+ background-color: #FFFFFF;
+}
+/*- tableNobor -*/
+.tableNobor td {
+ border: 0;
+}
+.inpMain {
+ border: 1px solid #DBDBDB;
+ background-color: #FFF;
+ padding: 4px 5px;
+ color: #999;
+ font-size: 12x;
+ line-height: 20px;
+ -webkit-appearance: none;
+}
+</style>

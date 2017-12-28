@@ -25,11 +25,17 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         [HttpPost]
         public ActionResult AddPeriod(AddPeriodTimeInput ti)
         {
-            if (this.CreateService<IPeriodTime>().Add(ti).Id != "")
+            if (this.CreateService<IPeriodTime>().IsOKPeriod(ti))
             {
-                return this.SuccessMsg();
+                if (this.CreateService<IPeriodTime>().Add(ti).Id != "")
+                {
+                    return this.AddSuccessMsg();
+                }
+                return this.SuccessMsg("失败！");
             }
-            return this.SuccessMsg("失败！");
+            else {
+                return this.SuccessMsg("失败！时间段重复存在！");
+            }
         }
         [HttpGet]
         public ActionResult GetModels(Pagination pagination, string keyword)

@@ -1,0 +1,62 @@
+﻿<script>
+    $(document).ready(function () {
+        var PerList= @this.RawSerialize(this.ViewBag.PerList);
+        editor = CKEDITOR.replace('EditorView', {
+            extraPlugins: 'autogrow',
+            autoGrow_maxHeight: 540,
+            autoGrow_minHeight: 530,
+            removePlugins: ''
+        });
+        $(".AddParameter").on("click", function () {
+            var ParName = $(".ParName").val();
+            var ParValue = $(".ParValue").val();
+            if (ParName == ""){
+            $ace.msg("参数别名不能为空！");return false;}
+            var m = { "KeyName": ParName, "Value": ParValue };
+            $ace.post("@this.ContentUrl("~/Config/AddPar")", m, function (result) {
+                $ace.msg(result.Msg);
+                $(".ParList").append($('<div class="ParItem"  > <div class="Name">'+ ParName+'</div><div class="Flag" title="插入"><span class="glyphicon  glyphicon-flag"></span></div><div class="Editor"><span class="glyphicon glyphicon-pencil"></span></div> <div class="Delete"><span class="glyphicon glyphicon-trash"></span></div> </div>'));
+                $(".ParName").val("");$(".ParValue").val("");
+            });
+
+        });
+
+        $(".Save").on("click", function () {
+            var html=editor.getData();
+            $ace.post("@this.ContentUrl("~/Config/Update")", { Key:
+                "ConfigHTML", Value: ajax_encode(html)
+            }, function (result) {
+                $ace.msg(result.Msg);
+            });
+
+        });
+        $.get("/Config/GetHtml", function (x) { editor.setData(x); })
+        var ParHTML="";
+        for (var i = 0; i < PerList.length; i++) {
+            var ostr=JSON.stringify(PerList[i]);
+            ParHTML+='<div class="ParItem"  m="'+ostr+'"> <div class="Name">'+PerList[i].KeyName+'</div><div class="Flag" title="插入"><span class="glyphicon  glyphicon-flag"></span></div><div class="Editor"><span class="glyphicon glyphicon-pencil"></span></div> <div class="Delete"><span class="glyphicon glyphicon-trash"></span></div> </div>';
+        }
+        $(".ParList").html(ParHTML);
+
+        $(".ParList").on("click",".Delete",function(){ 
+            var _this=$(this.parentNode);
+            $.get("/Config/DelByKey?keyName="+ $(this.parentNode).find(".Name").text() ,function(result){
+                $ace.msg("删除成功！");
+                _this.remove();
+            });
+        });
+    });
+    function ajax_encode(str) {
+        str = str.replace(/%/g, "{@@bai@@}");
+        str = str.replace(/ /g, "{@@kong@@}");
+        str = str.replace(/</g, "{@@zuojian@@}");
+        str = str.replace(/>/g, "{@@youjian@@}");
+        str = str.replace(/&/g, "{@@and@@}");
+        str = str.replace(/\"/g, "{@@shuang@@}");
+        str = str.replace(/\'/g, "{@@dan@@}");
+        str = str.replace(/\t/g, "{@@tab@@}");
+        str = str.replace(/\+/g, "{@@jia@@}");
+        return str;
+    }
+</script>
+

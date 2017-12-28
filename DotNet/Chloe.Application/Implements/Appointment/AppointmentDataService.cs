@@ -1,4 +1,5 @@
-﻿using Ace.IdStrategy;
+﻿using Ace;
+using Ace.IdStrategy;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
@@ -97,6 +98,38 @@ namespace Chloe.Application.Implements.Appointment
                 view[i].LineUpNumber = this.DbContext.Query<AppointmentData>().Where(a => a.BusinessID == id && a.State != -1 && a.State != 2 && a.CreateTime < cdt).ToList().Count();
             }
             return view;
+        }
+
+        public PagedData<SelAppointmentData> GetPageData(Pagination page,string key)
+        {
+            var q = this.DbContext.Query<AppointmentData>().
+                 LeftJoin(DbContext.Query<MALU_Members>(), (a, m) => a.MamberID == m.Id).
+                 LeftJoin(DbContext.Query<MALU_Business>(), (a, m, b) => a.BusinessID == b.Id).
+                 LeftJoin(DbContext.Query<PlaceInfo>(), (a, m, b, p) => b.PlaceId == p.Id).
+                 LeftJoin(DbContext.Query<PeriodTime>(), (a, m, b, p, per) => b.PeriodTimeID == per.Id);
+            PagedData<SelAppointmentData> pagedData = q.Select((a, m, b, p, per) => new SelAppointmentData
+            {
+                Id = b.Id,
+                TransactionID = b.TransactionID,
+                PlaceName = p.PlaceName,
+                PlaceId = b.PlaceId,
+                PeriodTime = per.StratTime + "-" + per.EndTime,
+                PeriodTimeID = per.Id,
+                CreateTime = a.CreateTime,
+                MALU_Code = a.MALU_Code,
+                PlaceAdderss = p.Address,
+                BusinessID = b.Id,
+                AppointmentDate = a.AppointmentDate,
+                State = a.State,
+                MamberID = a.MamberID,
+                TranName = "",
+                MName = m.Name,
+                IdCard=m.IdCard,
+                Phone=m.MobilePhone,
+                weiKey=m.WeChatKey
+
+            }).Where(m=>m.MName.Contains(key)|| m.Phone.Contains(key)).TakePageData(page); 
+            return pagedData;
         }
     }
 }

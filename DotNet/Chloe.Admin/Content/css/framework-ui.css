@@ -57,7 +57,7 @@
 .ui-layout .ui-jqgrid{border-left:none;border-right:none;border-bottom:none;}
 .mail-box{border: 1px solid #ddd;}
 .mail-header{background-color: #fff;border-bottom: 1px solid #ddd;font-size: 20px;height:60px;line-height:60px;padding-left:30px;padding-right:30px;}
-.mail-body{padding: 20px;}
+.mail-body{padding: 15px;}
 .price-box{width:860px;margin-left:auto;margin-right:auto;border: 1px solid #ddd;box-shadow: rgb(189, 189, 189) 0px 0px 10px;background: #fff;padding: 50px;padding-top:20px;margin-top: 25px;padding-bottom:0px;}
 .price-title{font-size: 30px;text-align: center;line-height:60px;font-weight: bold;}
 .price-subtitle{text-align: center;}

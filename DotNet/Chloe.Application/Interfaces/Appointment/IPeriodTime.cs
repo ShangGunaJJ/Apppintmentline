@@ -17,5 +17,6 @@ namespace Chloe.Application.Interfaces.Appointment
         int Update(UpdatePeriodTimeInput input);
         List<SimpleModelcs> GetPerSimple();
         PagedData<PeriodTime> GetPageData(Pagination page, string keyword);
+        bool IsOKPeriod(AddPeriodTimeInput p);
     }
 }

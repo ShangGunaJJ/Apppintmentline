@@ -74,6 +74,14 @@ namespace Chloe.Application.Models.Appointment
         /// 排队人数
         /// </summary>
         public int LineUpNumber { get; set; }
+
+        public string weiKey { get; set; }
+
+        public string MName { get; set; }
+
+        public string Phone { get; set; }
+
+        public string IdCard { get; set; }
     }
     public class UpdateAppointmentDataInput : AddOrUpdateAppointmentData
     {

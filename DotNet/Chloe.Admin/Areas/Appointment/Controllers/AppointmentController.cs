@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Chloe.Application.Models.Appointment;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Admin.Common;
+using Ace;
+
 namespace Chloe.Admin.Areas.Appointment.Controllers
 {
     public class AppointmentController : WebController
@@ -24,5 +26,12 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
             }
             return this.SuccessMsg("失败！");
         }
+        [HttpGet]
+        public ActionResult GetModels(Pagination pagination, string keyword)
+        {
+            PagedData<SelAppointmentData> pagedData = this.CreateService<IAppointmentDataService>().GetPageData(pagination, keyword);
+            return this.SuccessData(pagedData);
+        }
+
     }
 }

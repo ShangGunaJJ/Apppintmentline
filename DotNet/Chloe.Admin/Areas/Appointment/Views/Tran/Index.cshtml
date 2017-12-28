@@ -4,12 +4,6 @@
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 @this.Partial("Index-js")
-@this.RefStyle("~/Content/wdtree/tree.css")
-@this.RefScript("~/Content/wdtree/tree.js")
-@this.RefStyle("~/Content/select2/select2.min.css")
-@this.RefScript("~/Content/select2/select2.min.js")
-@this.RefStyle("~/Content/wizard/wizard.css")
-@this.RefScript("~/Content/wizard/wizard.js")
 
 <script>
     var UserList = @this.RawSerialize(this.ViewBag.UserList);
@@ -20,9 +14,10 @@
             <a class="btn btn-primary" onclick="$ace.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
         </div>
         <div class="btn-group">
+            <button class="btn btn-primary" data-bind="click:Add"><i class="fa fa-plus"></i>添加</button>
             <button class="btn btn-primary" data-bind="click:Edit,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-pencil-square-o"></i>修改</button>
             <button class="btn btn-primary" data-bind="click:Delete,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-trash-o"></i>删除</button>
-            <button class="btn btn-primary" data-bind="click:Add"><i class="fa fa-plus"></i>添加</button>
+
         </div>
     </div>
     <div class="search">
@@ -69,7 +64,7 @@
                 <td data-bind="dateString:CreateTime"></td>
                 <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUser())"></td> 
             </tr>
-        </tbody>
+        </tbody>@this.Partial("_tfoot")
     </table>
 </div>
 

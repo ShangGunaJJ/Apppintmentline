@@ -43,8 +43,6 @@ namespace Chloe.Application.Implements.Appointment
         public MALU_DefaultSetting Add(AddDefaultSettingInput input)
         {
             MALU_DefaultSetting entity = this.CreateEntity<MALU_DefaultSetting>();
-            entity.CreateTime = DateTime.Now;
-            entity.Id = input.Id; 
             entity.KeyName = input.KeyName;
             entity.KeyType = input.KeyType;
             entity.Value = input.Value;
@@ -67,12 +65,23 @@ namespace Chloe.Application.Implements.Appointment
             return 0;
         }
 
+        public List<MALU_DefaultSetting> SelectFor()
+        {
+         return this.DbContext.Query<MALU_DefaultSetting>().Where(a=>a.KeyType==2).ToList();
+        }
+        public int SelectNumforKeyName(string Name)
+        {
+            return this.DbContext.Query<MALU_DefaultSetting>().Where(a => a.KeyName == Name).Select(a=> AggregateFunctions.Count()).First();
+        }
+        public string GetKeyValueForName(string Name)
+        {
+            return this.DbContext.Query<MALU_DefaultSetting>().Where(a => a.KeyName == Name).Select(a => a.Value).First();
+        }
         public int UpdateByKey(UpdateDefaultSettingInput input)
         {
-            if (this.DbContext.Update<MALU_DefaultSetting>(a => a.KeyType == input.KeyType && a.KeyName == input.KeyName, a => new MALU_DefaultSetting()
+            if (this.DbContext.Update<MALU_DefaultSetting>(a => a.KeyName == input.KeyName, a => new MALU_DefaultSetting()
             {
                 KeyName = input.KeyName,
-                KeyType = input.KeyType,
                 Value = input.Value,
                 UpdateDate = DateTime.Now
             }) > 0)

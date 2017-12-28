@@ -16,5 +16,8 @@ namespace Chloe.Application.Interfaces.Appointment
         MALU_DefaultSetting Add(AddDefaultSettingInput input);
         int Update(UpdateDefaultSettingInput input);
         int UpdateByKey(UpdateDefaultSettingInput input);
+        List<MALU_DefaultSetting> SelectFor();
+        int SelectNumforKeyName(string Name);
+        string GetKeyValueForName(string Name);
     }
 }

@@ -18,9 +18,10 @@
             <a class="btn btn-primary" onclick="$ace.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary" data-bind="click:Edit,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-pencil-square-o"></i>修改</button>
-            <button class="btn btn-primary" data-bind="click:Delete,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-trash-o"></i>删除</button>
             <button class="btn btn-primary" data-bind="click:Add"><i class="fa fa-plus"></i>添加</button>
+             <button class="btn btn-primary" data-bind="click:Edit,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-pencil-square-o"></i>修改</button>
+            <button class="btn btn-primary" data-bind="click:Delete,attr:{disabled:!DataTable.SelectedModel()}"><i class="fa fa-trash-o"></i>删除</button>
+           
         </div>
     </div>
     <div class="search">
@@ -60,7 +61,7 @@
                 <td data-bind="dateString:CreateTime"></td>
                 <td data-bind="text:$ace.getOptionTextByValue(UserList,CreateUser())"></td> 
             </tr>
-        </tbody>
+        </tbody>@this.Partial("_tfoot")
     </table>
 </div>
 
