@@ -6,7 +6,10 @@
     <title>预约排队</title>
     <link rel="stylesheet" href="../style/weui.css"/>
     <link rel="stylesheet" href="./example.css"/>
-    <link rel="stylesheet" href="./youxu.css"/> 
+    <link rel="stylesheet" href="./youxu.css"/>  
+    <script src="./zepto.min.js"></script>
+    <script src="./weui.min.js"></script>
+    <script src="./verify.min.js"></script>
 </head>
 <body ontouchstart>
     <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
@@ -56,7 +59,7 @@
                 </div>
                 <div class="weui-cell__ft">
                     <div style="height:55px;line-height:55px;">
-                        <button class="weui-vcode-btn">获取验证码</button>
+                        <button class="weui-vcode-btn" id="but_sms">获取验证码</button>
                     </div>
                 </div>
             </div>
@@ -64,7 +67,7 @@
         </div>
         <div class="weui-cells__title">验证信息</div>
         <div class="weui-cells weui-cells_form">
-            <div class="weui-cell weui-cell_vcode">
+            <div class="weui-cell weui-cell_vcode AUTOVCode">
                 <div class="weui-cell__hd">
                     <label class="weui-label">验证码</label>
                 </div>
@@ -72,55 +75,168 @@
                     <input class="weui-input VCode" type="text" placeholder="请输入验证码" />
                 </div>
                 <div class="weui-cell__ft">
-                    <img class="weui-vcode-img" id="imgcode" src="http://47.93.230.40:8000/WeChat/VerifyCode?t=" + Math.random() />
+                    <div id="regCode"></div>
                 </div>
             </div>
         </div>
         <div class="weui-cells__tips" style="color:#FF4A57;">温馨提示：系统会对个人信息进行保密</div>
-        <a href="javascript:;" class="weui-btn weui-btn_primary RegOk">确认</a>
+        <a href="javascript:;" id="RegOk" class="weui-btn weui-btn_primary RegOk">确认</a>
     </div>
 </div>
 <script>
     $(function () {
-
-        $(".RegOk").click(function () {
-            // var userInfo = JSON.parse(localStorage.getItem("UserInfo"));
-            var msg = {
-                Name: $(".Name").val(),
-                MobilePhone: $(".Phone").val(),
-                IdCard: $(".IdCard").val(),
-                // WeChatKey: userInfo.openid,
-                // WeChatName: userInfo.nickname,
-                PhoneVcode: $(".PhoneVcode").val(),
-                VCode: $(".VCode").val()
+        $("#regCode").codeVerify({
+            type: 1,
+            width: '6.5rem',
+            height: '2rem',
+            btnId: 'RegOk',
+            codeLength: 4,
+            success: function () {
+                var userInfo = JSON.parse(localStorage.getItem("UserInfo"));
+                var msg = {
+                    Name: $(".Name").val(),
+                    MobilePhone: $(".Phone").val(),
+                    IdCard: $(".IdCard").val(),
+                    WeChatKey: userInfo.openid,
+                    WeChatName: userInfo.nickname,
+                    PhoneVcode: $(".PhoneVcode").val(),
+                    VCode: ""
+                }
+                var Tmsg = "";
+                if (msg.MobilePhone == '')
+                    Tmsg = $(".Phone").attr("placeholder");
+                if (msg.IdCard == '')
+                    Tmsg = $(".IdCard").attr("placeholder");
+                if (msg.Name == '')
+                    Tmsg = $(".Name").attr("placeholder");
+                if (msg.Name.match('[^\u4E00-\u9FA5]') != null) {
+                    ShowTool('姓名只限输入中文字符！');
+                    return false;
+                }
+                if (!isIdCardNo(msg.IdCard)) {
+                    ShowTool('请输入有效的身份证！');
+                    return false;
+                }
+                var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+                if (!myreg.test(msg.MobilePhone)) {
+                    ShowTool('请输入有效的手机号码！');
+                    return false;
+                }
+                if (Tmsg != "") { ShowTool(Tmsg); return false; }
+                $.post(APPURL + "/WeChat/AddUser", msg, function (x) {
+                    x = JSON.parse(x);
+                    if (x && x.Id) {
+                        userInfo.Id = x.Id;
+                        userInfo.Name = x.Name;
+                        userInfo.MobilePhone = x.MobilePhone;
+                        userInfo.IdCard = x.IdCard;
+                        localStorage.setItem("UserInfo", JSON.stringify(userInfo));
+                        pageManager.go("Default");
+                    }
+                    else if (x == 1) {
+                        ShowTool("该身份证已经注册！不可重复注册！");
+                    } 
+                    else if (x == 2) {
+                        ShowTool("短信验证码错误！");
+                    } else {
+                        ShowTool("注册错误！");
+                    }
+                });
+            },
+            error: function () {
+                ShowTool("验证码错误！");
             }
-            var Tmsg = "";
-            if (msg.VCode == '')
-                Tmsg = $(".VCode").attr("placeholder");
-            if (msg.MobilePhone == '')
-                Tmsg = $(".Phone").attr("placeholder");
-            if (msg.IdCard == '')
-                Tmsg = $(".IdCard").attr("placeholder");
-            if (msg.Name == '')
-                Tmsg = $(".Name").attr("placeholder");
-            //if (msg.PhoneVcode == '')
-            //     Tmsg = $(".PhoneVcode").attr("placeholder");
-            if (Tmsg != "") { ShowTool(Tmsg); return false; }
-            $.post("http://localhost:7116/WeChat/AddUser", msg, function (x) {
-                if (x == 1) {
-                    pageManager.go("Default");
-                } else if (x == 2) {
-                    ShowTool("验证码错误！");
-                }
-                else if (x == 2) {
-                    ShowTool("注册错误！");
-                }
-            });
-        });
-        $("#imgcode").click(function () {
-            $("#imgcode").attr("src", "http://47.93.230.40:8000/WeChat/VerifyCode?t=" + Math.random());
         });
     });
+    $(".AUTOVCode").on("keyup", ".VCode", function () {
+        $(".varify-input-code").val($(this).val());
+    });
+    $("#but_sms").on("click", function () {
+        var _this = $(this);
+        if (_this.attr("disabled") == "disabled")
+            return false;
+        var phone = $(".Phone").val();
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+        if (!myreg.test(phone)) {
+            ShowTool('请输入有效的手机号码！');
+            return false;
+        }
+        $.get(APPURL + "/WeChat/SMSSend?phone=" + phone, function (x) {
+            if (x == "发送成功") {
+                _this.text("发送成功");
+                var timeS = 60;
+                _this.attr("disabled", "disabled")
+                var timeInt = setInterval(() => {
+                    _this.text(timeS + "s");
+                    timeS--;
+                    if (timeS == 0) {
+                        _this.text("获取验证码");
+                        _this.removeAttr("disabled");
+                        clearInterval(timeInt);
+                    }
+                }, 1000);
+            } else {
+                ShowTool("发送失败！");
+            }
+        });
+    });
+    function isIdCardNo(num) {
+        num = num.toUpperCase();
+        if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(num))) {
+            return false;
+        }
+        var len, re;
+        len = num.length;
+        if (len == 15) {
+            re = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/);
+            var arrSplit = num.match(re);
+            var dtmBirth = new Date('19' + arrSplit[2] + '/' + arrSplit[3] + '/' + arrSplit[4]);
+            var bGoodDay;
+            bGoodDay = (dtmBirth.getYear() == Number(arrSplit[2]))
+                && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3]))
+                && (dtmBirth.getDate() == Number(arrSplit[4]));
+            if (!bGoodDay) {
+                return false;
+            } else {
+                var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+                var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+                var nTemp = 0, i;
+                num = num.substr(0, 6) + '19' + num.substr(6, num.length - 6);
+                for (i = 0; i < 17; i++) {
+                    nTemp += num.substr(i, 1) * arrInt[i];
+                }
+                num += arrCh[nTemp % 11];
+                return num;
+            }
+        }
+        if (len == 18) {
+            re = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/);
+            var arrSplit = num.match(re);
+            //检查生日日期是否正确 
+            var dtmBirth = new Date(arrSplit[2] + "/" + arrSplit[3] + "/" + arrSplit[4]);
+            var bGoodDay;
+            bGoodDay = (dtmBirth.getFullYear() == Number(arrSplit[2]))
+                && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3]))
+                && (dtmBirth.getDate() == Number(arrSplit[4]));
+            if (!bGoodDay) {
+                return false;
+            } else {
+                var valnum;
+                var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+                var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+                var nTemp = 0, i;
+                for (i = 0; i < 17; i++) {
+                    nTemp += num.substr(i, 1) * arrInt[i];
+                }
+                valnum = arrCh[nTemp % 11];
+                if (valnum != num.substr(17, 1)) {
+                    return false;
+                }
+                return num;
+            }
+        }
+        return false;
+    }
 </script>
 </script>
     <script type="text/html" id="tpl_Default">
@@ -202,7 +318,37 @@
             </div>
         </div>
     </div>
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+    <div class="js_dialog" id="warningtoast" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">此业务已经预约，不可重复预约！</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <div class="js_dialog" id="IsDelete" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd">
+                <strong class="weui-dialog__title">提示</strong>
+            </div>
+            <div class="weui-dialog__bd">是否确认取消当前预约？</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">确认</a>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script type="text/javascript">
     $(function () {
         var AppBusList;
@@ -225,8 +371,48 @@
             }
         });
         $(".AppointmentItems").on("click", ".AppItem", function () {
-            if (AppBusList) localStorage.setItem("TranNow", JSON.stringify(AppBusList[$(this).attr("index") * 1]));
-            pageManager.go("AppLineUp");
+            var _thisT = AppBusList[$(this).attr("index") * 1];
+            var UserInfo = JSON.parse(localStorage.getItem("UserInfo"));
+
+            $.get(APPURL + "/WeChat/IsAppoint?TanID=" + _thisT.TransactionID + "&UserID=" + UserInfo.Id, function (x, status, xhr) {
+
+                var StartAppTime, EndAppTime;
+                var time = null;
+                var curDate;
+                time = xhr.getResponseHeader("Date");
+                curDate = new Date(time);
+                StartAppTime = new Date(time);
+                EndAppTime = new Date(time);
+                var _StartAppTime = localStorage.getItem("StartAppTime");
+                var _EndAppTime = localStorage.getItem("EndAppTime");
+                EndAppTime.setHours(_EndAppTime.split(':')[0]);
+                EndAppTime.setMinutes(_EndAppTime.split(':')[1]);
+                StartAppTime.setHours(_StartAppTime.split(':')[0]);
+                StartAppTime.setMinutes(_StartAppTime.split(':')[1]);
+                if (curDate < StartAppTime) {
+                    localStorage.setItem("IsStart", 1);
+                    pageManager.go("StopMsg"); return;
+                }
+                else if (curDate > EndAppTime) {
+                    localStorage.setItem("IsStart", -1);
+                    pageManager.go("StopMsg"); return;
+                }  
+                if (x > 0) {
+                    var $iosDialog2 = $('#warningtoast');
+                    if (x == 1) $iosDialog2.find(".weui-dialog__bd").text("今日此业务的预约次数已满！请办理完成后再次预约！");
+                    else $iosDialog2.find(".weui-dialog__bd").text("本月此业务的预约次数已满！请办理完成后再次预约！");
+                    $iosDialog2.fadeIn(200); 
+                } else {
+                    if (AppBusList)
+                        localStorage.setItem("TranNow", JSON.stringify(_thisT));
+                    pageManager.go("AppLineUp");
+                }
+            });
+
+        });
+
+        $('#warningtoast').on('click', '.weui-dialog__btn', function () {
+            $(this).parents('.js_dialog').fadeOut(200);
         });
         var $searchBar = $('#searchBar'),
             $searchResult = $('#searchResult'),
@@ -251,11 +437,13 @@
         });
         $searchInput
             .on('blur', function () {
-                if (!this.value.length) cancelSearch();
+                if (!this.value.length) cancelSearch(this.value);
+                LoadAppData(this.value);
             })
             .on('input', function () {
                 if (this.value.length) {
                     $searchResult.show();
+                    LoadAppData(this.value);
                 } else {
                     $searchResult.hide();
                 }
@@ -269,47 +457,126 @@
             cancelSearch();
             $searchInput.blur();
         });
-        function LoadAppData() {
-            $.get("http://47.93.230.40:8000/WeChat/GetBusListByPlace?PlaceID=" + '999424519c8b44cb813fdfbe07cc32bf', function (x) {
+
+        $(".refresh").on("click", function () {
+            LoadAppData();
+            LoadMyData();
+        });
+        var NowDelID;
+        $(".ToDo.AppItems").on("click", ".Delete", function () {
+            var itemTime = $(this).parent().find(".weui-flex__item").text();
+            itemTime = new Date(itemTime.substr(0, itemTime.lastIndexOf('-')));
+            var CancelApp = localStorage.getItem("CancelApp");
+            if (CancelApp) {
+                itemTime.setHours(CancelApp);
+                if (itemTime < new Date()) {
+                    ShowTool("超过取消预约时间范围！");
+                    return false;
+                }
+            }
+            var $loadingToast = $('#IsDelete');
+            $loadingToast.fadeIn(100);
+            console.log(NowDelID);
+            NowDelID = $(this).parents(".AppItem").attr("Id");
+        });
+        $('#IsDelete').on("click", ".weui-dialog__btn_default", function () {
+            var $loadingToast = $('#IsDelete');
+            $loadingToast.fadeOut(100);
+            NowDelID = null;
+        })
+        $('#IsDelete').on("click", ".weui-dialog__btn_primary", function () {
+            var $loadingToast = $('#IsDelete');
+            $loadingToast.fadeOut(100);
+            if (NowDelID) {
+                $.get(APPURL + "/WeChat/SetStop?AppID=" + NowDelID, function (x) {
+                    if (x) {
+                        ShowTool("取消成功！")
+                        var $loadingToast = $('#loadingToast');
+                        if ($loadingToast.css('display') != 'none') return;
+                        $loadingToast.fadeIn(100);
+                        setTimeout(function () {
+                            $loadingToast.fadeOut(100);
+                        }, 2000);
+                        LoadAppData();
+                        LoadMyData();
+                    } else {
+                        ShowTool("取消失败！")
+                    }
+                });
+            }
+        })
+        function LoadAppData(key) {
+            var $loadingToast = $('#loadingToast');
+            if ($loadingToast.css('display') != 'none') return;
+            $loadingToast.fadeIn(100);
+            $(".AppointmentItems").html("");
+            var PlaceID = localStorage.getItem("PlaceID");
+            $.get(APPURL + "/WeChat/GetBusListByPlace?PlaceID=" + PlaceID + "&Key=" + (key ? key : ""), function (x) {
                 if (x) {
                     x = JSON.parse(x);
                     var html = "";
                     $(".AppointmentItems").html('<div class="weui-loadmore"><i class="weui-loading"></i> <span class="weui-loadmore__tips">正在加载</span></div>');
-                    localStorage.setItem("AppBusList", JSON.stringify(x))
+                    var NewApp = [];
+                    var Key = {};
                     for (var i = 0; i < x.length; i++) {
-                        html += '<div class="AppItem" index="' + i + '"><div class="TranName">' + x[i].TranName + '</div>' +
+                        console.log(Key[x[i].TransactionID]);
+                        if (Key[x[i].TransactionID] != undefined) {
+                            NewApp[Key[x[i].TransactionID]].ListPer.push(x[i]);
+                            NewApp[Key[x[i].TransactionID]].LineUpNumber += x[i].LineUpNumber;
+                        } else {
+                            Key[x[i].TransactionID] = NewApp.length;
+                            NewApp.push({
+                                TranName: x[i].TranName,
+                                PlaceName: x[i].PlaceName,
+                                NowAppCode: x[i].NowAppCode,
+                                LineUpNumber: x[i].LineUpNumber,
+                                TransactionID: x[i].TransactionID,
+                                ListPer: [x[i]]
+                            });
+                        }
+                    }
+                    console.log(NewApp);
+                    for (var i = 0; i < NewApp.length; i++) {
+                        html += '<div class="AppItem" index="' + i + '"><div class="TranName">' + NewApp[i].TranName + '</div>' +
                             '<div class="AppointmentInfo"> <div class="NowTodoCode">' +
                             '<div style="position: relative;margin-right: 10px;">' +
                             '<img style="display:block;position:relative;width:50px;" src="images/service.png"></div>' +
                             '<div class="Content"><label>当前受理号：</label>' +
-                            '<div class="Code fon">' + (x[i].NowAppCode || '未开始') + '</div></div></div>' +
+                            '<div class="Code fon">' + (NewApp[i].NowAppCode || '未开始') + '</div></div></div>' +
                             '<div class="NowlineUpNumber">' +
                             '<div style="position: relative;margin-right: 10px;">' +
                             '<img style="display:block;position:relative;width:50px;" src="images/Queue.png">' +
-                            '</div><div class="Content"><label>排队人数：</label><div class="Number"><span class="fon">' + x[i].LineUpNumber + '</span>人</div> </div></div></div><a href="javascript:;" class="weui-btn weui-btn_primary AppointTran_Btn">预约排队</a></div>';
+                            '</div><div class="Content"><label>排队人数：</label><div class="Number"><span class="fon">' + NewApp[i].LineUpNumber + '</span>人</div> </div></div></div><a href="javascript:;" class="weui-btn weui-btn_primary AppointTran_Btn">预约排队</a></div>';
                     }
+                    AppBusList = NewApp;
+                    localStorage.setItem("AppBusList", JSON.stringify(NewApp))
                     $(".AppointmentItems").html(html);
+                    var $loadingToast = $('#loadingToast');
+                    $loadingToast.fadeOut(100);
                 }
             });
         }
         function LoadMyData() {
-            $.get("http://47.93.230.40:8000/WeChat/GetMyBusList?UserID=" + '', function (x) {
+            var UserInfo = JSON.parse(localStorage.getItem("UserInfo"));
+            var conToDo = $(".ToDo.AppItems");
+            var DoneToDo = $(".Done.AppItems");
+            var LostToDo = $(".Lost.AppItems");
+            conToDo.empty(); DoneToDo.empty(); LostToDo.empty();
+            $.get(APPURL + "/WeChat/GetMyBusList?UserID=" + UserInfo.Id, function (x, status, xhr) {
                 if (x) {
                     x = JSON.parse(x);
                     var ToDohtml = "";
                     var Donehtml = "";
                     var Losthtml = "";
-                    var conToDo = $(".ToDo.AppItems");
-                    var DoneToDo = $(".Done.AppItems");
-                    var LostToDo = $(".Lost.AppItems");
-                    conToDo.html(''); DoneToDo.html(''); LostToDo.html('');
                     localStorage.setItem("AppBusList", JSON.stringify(x))
+                    var time = xhr.getResponseHeader("Date");
+                    var curDate = new Date(time);
                     for (var i = 0; i < x.length; i++) {
-                        var h = '<div class="AppItem"><div class="weui-cells"><div class="weui-cell weui-flex"><div class="' + x.State == 1 ? 'ToDo' : x.State == 2 ? 'Done' : 'Lost' + '"><span></span></div>' +
-                            '<div class="weui-flex__item">' + x[i].AppointmentDate + ' ' + x[i].PeriodTime + '</div><div></div></div>' +
+                        var h = '<div class="AppItem" id="' + x[i].Id + '"><div class="weui-cells"><div class="weui-cell weui-flex"><div class="' + (x[i].State == 1 || x[i].State == 0 ? 'ToDo' : x[i].State == 2 ? 'Done' : 'Lost') + '"><span></span></div>' +
+                            '<div class="weui-flex__item">' + x[i].AppointmentDate.split('T')[0] + ' ' + x[i].PeriodTime + '</div><div class="Delete"><span></span></div></div>' +
                             '<div class="weui-cell weui-cell__bd" style="padding-left:75px;display:block;">' +
                             '<p class="ic">' + x[i].PlaceName + '</p>' +
-                            '<p style="padding-left:25px;margin-bottom:16px;">' +
+                            '<p style="padding: 5px 0 20px 25px;color: #646464;">' +
                             '<span>' + x[i].PlaceAdderss + '</span></p>' +
                             '<p class="icSevice"><span>' + x[i].TranName + '</p>' +
                             '</div><div class="weui-flex Num_Info"><div class="weui-flex__item">' +
@@ -321,18 +588,18 @@
                             Losthtml += h;
                         else if (x[i].State == 2) Donehtml += h;
                     }
-                    $(".conToDo").html(ToDohtml);
-                    $(".Donehtml").html(Donehtml);
-                    $(".LostToDo").html(LostToDo);
+                    conToDo.html(ToDohtml);
+                    DoneToDo.html(Donehtml);
+                    LostToDo.html(Losthtml);
                 }
             });
         }
         function BindMyInfo() {
             var UserInfo = JSON.parse(localStorage.getItem("UserInfo"));
             if (UserInfo) {
-                $(".HeadImage").find("img").attr("src", UserInfo.headimgurl);
-                $(".HeadImage").find(".MyName").text(UserInfo.MenInfo.Name);            
-}
+                UserInfo.headimgurl && $(".HeadImage").find("img").attr("src", UserInfo.headimgurl);
+                $(".HeadImage").find(".MyName").text(UserInfo.Name);
+            }
         }
         LoadAppData();
         LoadMyData();
@@ -341,7 +608,7 @@
         window.LoadMyData = LoadMyData;
     });
 </script>
-</script>
+</script>  
     <script type="text/html" id="tpl_AppLineUp">
 <div class="page AppLineUp">
     <div class="page_Nar">
@@ -377,11 +644,11 @@
                 </div>
             </div>
 
-            <div class="weui-cell">
+            <div class="weui-cell" style="padding: 8px;">
                 <div class="weui-cell__hd">
                     <label class="weui-label"> </label>
                 </div>
-                <div class="weui-cell__ft Map">
+                <div id="allmap" class="weui-cell__ft Map" style="height:145px;width: 100%;">
 
                 </div>
             </div>
@@ -389,7 +656,7 @@
 
         <div class="weui-cells__title">预约详情</div>
         <div class="weui-cells">
-            <div class="weui-cell  DateType">
+            <div class="weui-cell  DateType" style="display:none">
                 <div class="weui-cell__hd">
                     <label class="weui-label">日期类型</label>
                 </div>
@@ -415,11 +682,11 @@
                     请选择预约日期
                 </div>
             </div>
-            <div class="weui-cell AppDateTime weui-cell_access">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd">
                     <label class="weui-label">预约业务</label>
                 </div>
-                <div class="weui-cell__ft DateTime">
+                <div class="weui-cell__ft TranNAME">
                     请选择预约业务类型
                 </div>
             </div>
@@ -427,27 +694,27 @@
 
         <div class="weui-cells__title">时间段选择</div>
         <div class="PeriodTime">
-            <div class="TimeItem">
-                <p class="time">08:00-09:00</p>
-                <p class="Up_Num">余:2人</p>
-            </div>
+
         </div>
         <div class="weui-cells__title">验证信息</div>
         <div class="weui-cells">
-            <div class="weui-cell weui-cell_vcode">
-                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+            <div class="weui-cell weui-cell_vcode AUTOVCode">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">验证码</label>
+                </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入验证码"/>
+                    <input class="weui-input VCode" type="text" placeholder="请输入验证码" />
                 </div>
                 <div class="weui-cell__ft">
-                    <img class="weui-vcode-img" src="./images/vcode.jpg" />
+                    <div id="regCode"></div>
                 </div>
             </div>
         </div>
         <label for="weuiAgree" class="weui-agree">
-            <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox"/>
+            <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" />
             <span class="weui-agree__text">
-                我已阅读并同意<a href="javascript:void(0);">《友旭用户预约须知》</a>
+                我已阅读并同意
+                <a href="javascript:void(0);" id="Instr_link">《深圳中智人才引进代理预约系统须知》</a>
             </span>
         </label>
 
@@ -456,36 +723,378 @@
         </div>
     </div>
 </div>
+<div id="toast" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+        <p class="weui-toast__content">预约成功</p>
+    </div>
+</div>
+<div id="loadingToast" style="display:none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">正在预约</p>
+    </div>
+</div>
+<div class="js_dialog" id="warningtoast_App" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd">此时间段不在可以预约时间范围！</div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+        </div>
+    </div>
+</div>
+<div class="js_dialog" id="warningtoast_Spuer" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd">此业务超过可预约次数，无法在此预约！</div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+        </div>
+    </div>
+</div>
 <script>
     $(function () {
+        var curDate;
         $(".weui-check__label").on('click', function () {
             $(this).find("input").click();
         });
-        $('.TimeItem').on('click', function () {
-            $(this).addClass('act').siblings('.act').removeClass('act');
+        $('.PeriodTime').on('click', ".TimeItem", function () {
+            if ($(this).hasClass("NoApp")) {
+                var $iosDialog2 = $('#warningtoast_App');
+                $iosDialog2.fadeIn(200);
+            } else
+                $(this).addClass('act').siblings('.act').removeClass('act');
         });
-        $(".Go_Back").on("click",function(){
-            pageManager.back();
+        $('#warningtoast_App').on('click', '.weui-dialog__btn', function () {
+            $(this).parents('.js_dialog').fadeOut(200);
         });
-        function BindData(){
-            var UserInfo = JSON.parse(localStorage.getItem("UserInfo"));
-            $(".User_Info").find("img").attr("src", UserInfo.headimgurl);
-            $(".User_Info").find(".Name").text(UserInfo.MenInfo.Name);
-            $(".User_Info").find(".IdCard").text(UserInfo.MenInfo.IdCard);
-            var TranNow=JSON.parse(localStorage.getItem("TranNow"));
-            if(TranNow){
-                $(".TranAdderss .Name").val(TranNow.PlaceName);
+        $('#warningtoast_Spuer').on('click', '.weui-dialog__btn', function () {
+            $(this).parents('.js_dialog').fadeOut(200);
+        });
+        $(".AppLineUp .Go_Back").on("click", function () {
+            pageManager.go('Default');
+        });
+        $("#Instr_link").on("click", function () {
+            localStorage.setItem("IsRead","true");
+            pageManager.go("instructions");
+        }); 
+        $("#regCode").codeVerify({
+            type: 1,
+            width: '6.5rem',
+            height: '2rem',
+            btnId: 'Save',
+            codeLength: 4,
+            success: function () {
+                var AppItem = $(".PeriodTime .TimeItem.act");
+                if (AppItem.length < 1) {
+                    ShowTool("请选择时间段！");
+                    return false;
+                }
+                if (!$("#weuiAgree")[0].checked) {
+                    ShowTool("请阅读用户预约须知！");
+                    return false;
+                }
+                var APP = {
+                    BusinessID: AppItem.attr("id"),
+                    MamberID: JSON.parse(localStorage.getItem("UserInfo")).Id,
+                    AppointmentDate: $('.AppDateTime').find(".DateTime").text(),
+                    State: 0,
+                    VCode:"" 
+                };
+                if (APP.AppointmentDate.indexOf("请选择预约日期") > -1) {
+                    ShowTool("请选择预约日期！");
+                    return false;
+                }
+                var $loadingToast = $('#loadingToast');
+                $loadingToast.fadeIn(100);
+                $.get(APPURL + "/WeChat/IsAppoint?TanID=" + JSON.parse(localStorage.getItem("TranNow")).TransactionID + "&UserID=" + APP.MamberID, function (x) {
+                    var ToDayCount = localStorage.getItem("ToDayCount");
+                    if (x >= (ToDayCount * 1)) {
+                        var $iosDialog2 = $('#warningtoast_Spuer');
+                        $iosDialog2.fadeIn(200);
+                    } else {
+                        console.log(APP);
+                        $.post(APPURL + "/WeChat/AddAppointmentTran", APP, function (x) {
+                            $loadingToast.fadeOut(100);  
+                            if (x == -2) {
+                                location.href = APPURL+"/WeChatapp/dist/example/#StopAppoint"; return false;
+                            } else if (x) {
+                                var $toast = $('#toast');
+                                if ($toast.css('display') != 'none') return;
+                                $toast.fadeIn(100);
+                                setTimeout(function () {
+                                    $toast.fadeOut(100);
+                                    localStorage.setItem("IsRead","false");
+                                    pageManager.go("instructions");
+                                }, 1000);
 
+                            } else {
+                                ShowTool("预约失败！"); return false;
+                            }
+                        });
+                    }
+                });
+            },
+            error: function () {
+                ShowTool("验证码错误！");
+            }
+        });
+        $(".AUTOVCode").on("keyup", ".VCode", function () {
+            $(".varify-input-code").val($(this).val());
+        });
+        $('.AppDateTime').on('click', function () {
+            var NowYear = curDate.getYear() + 1900;
+            var cron = '* * *';
+            //if ($("#WeekEnd")[0].checked) {
+             //   cron = '* * 0,6';
+            //}
+            var AppLongDay = localStorage.getItem("AppLongDay");
+            var endDay = new Date(curDate);
+            var startDay = new Date(curDate);
+            if (AppLongDay)
+                endDay.setDate(curDate.getDate() + (AppLongDay * 1));
+            else
+                endDay.setDate(curDate.getDate() + 31);
+            console.log(endDay);
+            weui.datePicker({
+                start: startDay,
+                end: endDay,
+                defaultValue: [NowYear, curDate.getMonth() + 1, curDate.getDate()],
+                cron: cron,
+                onChange: function (result) {
+                    $('.DateTime').text(result[0] + "-" + result[1] + "-" + result[2]);
+                    filter(result[0].value, result[1].value, result[2].value);
+                },
+                onConfirm: function (result) {
+                    $('.DateTime').text(result[0] + "-" + result[1] + "-" + result[2]);
+                }
+            });
+        });
+        function filter(y, m, d) {
+            var items = $(".PeriodTime .TimeItem");
+            var SelectTime = new Date(curDate);
+            SelectTime.setFullYear(y); SelectTime.setMonth(m - 1); SelectTime.setDate(d);
+            var nowTime = new Date(curDate);
+            var _InAdvCount = localStorage.getItem("InAdvCount");
+            if (_InAdvCount) {
+                nowTime.setHours(nowTime.getHours() + ((_InAdvCount * 1) / 60));
+                nowTime.setMinutes(nowTime.getMinutes() + ((_InAdvCount * 1) % 60));
+            }
+            var nowHours = nowTime.getHours();
+            var nowMinutes = nowTime.getMinutes();
+            var Years = nowTime.getFullYear();
+            var month = nowTime.getMonth();
+            var Day = nowTime.getDate();
+            var Week = SelectTime.getDay();
+            items.removeClass("NoApp");
+            items.removeClass("act");
+            items.removeClass("NoWeeks");
+            for (var i = 0; i < items.length; i++) {
+                if (items.eq(i).attr("weeks") == Week) {
+                    items.eq(i).removeClass("NoWeeks");
+                    var endt = items.eq(i).find(".time").text().split('-')[1];
+                    SelectTime.setHours(endt.split(':')[0]);
+                    SelectTime.setMinutes(endt.split(':')[1]);
+
+                    console.log(SelectTime);
+                    console.log(nowTime);
+                    console.log(_InAdvCount);
+
+                    if (SelectTime <= nowTime) {
+                        items.eq(i).addClass("NoApp");
+                    }
+                } else
+                    items.eq(i).addClass("NoWeeks");
+            }
+
+        }
+        function BindData() {
+            var UserInfo = JSON.parse(localStorage.getItem("UserInfo"));
+            if (UserInfo && UserInfo.headimgurl)
+                $(".User_Info").find("img").attr("src", UserInfo.headimgurl);
+            $(".User_Info").find(".Name").text(UserInfo.Name);
+            $(".User_Info").find(".IdCard").text(UserInfo.IdCard);
+
+            var TranNow = JSON.parse(localStorage.getItem("TranNow"));
+            if (TranNow) {
+                InitMap(TranNow.ListPer[0].PlaceAdderss);
+                $(".TranAdderss .Name").text(TranNow.PlaceName);
+                $(".TranNAME").text(TranNow.TranName);
+                var ht = "";
+                TranNow.ListPer = TranNow.ListPer.sort(function (X, Y) {
+                    return X.PeriodTime.split(':')[0] - Y.PeriodTime.split(':')[0];
+                });
+                for (var i = 0; i < TranNow.ListPer.length; i++) {
+                    if (((TranNow.ListPer[i].AppointmentNum * 1) - (TranNow.ListPer[i].LineUpNumber * 1)) == 0)
+                        continue;
+                    ht += '<div class="TimeItem NoWeeks" weeks="' + TranNow.ListPer[i].Weeks + '" id="' + TranNow.ListPer[i].Id + '"><p class="time">' + TranNow.ListPer[i].PeriodTime + '</p> <p class="Up_Num">余:' + ((TranNow.ListPer[i].AppointmentNum * 1) - (TranNow.ListPer[i].LineUpNumber * 1)) + '人</p></div>';
+                }
+
+                $(".PeriodTime").html(ht);
+            }
+            var nowTime = new Date(curDate);
+            var _InAdvCount = localStorage.getItem("InAdvCount");
+            if (_InAdvCount) {
+                nowTime.setHours(nowTime.getHours() + ((_InAdvCount * 1) / 60));
+                nowTime.setMinutes(nowTime.getMinutes() + ((_InAdvCount * 1) % 60));
+            }
+            var NowYear = nowTime.getYear() + 1900;
+            var m = nowTime.getMonth() + 1;
+            var d = nowTime.getDate();
+            filter(NowYear, m, d);
+            $('.DateTime').text(NowYear + "-" + m + "-" + d);
+        }
+        function InitMap(mapName) {
+            var map = new BMap.Map("allmap");
+            map.centerAndZoom(mapName, 18);
+        }
+        function ajaxTime(option) {
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new window.XMLHttpRequest();
+            } else { // ie
+                xhr = new ActiveObject("Microsoft")
+            }
+            // 通过get的方式请求当前文件
+            xhr.open("get", "/");
+            xhr.send(null);
+            // 监听请求状态变化
+            xhr.onreadystatechange = function () {
+                var time = null;
+                if (xhr.readyState === 2) {
+                    // 获取响应头里的时间戳
+                    time = xhr.getResponseHeader("Date");
+                    console.log(xhr.getAllResponseHeaders())
+                    curDate = new Date(time);
+                    BindData();
+                }
             }
         }
+        ajaxTime();
     });
 </script>
 </script>
-    <script src="./zepto.min.js"></script>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
-    <script src=" http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-   
+    <script type="text/html" id="tpl_instructions">
+<div class="page instructions">
+    <div class="page_Nar">
+        <div class="Go_Back">
+            <span></span>
+        </div>
+        <div class="page_title">注意事项</div>
+    </div>
+    <div class="page_bd ">
+        <h3>通知信息</h3>
+        <p>1.预约业务按工作日和周末分类</p>
+        <p>2.全预约业务必须提前预约，才可以到现场办理</p>
+
+        <h3 style="margin-top:20px;">注意事项</h3>
+        <p>1.工作日每天零时发放新的工作日预约号，每天8:30到23:00可进 行预约操作。
+        </p>
+        <p>2.每周一零时发放新的周末预约号，周一至周四8:30到23:00、周五8:30到15:00可进行预约操作。</p>
+        <p>3.预约实名制，预约人须如实提供个人信息，且只能办理与本人相关的业务，否则预约无效。</p>
+        <p> 4.在预约时间段内到达办事大厅自动取号（可提前30分钟取号），并到对应窗口等待叫号。</p>
+        <p>5.为充分利用预约资源，如无法按时前往办事，请提前2小时取消预约，失约和取消预约均会记录到诚信管理系统，次数过多者会被限制使用预约功能</p>
+        <p>6.同一人可预约同一事项次数为：每天一次，每月三次。（同一手机、身份证、微信号视为同一人）</p>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".instructions  .Go_Back").click(function () {
+            if (localStorage.getItem("IsRead") == "true")
+                pageManager.go("AppLineUp");
+            else
+                location.href = APPURL + "/WeChatapp/dist/example/";
+        });
+        $.get(APPURL + "/Config/GetHtml", function (x) {
+            $(".instructions .page_bd").html(x);
+        });
+
+    });
+</script>
+<style>
+    .instructions .page_bd {
+        padding: 10px 15px;
+    }
+
+    p {
+        font-size: 14px;
+        color: #545454;
+    }
+</style>
+</script>
+    <script type="text/html" id="tpl_msg_warn">
+<div class="page">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">登陆失败</h2>
+            <p class="weui-msg__desc">账号已经停用！暂时无法登陆！</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+ 
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">友旭技术支持</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2017-2018</p>
+            </div>
+        </div>
+    </div>
+</div>
+</script>   
+    <script type="text/html" id="tpl_StopMsg">
+<div class="page AppLineUp">
+    <div class="page_Nar">
+        <div class="page_title" id="page_title">今日预约时间已经截止</div>
+    </div>
+    <div class="page_bd " style="padding:10px;color:#888888;">
+        <h4 style="text-align: center;margin-bottom:10px;color:#1F1F1F;">具体办理流程：</h4>
+        <p>1) 在预约时段内尽早到达办事大厅取号，过时无法取号。</p>
+        <p>2) 在自动取号机刷身份证打印排队叫号小票，票面有提示办事窗口</p>
+        <p>3) 到相应办事窗口等待叫号。可以通过微信端查看排队情况</p>
+        <p>4) 预约3次或以上味道现场办理将会加入黑名单，2个月内不能再次预约，未能到场请提前取消预约</p>
+        <p>5) 预约办事采用实名制，预约成功后只限于办理本人相关业务。</p>
+    </div>
+</div>
+<script>    
+    if (localStorage.getItem("IsStart") == 1) {
+        document.getElementById("page_title").innerText = "今日预约时间还未开始";  
+    }
+</script>
+</script>   
+    <script type="text/html" id="tpl_StopAppoint">
+<div class="page">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">登陆失败</h2>
+            <p class="weui-msg__desc">因账号本月取消预约次数超出可取消次数范围，现已停用该账号！</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+ 
+            </p>  
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">友旭技术支持</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2017-2018</p>
+            </div>
+        </div>
+    </div>
+</div>
+</script>    
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=58kZ8unTd40c2czN0zvXICYV"></script>
     <script src="./example.js"></script>
 </body>
 </html>
+  

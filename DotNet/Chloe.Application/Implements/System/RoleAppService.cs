@@ -39,8 +39,10 @@ namespace Chloe.Application.Implements.System
         public void Add(AddRoleInput input)
         {
             input.Validate();
-            Sys_Role role = this.CreateEntity<Sys_Role>();
-
+            Sys_Role role =new Sys_Role();
+            role.Id = IdHelper.CreateGuid();
+            role.createtime = DateTime.Now;
+            role.CreateUserId = this.Session.UserId;
             this.MapValueFromInput(role, input);
 
             string[] permissionIds = input.GetPermissionIds();

@@ -19,5 +19,6 @@ namespace Chloe.Application.Interfaces.Appointment
         List<MALU_DefaultSetting> SelectFor();
         int SelectNumforKeyName(string Name);
         string GetKeyValueForName(string Name);
+
     }
 }

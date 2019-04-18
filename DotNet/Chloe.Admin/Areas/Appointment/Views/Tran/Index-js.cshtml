@@ -15,6 +15,11 @@
 
         me.DeleteUrl = "@this.ContentUrl("~/Appointment/Tran/Delete")";
         me.Dialog = new Dialog(me);
+        me.RefershDate = function () {
+            $ace.get("@this.ContentUrl("~/Appointment/Tran/CloneData")", null, function (result) {
+                $ace.msg("更新成功！！");
+            });
+        }
     }
     function vmExtend() {
         var me = this;
@@ -63,14 +68,12 @@
         }
         me.OnSave = function () {
             var model = me.Model();
-
             if (!$('#form1').formValid()) {
                 return false;
             }
-
- 
             if (me.EditModel()) {
                 $ace.post("@this.ContentUrl("~/Tran/Update")", model, function (result) {
+                    if (result == 1) { $ace.msg("已有重复代码数据！"); return false; }
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();
@@ -79,6 +82,7 @@
             }
             else {
                 $ace.post("@this.ContentUrl("~/Appointment/Tran/Add")", model, function (result) {
+                    if (result == 1) { $ace.msg("已有重复代码数据！"); return false; }
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();
@@ -86,7 +90,7 @@
              );
             }
         }
-
+       
         function initControl() {
             var w = $('#wizard').wizard();
             w.on('change', function (e, data) {

@@ -34,6 +34,16 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         [HttpPost]
         public ActionResult AddBusiness(AddBusinessInput ti)
         {
+            var IsRe = this.CreateService<IBusinessService>().IsAddSer(ti.PeriodTimeID, ti.PlaceId, ti.TransactionID, "");
+            if (IsRe > 0)
+                return this.JsonContent(IsRe);
+            WebService.WebService ss = new WebService.WebService();
+
+            PeriodTime per = this.CreateService<IPeriodTime>().Select(ti.PeriodTimeID)[0];
+            TransactionInfo tt = this.CreateService<ITransactionInfoService>().GetPerByID(ti.TransactionID)[0];
+
+            //int SerID = ss.AddService(tt.Code,tt.TransactionName,"","",DateTime.Parse(DateTime.Now.ToShortDateString()+" "+per.StratTime),DateTime.Parse(DateTime.Now.ToShortDateString() + " " + per.EndTime),ti.AppointmentNum, DateTime.Parse(DateTime.Now.ToShortDateString() + " " + per.StratTime),DateTime.Parse(DateTime.Now.ToShortDateString() + " " + per.EndTime), ti.AppointmentNum);
+            //ti.ServiceNo = SerID;
             if (this.CreateService<IBusinessService>().Add(ti).Id != "")
             {
                 return this.SuccessMsg();
@@ -42,14 +52,17 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetModels(Pagination pagination, string keyword)
+        public ActionResult GetModels(Pagination pagination, string TransactionID, string PlaceId, string PeriodTimeID)
         {
-            PagedData<MALU_Business> pagedData = this.CreateService<IBusinessService>().GetPageData(pagination);
+            PagedData<MALU_Business> pagedData = this.CreateService<IBusinessService>().GetPageData(pagination, TransactionID,  PlaceId,  PeriodTimeID);
             return this.SuccessData(pagedData);
         }
         [HttpPost]
         public ActionResult Update(UpdateBusinessInput input)
         {
+            var IsRe = this.CreateService<IBusinessService>().IsAddSer(input.PeriodTimeID, input.PlaceId, input.TransactionID, input.Id);
+            if (IsRe > 0)
+                return this.JsonContent(IsRe);
             this.CreateService<IBusinessService>().Update(input);
             return this.UpdateSuccessMsg();
         }

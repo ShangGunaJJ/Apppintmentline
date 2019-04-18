@@ -7,6 +7,7 @@ using Chloe.Application.Models.Appointment;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Admin.Common;
 using Ace;
+using System.Configuration;
 
 namespace Chloe.Admin.Areas.Appointment.Controllers
 {
@@ -17,7 +18,8 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         {
             this.ViewBag.ConfigHTML = this.CreateService<IDefaultSettingService>().GetKeyValueForName("ConfigHTML");
             this.ViewBag.PerList = this.CreateService<IDefaultSettingService>().SelectFor();
-            this.ViewBag.PhoneUrl = "http://47.93.230.40:8000/WeChatApp/dist/example/#instructions";
+            string WeChatUrl = ConfigurationSettings.AppSettings["WeChatUrl"];
+            this.ViewBag.PhoneUrl = WeChatUrl+"/WeChatApp/dist/example/#instructions";
             //this.ViewBag.ConfigHTML = this.CreateService<IDefaultSettingService>().GetKeyValueForName("ConfigHTML");
             return View();
         }

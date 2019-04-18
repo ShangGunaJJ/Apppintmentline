@@ -26,7 +26,7 @@ namespace Chloe.Entities
         public DateTime? AppointmentDate { get; set; }
 
         /// <summary>
-        /// 预约状态预约状态 -1 失效 0 未开始 1 正在受理  2 已经完成
+        /// 预约状态预约状态 -2 失约 -1 失效 0 未开始 1 正在受理  2 已经完成
         /// </summary>
         public int State { get; set; }
 
@@ -39,10 +39,15 @@ namespace Chloe.Entities
         /// </summary>
         public string FileID { get; set; }
 
+        public string BookingNo { get; set; }
 
         /// <summary>
         /// 创建日期
         /// </summary>
         public DateTime CreateTime { get; set; }
+        /// <summary>
+        /// 是否已经评价1已经评价
+        /// </summary>
+        //public int IsEvaluate { get; set; }
     }
 }

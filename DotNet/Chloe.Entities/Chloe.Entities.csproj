@@ -52,6 +52,7 @@
     <Compile Include="AdjustAppointmentData.cs" />
     <Compile Include="AppointmentData.cs" />
     <Compile Include="ApprovalAppData.cs" />
+    <Compile Include="Evaluate.cs" />
     <Compile Include="Sys_Company.cs" />
     <Compile Include="MALU_Business.cs" />
     <Compile Include="MALU_DefaultSetting.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="WikiDocument.cs" />
     <Compile Include="WikiDocumentDetail.cs" />
     <Compile Include="WikiMenuItem.cs" />
+    <Compile Include="WorkingDay.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

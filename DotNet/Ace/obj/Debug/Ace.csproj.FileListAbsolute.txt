@@ -31,4 +31,12 @@ C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\Do
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\Newtonsoft.Json.xml
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace\obj\Debug\Ace.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace\obj\Debug\Ace.pdb
-C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Ace\obj\Debug\Ace.csprojResolveAssemblyReference.cache
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\Ace.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\Ace.pdb
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\DotNet.Utilities.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\Newtonsoft.Json.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\DotNet.Utilities.xml
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\bin\Debug\Newtonsoft.Json.xml
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\obj\Debug\Ace.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\obj\Debug\Ace.pdb
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Ace\obj\Debug\Ace.csprojResolveAssemblyReference.cache

@@ -6,6 +6,9 @@ using Chloe.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Chloe.Application.Models.Appointment;
+using Chloe.Application.Interfaces.Appointment;
+using Chloe.Admin.Common;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -22,9 +25,17 @@ namespace Chloe.Admin.Controllers
             this.ViewBag.CurrentSession = this.CurrentSession;
             this.ViewBag.CompanyName = this.CurrentSession.CompanyName;
             this.ViewBag.ClassName = "theme-blue";
-            if (!string.IsNullOrEmpty(this.CurrentSession.ThemeName)) {
+            if (!string.IsNullOrEmpty(this.CurrentSession.ThemeName))
+            {
                 this.ViewBag.ClassName = this.CurrentSession.ThemeName;
             }
+
+            int special = 0, ordinary = 0, electronic = 0, ordinaryG = 0;
+            this.CreateService<IAppointmentDataService>().sumApp(ref special, ref ordinary, ref electronic, ref ordinaryG);
+            this.ViewBag.special = special;
+            this.ViewBag.ordinary = ordinary;
+            this.ViewBag.electronic = electronic;
+            this.ViewBag.ordinaryG = ordinaryG;
             return View();
         }
         public ActionResult Default()
@@ -34,7 +45,12 @@ namespace Chloe.Admin.Controllers
         }
         public ActionResult Home() {
             this.ViewBag.CurrentSession = this.CurrentSession;
-         
+            int special = 0, ordinary = 0, electronic = 0, ordinaryG = 0;
+            this.CreateService<IAppointmentDataService>().sumApp(ref special, ref ordinary, ref electronic, ref ordinaryG);
+            this.ViewBag.special = special;
+            this.ViewBag.ordinary = ordinary;
+            this.ViewBag.electronic = electronic;
+            this.ViewBag.ordinaryG = ordinaryG;
             return View();
         }
         [HttpGet]

@@ -21,15 +21,21 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult GetModels(Pagination pagination, string keyword)
+        public ActionResult GetModels(Pagination pagination, string keyword,int? state=0)
         {
-            PagedData<MALU_Members> pagedData = this.CreateService<IMembersAppService>().GetPageData(pagination, keyword);
+            PagedData<MALU_Members> pagedData = this.CreateService<IMembersAppService>().GetPageData(pagination, keyword,state);
             return this.SuccessData(pagedData);
         }
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            this.CreateService<IMembersAppService>().Delete(id);
+            this.CreateService<IMembersAppService>().Delete(id, -1);
+            return this.DeleteSuccessMsg();
+        }
+        [HttpPost]
+        public ActionResult Update(string id)
+        {
+            this.CreateService<IMembersAppService>().Delete(id,1);
             return this.DeleteSuccessMsg();
         }
     }

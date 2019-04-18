@@ -28,6 +28,7 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         [HttpPost]
         public ActionResult AddPeriod(AddPlaceInfoInput ti)
         {
+            if (!this.CreateService<IPlaceInfoService>().IsAdd(ti.PlaceName, ti.Code)) return this.JsonContent(1);
             if (this.CreateService<IPlaceInfoService>().Add(ti).Id != "")
             {
                 return this.AddSuccessMsg();
@@ -45,6 +46,7 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         [HttpPost]
         public ActionResult Update(UpdatePlaceInfoInput input)
         {
+            if (!this.CreateService<IPlaceInfoService>().IsAdd(input.PlaceName, input.Code)) return this.JsonContent(1);
             this.CreateService<IPlaceInfoService>().Update(input);
             return this.UpdateSuccessMsg();
         }

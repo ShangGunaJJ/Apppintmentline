@@ -13,8 +13,27 @@
         ViewModelBase.call(me);
         vmExtend.call(me);
 
-        me.DeleteUrl = "@this.ContentUrl("~/Appointment/Period/Delete")";
+        me.DeleteUrl = "@this.ContentUrl("~/Appointment/Member/Delete")";
         me.Dialog = new Dialog(me);
+        me.Delete = function () {
+            var url = me.DeleteUrl;
+            var params = { id: me.DataTable.SelectedModel().Id() };
+            $ace.post(url, params, function (result) {
+                var msg = "停用成功";
+                $ace.msg(msg);
+                me.LoadModels();
+            });
+        }
+        me.EditUrl = "@this.ContentUrl("~/Appointment/Member/Update")";
+        me.Edit=function(){
+            var url = me.EditUrl;
+            var params = { id: me.DataTable.SelectedModel().Id() };
+            $ace.post(url, params, function (result) {
+                var msg = "启用成功";
+                $ace.msg(msg);
+                me.LoadModels();
+            });
+        }
     }
     function vmExtend() {
         var me = this;
@@ -35,58 +54,6 @@
     }
 
     function Dialog(vm) {
-        var me = this;
-        DialogBase.call(me);
-
-
-        me.OnOpen = function () {
-            var model = me.EditModel();
-            if (model) {
-                var bindModel = $ko.toJS(model);
-                me.Model(bindModel);
-            }
-            else {
-                me.Model({ IsEnabled: true });
-            }
-
-            initControl();
-
-            var roleId = me.Model().Id;
-            $("#permissionTree").html(null);
-            $("#permissionTree").treeview({
-                height: 444,
-                showcheck: true,
-                url: "/SystemManage/RoleAuthorize/GetPermissionTree",
-                param: { roleId: roleId },
-                cbiconpath: "@this.ContentUrl("/Content/wdtree/images/icons/")"
-            });
-        }
-        me.OnSave = function () {
-            var model = me.Model();
-
-            if (!$('#form1').formValid()) {
-                return false;
-            }
-
- 
-            if (me.EditModel()) {
-                $ace.post("@this.ContentUrl("~/Period/Update")", model, function (result) {
-                    $ace.msg(result.Msg);
-                    me.Close();
-                    vm.LoadModels();
-                }
-               );
-            }
-            else {
-                $ace.post("@this.ContentUrl("~/Appointment/Period/AddPeriod")", model, function (result) {
-                    $ace.msg(result.Msg);
-                    me.Close();
-                    vm.LoadModels();
-                }
-             );
-            }
-        }
-
         function initControl() {
             var w = $('#wizard').wizard();
             w.on('change', function (e, data) {
@@ -110,7 +77,6 @@
                 }
             });
         }
-
     }
 
 

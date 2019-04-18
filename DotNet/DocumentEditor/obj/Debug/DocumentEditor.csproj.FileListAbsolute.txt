@@ -41,4 +41,8 @@ C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\DocumentEditor\b
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\DocumentEditor\bin\Debug\DocumentEditor.pdb
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\DocumentEditor\obj\Debug\DocumentEditor.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\DocumentEditor\obj\Debug\DocumentEditor.pdb
-C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\DocumentEditor\obj\Debug\DocumentEditor.csprojResolveAssemblyReference.cache
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\DocumentEditor\bin\Debug\DocumentEditor.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\DocumentEditor\bin\Debug\DocumentEditor.pdb
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\DocumentEditor\obj\Debug\DocumentEditor.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\DocumentEditor\obj\Debug\DocumentEditor.pdb
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\DocumentEditor\obj\Debug\DocumentEditor.csprojResolveAssemblyReference.cache

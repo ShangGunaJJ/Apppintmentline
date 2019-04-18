@@ -17,7 +17,6 @@ namespace Chloe.Application.Models.Appointment
         /// 业务项ID
         /// </summary>
         public string BusinessID { get; set; }
-
         /// <summary>
         /// 会员ID
         /// </summary>
@@ -42,11 +41,13 @@ namespace Chloe.Application.Models.Appointment
         /// </summary>
         public string FileID { get; set; }
 
-
+        public string BookingNo { get; set; }
         /// <summary>
         /// 创建日期
         /// </summary>
         public DateTime CreateTime { get; set; }
+
+        public int IsEvaluate { get; set; }
     }
     public class AddAppointmentDataInput : AddOrUpdateAppointmentData
     {
@@ -82,6 +83,8 @@ namespace Chloe.Application.Models.Appointment
         public string Phone { get; set; }
 
         public string IdCard { get; set; }
+
+        public int SerNo { get; set; }
     }
     public class UpdateAppointmentDataInput : AddOrUpdateAppointmentData
     {

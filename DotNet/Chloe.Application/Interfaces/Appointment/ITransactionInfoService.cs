@@ -16,6 +16,12 @@ namespace Chloe.Application.Interfaces.Appointment
         TransactionInfo Add(AddTransactionInfoInput input);
         int Update(UpdateTransactionInfoInput input);
         List<SimpleModelcs> GetPerSimple();
+        int IsAddOrUpdate(string Name, string Code);
         PagedData<TransactionInfo> GetPageData(Pagination page, string keyword);
+        List<TransactionInfo> GetPerByID(string id);
+        TransactionInfo AddData(int ServiceNo, string TransactionName, string Code);
+        int SerUpdate(int ServiceNo, string TransactionName, string Code);
+        void DeleteDate(List<int> serS);
+        int IsAre(int serNo);
     }
 }

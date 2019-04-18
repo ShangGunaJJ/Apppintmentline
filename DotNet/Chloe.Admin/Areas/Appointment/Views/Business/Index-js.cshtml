@@ -72,6 +72,9 @@
  
             if (me.EditModel()) {
                 $ace.post("@this.ContentUrl("~/Business/Update")", model, function (result) {
+                    if (result == 1) { $ace.msg("已有重复数据！无法修改！"); return false; }
+                    if (result == 2) { $ace.msg("和添加过的数据有时间冲突！无法修改！"); return false; }
+                    if (result == 3) { $ace.msg("和添加过的数据有时间冲突！无法修改！"); return false; }
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();
@@ -80,6 +83,9 @@
             }
             else {
                 $ace.post("@this.ContentUrl("~/Appointment/Business/AddBusiness")", model, function (result) {
+                    if (result == 1) { $ace.msg("已有重复数据！无法添加！"); return false; }
+                    if (result == 2) { $ace.msg("和添加过的数据有时间冲突！无法添加！"); return false; }
+                    if (result == 3) { $ace.msg("和添加过的数据有时间冲突！无法添加！"); return false; }
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();

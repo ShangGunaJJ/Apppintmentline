@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Chloe.Admin.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Chloe_Admin_WebService_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8000/WebService.asmx</Value>
+    </Setting>
+    <Setting Name="Chloe_Admin_SMS_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://120.77.254.175:81/WebService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -47,8 +47,15 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         [HttpPost]
         public ActionResult Update(UpdatePeriodTimeInput input)
         {
-            this.CreateService<IPeriodTime>().Update(input);
-            return this.UpdateSuccessMsg();
+            AddPeriodTimeInput ti = new AddPeriodTimeInput() { StratTime=input.StratTime, EndTime=input.EndTime, SeveraWeeks=input.SeveraWeeks };
+            if (this.CreateService<IPeriodTime>().IsOKPeriod(ti))
+            {
+                this.CreateService<IPeriodTime>().Update(input); return this.UpdateSuccessMsg();
+            }
+            else {
+
+                return this.SuccessMsg("失败！时间段重复存在！");
+            } 
         }
 
 

@@ -13,6 +13,9 @@
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_AreaDialogWidth>600</WebStackScaffolding_AreaDialogWidth>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Admin\bin\</ReferencePath>
+  </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">

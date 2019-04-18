@@ -1,16 +1,13 @@
-/**
- * Created by jf on 2015/9/11.
- * Modified by bear on 2016/9/7.
- */
-window.APPURL="47.93.230.40:8000";
-//var APPURL="http://localhost:7116/"; 
+
+window.APPURL = "http://youxu.yunyuange.cc";
+window.APPURL="http://localhost:7116";
 $(function () {
     var pageManager = {
         $container: $('#container'),
         _pageStack: [],
-        _PlaceId:"",
+        _PlaceId: "",
         _configs: [],
-        _pageAppend: function(){},
+        _pageAppend: function () { },
         _defaultPage: null,
         _pageIndex: 1,
         setDefault: function (defaultPage) {
@@ -58,13 +55,13 @@ $(function () {
             location.hash = config.url;
         },
         _go: function (config) {
-            this._pageIndex ++;
+            this._pageIndex++;
 
-            history.replaceState && history.replaceState({_pageIndex: this._pageIndex}, '', location.href);
+            history.replaceState && history.replaceState({ _pageIndex: this._pageIndex }, '', location.href);
 
             var html = $(config.template).html();
             var $html = $(html).addClass('slideIn').addClass(config.name);
-            $html.on('animationend webkitAnimationEnd', function(){
+            $html.on('animationend webkitAnimationEnd', function () {
                 $html.removeClass('slideIn').addClass('js_show');
             });
             this.$container.append($html);
@@ -84,7 +81,7 @@ $(function () {
             history.back();
         },
         _back: function (config) {
-            this._pageIndex --;
+            this._pageIndex--;
 
             var stack = this._pageStack.pop();
             if (!stack) {
@@ -116,7 +113,7 @@ $(function () {
         },
         _findInStack: function (url) {
             var found = null;
-            for(var i = 0, len = this._pageStack.length; i < len; i++){
+            for (var i = 0, len = this._pageStack.length; i < len; i++) {
                 var stack = this._pageStack[i];
                 if (stack.config.url === url) {
                     found = stack;
@@ -146,8 +143,8 @@ $(function () {
         }
     };
 
-    function fastClick(){
-        var supportTouch = function(){
+    function fastClick() {
+        var supportTouch = function () {
             try {
                 document.createEvent("TouchEvent");
                 return true;
@@ -157,26 +154,26 @@ $(function () {
         }();
         var _old$On = $.fn.on;
 
-        $.fn.on = function(){
-            if(/click/.test(arguments[0]) && typeof arguments[1] == 'function' && supportTouch){ // 只扩展支持touch的当前元素的click事件
+        $.fn.on = function () {
+            if (/click/.test(arguments[0]) && typeof arguments[1] == 'function' && supportTouch) { // 只扩展支持touch的当前元素的click事件
                 var touchStartY, callback = arguments[1];
-                _old$On.apply(this, ['touchstart', function(e){
+                _old$On.apply(this, ['touchstart', function (e) {
                     touchStartY = e.changedTouches[0].clientY;
                 }]);
-                _old$On.apply(this, ['touchend', function(e){
+                _old$On.apply(this, ['touchend', function (e) {
                     if (Math.abs(e.changedTouches[0].clientY - touchStartY) > 10) return;
 
                     e.preventDefault();
                     callback.apply(this, [e]);
                 }]);
-            }else{
+            } else {
                 _old$On.apply(this, arguments);
             }
             return this;
         };
     }
-    function preload(){
-        $(window).on("load", function(){
+    function preload() {
+        $(window).on("load", function () {
             var imgList = [
                 "./images/layers/content.png",
                 "./images/layers/navigation.png",
@@ -188,13 +185,7 @@ $(function () {
             }
         });
     }
-    function androidInputBugFix(){
-        // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
-        // 相关 issue: https://github.com/weui/weui/issues/15
-        // 解决方法:
-        // 0. .container 去掉 overflow 属性, 但此 demo 下会引发别的问题
-        // 1. 参考 http://stackoverflow.com/questions/23757345/android-does-not-correctly-scroll-on-input-focus-if-not-body-element
-        //    Android 手机下, input 或 textarea 元素聚焦时, 主动滚一把
+    function androidInputBugFix() {
         if (/Android/gi.test(navigator.userAgent)) {
             window.addEventListener('resize', function () {
                 if (document.activeElement.tagName == 'INPUT' || document.activeElement.tagName == 'TEXTAREA') {
@@ -205,7 +196,7 @@ $(function () {
             })
         }
     }
-    function setJSAPI(){
+    function setJSAPI() {
         var option = {
             title: 'WeUI, 为微信 Web 服务量身设计',
             desc: 'WeUI, 为微信 Web 服务量身设计',
@@ -239,7 +230,7 @@ $(function () {
                  */
                 wx.invoke('setBounceBackground', {
                     'backgroundColor': '#F8F8F8',
-                    'footerBounceColor' : '#F8F8F8'
+                    'footerBounceColor': '#F8F8F8'
                 });
                 wx.onMenuShareTimeline(option);
                 wx.onMenuShareQQ(option);
@@ -252,7 +243,7 @@ $(function () {
             });
         });
     }
-    function setPageManager(){
+    function setPageManager() {
         var pages = {}, tpls = $('script[type="text/html"]');
         var winH = $(window).height();
 
@@ -264,44 +255,36 @@ $(function () {
                 template: '#' + tpl.id
             };
         }
-        pages.Reg.url = '#';
-
+        var UserInfo = JSON.parse(localStorage.getItem("UserInfo"));
+        if (UserInfo && UserInfo.Id) {
+            pages.Default.url = '#';   
+            pageManager.setDefault('Default');  
+        } else {
+            pages.Reg.url = '#';
+            pageManager.setDefault('Reg');
+        }
         for (var page in pages) {
             pageManager.push(pages[page]);
         }
         pageManager
-            .setPageAppend(function($html){
+            .setPageAppend(function ($html) {
                 var $foot = $html.find('.page__ft');
-                if($foot.length < 1) return;
+                if ($foot.length < 1) return;
 
-                if($foot.position().top + $foot.height() < winH){
+                if ($foot.position().top + $foot.height() < winH) {
                     $foot.addClass('j_bottom');
-                }else{
+                } else {
                     $foot.removeClass('j_bottom');
                 }
             });
-        IsReg();
-
-    }
-    function IsReg(){
-        var code=GetUrlArgument("code");
-        pageManager.setDefault('Reg'); pageManager.init();
-        // $.get("http://47.93.230.40:8000/WeChat/GetUserInfo?code="+code,function (x) {
-        //     if(x&&x.MenInfo){
-        //         localStorage.setItem("UserInfo",JSON.stringify(x));
-        //         pageManager.setDefault('Default');
-        //     }else{
-        //         pageManager.setDefault('Reg');
-        //     }
-        //     pageManager.init(); 
-        // })
+        pageManager.init();
     }
     function GetUrlArgument(name) {
         var url = location.href.replace(/([^\?|&]*)=/g, function (rg) { return (rg || "").toLowerCase() });
         var val = new RegExp(name.toLowerCase() + "=([^&]*)").exec(url);
         return val && val[1] || "";
     }
-    function ShowTool(msg){
+    function ShowTool(msg) {
         var $tooltips = $('.js_tooltips');
         if (msg != '') {
             $tooltips.text(msg);
@@ -311,19 +294,50 @@ $(function () {
             }, 2000);
         }
     }
-    function init(){
+    function init() {
         preload();
         fastClick();
         androidInputBugFix();
         //setJSAPI();
         setPageManager();
-
+        LoadSetting();
         window.pageManager = pageManager;
-        window.ShowTool=ShowTool;
-        window.GetUrlArgument=GetUrlArgument;
-        window.Reg = function(){
+        window.ShowTool = ShowTool; 
+  
+        window.Reg = function () {
             location.hash = '';
         };
     }
+    function LoadSetting() {
+        $.get(APPURL+"/WeChat/GetSet", function (x, status, xhr) {
+            localStorage.setItem("Config", x);
+            x = JSON.parse(x);
+            console.log(x); 
+            var CancelAppNum = 0;
+            for (var i = 0; i < x.length; i++) {
+                if (x[i].Id == "1ef03475df694efd954d78cc0de2a477" || x[i].KeyName == "每天同一业务预约次数")
+                    localStorage.setItem("ToDayCount", x[i].Value);
+                else if (x[i].Id == "8bdf7cba605a4adf8074d70c37930adb" || x[i].KeyName == "每月同一业务预约次数")
+                    localStorage.setItem("monthCount", x[i].Value);
+                else if (x[i].Id == "ee019c775a0c4a4ab1e7d4ff7ce121c4" || x[i].KeyName == "提前多少分钟可预约")
+                    localStorage.setItem("InAdvCount", x[i].Value);
+                else if (x[i].Id == "0c8d62b3d2f6425b878dfdad70d0fa76" || x[i].KeyName == "最长预约天数")
+                    localStorage.setItem("AppLongDay", x[i].Value);
+                else if (x[i].Id == "1a2d7cba822b4e53b6a7060342196eb2" || x[i].KeyName == "提前多少小时取消预约时间")
+                    localStorage.setItem("CancelApp", x[i].Value);
+                else if (x[i].Id == "f8d0276b709c490b972cb6fa47a5bd12" || x[i].KeyName == "开始时间") {
+                    localStorage.setItem("StartAppTime", x[i].Value); 
+                }
+                else if (x[i].Id == "7aa00c799a24438abc8997e68e5fea7b" || x[i].KeyName == "结束时间") {
+                    localStorage.setItem("EndAppTime", x[i].Value); 
+                }
+                else if (x[i].Id == "b47f57860388458395cec837e627a95e" || x[i].KeyName == "每月可取消预约次数") {
+                    localStorage.setItem("CancelAppNum", x[i].Value);CancelAppNum=x[i].Value;
+                }
+            }
+        });
+    }
+
+
     init();
 });

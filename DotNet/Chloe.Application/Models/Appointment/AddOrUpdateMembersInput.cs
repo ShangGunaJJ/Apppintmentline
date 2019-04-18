@@ -17,6 +17,7 @@ namespace Chloe.Application.Models.Appointment
         public string WeChatName { get; set; }
         public string MobilePhone { get; set; }
         public string IdCard { get; set; }
+        public int state { get; set; }
 
         public DateTime? CreateTime { get; set; }
     }

@@ -17,5 +17,6 @@ namespace Chloe.Application.Interfaces.Appointment
         int Update(UpdatePlaceInfoInput input);
         List<SimpleModelcs> GetSimple();
         PagedData<PlaceInfo> GetPageData(Pagination page, string keyword);
+        bool IsAdd(string Name, string code);
     }
 }

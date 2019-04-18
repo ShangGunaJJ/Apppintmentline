@@ -1,5 +1,9 @@
 ﻿using Ace;
+using Ace.Exceptions;
 using Ace.IdStrategy;
+using Ace.Security;
+using Chloe.Application.Common;
+using Chloe.Application.Interfaces;
 using Chloe.Application.Interfaces.Appointment;
 using Chloe.Application.Models.Appointment;
 using Chloe.Entities;
@@ -30,6 +34,9 @@ namespace Chloe.Application.Implements.Appointment
                 return e.ToString();
             }
             return "成功删除" + mValue + detailCount + "条。";
+        }
+        public bool IsAdd(string Name,string code) {
+           return this.DbContext.Query<PlaceInfo>().Where(a => a.PlaceName == Name || a.Code == code).ToList().Count()== 0;
         }
         public PlaceInfo Add(AddPlaceInfoInput input)
         {
@@ -65,8 +72,8 @@ namespace Chloe.Application.Implements.Appointment
 
         public PagedData<PlaceInfo> GetPageData(Pagination page, string keyword)
         {
-            var q = this.DbContext.Query<PlaceInfo>();
-            q.Where(a => a.PlaceName.Contains(keyword) || a.Code.Contains(keyword));
+            var q = this.DbContext.GetPlaceInfo();
+            q=q.WhereIfNotNullOrEmpty(keyword,a => a.PlaceName.Contains(keyword)||a.Code.Contains(keyword));
             q = q.OrderBy(a => a.CreateTime); 
             PagedData<PlaceInfo> pagedData = q.TakePageData(page);
             return pagedData;

@@ -39,16 +39,25 @@ namespace Chloe.Application.Implements.Appointment
             entity.EndTime = input.EndTime; 
             return this.DbContext.Insert(entity);
         }
-
+        public List<PeriodTime> Select(string ID)
+        {
+            return this.DbContext.Query<PeriodTime>().Where(a => a.Id == ID).ToList();
+        }
         public bool IsOKPeriod(AddPeriodTimeInput p)
         {
            return this.DbContext.Query<PeriodTime>().Where(a => a.SeveraWeeks == p.SeveraWeeks && a.StratTime == p.StratTime && a.EndTime == p.EndTime).Select(a => AggregateFunctions.Count()).First() == 0;
         }
 
-        public List<SimpleModelcs> GetPerSimple() {
-            var models = this.DbContext.Query<PeriodTime>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.StratTime+"-"+a.EndTime }).ToList();
+        public List<SimpleModelcs> GetPerSimple()
+        {
+            string[] weeks = new string[] { "","星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日" };
+            var models = this.DbContext.Query<PeriodTime>().Select(a => new SimpleModelcs() { Id = a.Id, Name = a.StratTime + "-" + a.EndTime+" @"+a.SeveraWeeks }).ToList();
+            for (int i = 0; i < models.Count; i++)
+            {
+                models[i].Name= models[i].Name.Split('@')[0]+ " " + weeks[Int32.Parse(models[i].Name.Split('@')[1])];
+            }
             return models;
-        } 
+        }
         public int Update(UpdatePeriodTimeInput input)
         {
 
@@ -67,7 +76,7 @@ namespace Chloe.Application.Implements.Appointment
         public PagedData<PeriodTime> GetPageData(Pagination page, string keyword)
         {
             var q = this.DbContext.Query<PeriodTime>();
-            //q.Where(a => a.PlaceName.Contains(keyword) || a.Code.Contains(keyword));
+            q = q.WhereIfNotNullOrEmpty(keyword, a => a.StratTime.Contains(keyword) || a.EndTime.Contains(keyword));
             q = q.OrderBy(a => a.CreateTime);
             PagedData<PeriodTime> pagedData = q.TakePageData(page);
             return pagedData;

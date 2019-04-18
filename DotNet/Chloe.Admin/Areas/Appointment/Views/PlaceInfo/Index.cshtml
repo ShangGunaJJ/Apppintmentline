@@ -40,6 +40,7 @@
         <thead>
             <tr>
                 <th style="width:20px;"></th>
+                <th>序号</th>
                 <th>名称</th>
                 <th>地点代码</th>
                 <th>地址</th>
@@ -51,6 +52,7 @@
         <tbody data-bind="foreach:Models">
             <tr data-bind="click:$parent.SelectRow">
                 <td data-bind="text:$parent.GetOrdinal($index())"></td>
+                <td data-bind="text:Id"></td>
                 <td data-bind="text:PlaceName"></td>
                 <td data-bind="text:Code"></td>
                 <td data-bind="text:Address"></td>

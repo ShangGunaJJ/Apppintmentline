@@ -56,7 +56,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Reflection.Context" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,11 +77,13 @@
     <Compile Include="Implements\Appointment\AppointmentDataService.cs" />
     <Compile Include="Implements\Appointment\BusinessService.cs" />
     <Compile Include="Implements\Appointment\DefaultSettingService.cs" />
+    <Compile Include="Implements\Appointment\EvaluateService.cs" />
     <Compile Include="Implements\Appointment\FileDataService.cs" />
     <Compile Include="Implements\Appointment\MembersAppService.cs" />
     <Compile Include="Implements\Appointment\PeriodTimeService.cs" />
     <Compile Include="Implements\Appointment\PlaceInfoService.cs" />
     <Compile Include="Implements\Appointment\TransactionInfoService.cs" />
+    <Compile Include="Implements\Appointment\WorkDayService.cs" />
     <Compile Include="Implements\System\DutyAppService.cs" />
     <Compile Include="Implements\System\ModuleAppService.cs" />
     <Compile Include="Implements\System\RoleAppService.cs" />
@@ -94,11 +98,13 @@
     <Compile Include="Interfaces\Appointment\IAppointmentDataService.cs" />
     <Compile Include="Interfaces\Appointment\IBusinessService.cs" />
     <Compile Include="Interfaces\Appointment\IDefaultSettingService.cs" />
+    <Compile Include="Interfaces\Appointment\IEvaluateService.cs" />
     <Compile Include="Interfaces\Appointment\IFileDataService.cs" />
     <Compile Include="Interfaces\Appointment\IMembersAppService.cs" />
     <Compile Include="Interfaces\Appointment\IPeriodTime.cs" />
     <Compile Include="Interfaces\Appointment\IPlaceInfoService.cs" />
     <Compile Include="Interfaces\Appointment\ITransactionInfoService.cs" />
+    <Compile Include="Interfaces\Appointment\IWorkingDayService.cs" />
     <Compile Include="Interfaces\IAccountAppService.cs" />
     <Compile Include="Interfaces\System\IDutyAppService.cs" />
     <Compile Include="Interfaces\System\IModuleAppService.cs" />
@@ -111,6 +117,7 @@
     <Compile Include="Interfaces\Wiki\IWikiDocumentAppService.cs" />
     <Compile Include="Interfaces\Wiki\IWikiMenuItemAppService.cs" />
     <Compile Include="Models\Account\ModifyAccountInfoInput.cs" />
+    <Compile Include="Models\Appointment\AddEvaluate.cs" />
     <Compile Include="Models\Appointment\AddOrUpdateAdjustAppDataInput.cs" />
     <Compile Include="Models\Appointment\AddOrUpdateAppointmentData.cs" />
     <Compile Include="Models\Appointment\AddOrUpdateBusinessInput.cs" />
@@ -120,6 +127,7 @@
     <Compile Include="Models\Appointment\AddOrUpdatePeriodTimeInput.cs" />
     <Compile Include="Models\Appointment\AddOrUpdatePlaceInfoInput.cs" />
     <Compile Include="Models\Appointment\AddOrUpdateTransactionInfo.cs" />
+    <Compile Include="Models\Appointment\AddWorkingDayInput.cs" />
     <Compile Include="Models\Appointment\SimpleModelcs.cs" />
     <Compile Include="Models\Duty\AddorUpdateDutyInput.cs" />
     <Compile Include="Models\Duty\SimpleDutyModel.cs" />
@@ -141,6 +149,11 @@
     <Compile Include="Models\WikiMenuItem\UpdateWikiMenuItemInput.cs" />
     <Compile Include="Models\WikiMenuItem\WikiMenuItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SessionAppServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +170,19 @@
       <Name>Chloe.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

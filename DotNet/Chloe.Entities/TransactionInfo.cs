@@ -20,5 +20,7 @@ namespace Chloe.Entities
         public int IsApproval { get; set; }
 
         public int IsAutoCode { get; set; }
+
+        public int ServiceNo { get; set; }
     }
 }

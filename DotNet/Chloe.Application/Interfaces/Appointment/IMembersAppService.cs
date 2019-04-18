@@ -12,10 +12,13 @@ namespace Chloe.Application.Interfaces.Appointment
 {
     public interface  IMembersAppService: IAppService
     {
-        string Delete(string id);
+        int Delete(string Id, int _state);
         MALU_Members Add(AddMembersInput input);
         int Update(AddMembersInput input);
-        List<MALU_Members> SelectByOpenID(string OpenID);
-        PagedData<MALU_Members> GetPageData(Pagination page, string keyword);
+        void SelectByOpenID(string OpenID, ref string Id, ref string Name, ref string IdCard, ref string phone, ref int state);
+        PagedData<MALU_Members> GetPageData(Pagination page, string keyword, int? state);
+        int IsReg(string IDCARD);
+        MALU_Members GetInfoByID(string ID);
+        string GetIDCard(string mID);
     }
 }

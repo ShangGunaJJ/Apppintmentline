@@ -37,5 +37,11 @@ namespace Chloe.Entities
         {
             return dbContext.Query<Sys_RoleAuthorize>();
         }
+
+        public static IQuery<PlaceInfo> GetPlaceInfo(this IDbContext dbContext)
+        {
+            return dbContext.Query<PlaceInfo>();
+        }
+
     }
 }

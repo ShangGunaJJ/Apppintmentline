@@ -39,7 +39,6 @@ namespace Chloe.Entities
         /// </summary>
         public int AppointmentNum { get; set; }
 
-        
     }
     public enum IsWeekEnd {
         Yes=1,

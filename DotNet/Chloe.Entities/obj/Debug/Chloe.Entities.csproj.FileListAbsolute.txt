@@ -25,4 +25,10 @@ C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\b
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\bin\Debug\Chloe.Oracle.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.dll
 C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.pdb
-C:\Users\ShangGuanJJ\Desktop\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.csprojResolveAssemblyReference.cache
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\bin\Debug\Chloe.Entities.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\bin\Debug\Chloe.Entities.pdb
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\bin\Debug\Chloe.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\bin\Debug\Chloe.Oracle.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.dll
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.pdb
+E:\订阅号预约排号\Appointment\Apppintmentline\DotNet\Chloe.Entities\obj\Debug\Chloe.Entities.csprojResolveAssemblyReference.cache

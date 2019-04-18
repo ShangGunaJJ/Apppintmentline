@@ -72,6 +72,7 @@
  
             if (me.EditModel()) {
                 $ace.post("@this.ContentUrl("~/PlaceInfo/Update")", model, function (result) {
+                    if (result == 1) { $ace.msg("已有重复数据！"); return false; }
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();
@@ -80,6 +81,7 @@
             }
             else {
                 $ace.post("@this.ContentUrl("~/Appointment/PlaceInfo/AddPeriod")", model, function (result) {
+                    if (result == 1) { $ace.msg("已有重复数据！"); return false;}
                     $ace.msg(result.Msg);
                     me.Close();
                     vm.LoadModels();

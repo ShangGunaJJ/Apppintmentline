@@ -37,7 +37,7 @@ namespace Chloe.Application.Models.Appointment
         /// <summary>
         /// 可预约数量
         /// </summary>
-        public int AppointmentNum { get; set; }
+        public int AppointmentNum { get; set; } 
     }
     public class AddBusinessInput : AddOrUpdateBusinessInput
     {
@@ -62,7 +62,8 @@ namespace Chloe.Application.Models.Appointment
         /// 排队人数
         /// </summary>
         public int LineUpNumber { get; set; }
-
+        public int Weeks { get; set; }
+        public int SerNo { get; set; }
         public List<PeriodTime> PerList { get; set; }
     }
     public class UpdateBusinessInput : AddOrUpdateBusinessInput

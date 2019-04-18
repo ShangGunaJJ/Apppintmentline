@@ -16,7 +16,7 @@ namespace Chloe.Entities
         public DateTime CreationTime { get; set; }
         public string CreateUserId { get; set; }
 
-        public DateTime? createtime { get; set; }
+        public DateTime? CreateTime { get; set; }
     }
 
 }

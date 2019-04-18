@@ -1,0 +1,85 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+@this.RefScript("~/Content/simple-calendar/javascripts/simple-calendar.js")
+@this.RefStyle("~/Content/simple-calendar/stylesheets/simple-calendar.css")
+<script>
+    window.onload = function () {
+        $.get('@this.ContentUrl("~/WorkingDay/getData")', function (data) {
+            if (data) {
+                data = JSON.parse(data);
+                var mark = {};
+                for (var i = 0; i < data.length; i++) {
+                    mark[data[i].Date.split('T')[0]] = '非工作日';
+                }
+                init(mark);
+            }
+        })
+        
+    }
+    function init(mark) {
+        var myCalendar = new SimpleCalendar('#calendar', {
+            mark: mark,
+            onSelect: function (date, obj) {
+                var d = (1900 + date.getYear()) + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                if (obj.classList.value.split(' ').some(function (a) { return a == 'sc-mark' })) {
+                    $.post('@this.ContentUrl("~/WorkingDay/delete")', { date: d }, function (data) {
+                        if (JSON.parse(data) > 0) {
+                            $ace.alert('取消成功！');
+                            obj.classList.remove('sc-mark');
+                            obj.querySelector('.lunar-day').innerHTML = obj.title
+                        }
+                    })
+                } else {
+                    $.post('@this.ContentUrl("~/WorkingDay/Set")', { date: d }, function (data) {
+                        if (JSON.parse(data).Id) {
+                            $ace.alert('设置成功！');
+                            obj.classList.add('sc-mark');
+                            obj.title = obj.querySelector('.lunar-day').innerHTML;
+                            obj.querySelector('.lunar-day').innerHTML = '非工作日'
+                        }
+                    })
+                }
+            }
+        });
+    }
+</script>
+
+<div class="inner clearfix">
+    <div id='calendar'>
+    </div>
+</div>
+
+<style> 
+     #calendar{
+        width: 100%;  
+      }
+      .clearfix.inner{
+        margin-bottom: 50px !important;
+        padding: 50px;
+      }
+    .setWorkDay,.cancelWorkDay {
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      font-size:14px;
+      z-index:99;
+      display:none;
+      line-height:80px;
+      text-align:center;
+      cursor:pointer;
+      background-color:rgba(158, 158, 158, 0.65);
+    }
+    .sc-active-day.sc-mark .cancelWorkDay{
+        display:block;
+    }
+    .sc-active-day .setWorkDay {
+        display:block;
+    }
+</style>
+ 

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="_ServiceType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="_ServiceName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="_WorkflowText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="_WorkflowCounter" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="_AMStartTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="_AMEndTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="_AMTotal" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="_PMStartTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="_PMEndTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="_PMTotal" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddServiceResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="BookingDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ServiceNo" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="IDCardNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MobilePhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddAppResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WaitNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SerNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WaitNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="WaitNumberResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SelectAppState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ServiceNo" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReservationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SelectAppStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SelectAppStateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ServiceNo" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReservationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTicketCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTicketCodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListTicketCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ServiceNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListTicketCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListTicketCodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSer">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSerResult" type="tns:ArrayOfServiceInput" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfServiceInput">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceInput" nillable="true" type="tns:ServiceInput" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceInput">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ServiceNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IsValid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsValidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsValidResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:AddService" />
+  </wsdl:message>
+  <wsdl:message name="AddServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:AddServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddAppSoapIn">
+    <wsdl:part name="parameters" element="tns:AddApp" />
+  </wsdl:message>
+  <wsdl:message name="AddAppSoapOut">
+    <wsdl:part name="parameters" element="tns:AddAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="WaitNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:WaitNumber" />
+  </wsdl:message>
+  <wsdl:message name="WaitNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:WaitNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="SelectAppStateSoapIn">
+    <wsdl:part name="parameters" element="tns:SelectAppState" />
+  </wsdl:message>
+  <wsdl:message name="SelectAppStateSoapOut">
+    <wsdl:part name="parameters" element="tns:SelectAppStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTicketCode" />
+  </wsdl:message>
+  <wsdl:message name="GetTicketCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTicketCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListTicketCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListTicketCode" />
+  </wsdl:message>
+  <wsdl:message name="GetListTicketCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListTicketCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSer" />
+  </wsdl:message>
+  <wsdl:message name="GetSerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsValidSoapIn">
+    <wsdl:part name="parameters" element="tns:IsValid" />
+  </wsdl:message>
+  <wsdl:message name="IsValidSoapOut">
+    <wsdl:part name="parameters" element="tns:IsValidResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddService">
+      <wsdl:input message="tns:AddServiceSoapIn" />
+      <wsdl:output message="tns:AddServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddApp">
+      <wsdl:input message="tns:AddAppSoapIn" />
+      <wsdl:output message="tns:AddAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WaitNumber">
+      <wsdl:input message="tns:WaitNumberSoapIn" />
+      <wsdl:output message="tns:WaitNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelectAppState">
+      <wsdl:input message="tns:SelectAppStateSoapIn" />
+      <wsdl:output message="tns:SelectAppStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketCode">
+      <wsdl:input message="tns:GetTicketCodeSoapIn" />
+      <wsdl:output message="tns:GetTicketCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListTicketCode">
+      <wsdl:input message="tns:GetListTicketCodeSoapIn" />
+      <wsdl:output message="tns:GetListTicketCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSer">
+      <wsdl:input message="tns:GetSerSoapIn" />
+      <wsdl:output message="tns:GetSerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsValid">
+      <wsdl:input message="tns:IsValidSoapIn" />
+      <wsdl:output message="tns:IsValidSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddService">
+      <soap:operation soapAction="http://tempuri.org/AddService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddApp">
+      <soap:operation soapAction="http://tempuri.org/AddApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WaitNumber">
+      <soap:operation soapAction="http://tempuri.org/WaitNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelectAppState">
+      <soap:operation soapAction="http://tempuri.org/SelectAppState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketCode">
+      <soap:operation soapAction="http://tempuri.org/GetTicketCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListTicketCode">
+      <soap:operation soapAction="http://tempuri.org/GetListTicketCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSer">
+      <soap:operation soapAction="http://tempuri.org/GetSer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsValid">
+      <soap:operation soapAction="http://tempuri.org/IsValid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddService">
+      <soap12:operation soapAction="http://tempuri.org/AddService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddApp">
+      <soap12:operation soapAction="http://tempuri.org/AddApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WaitNumber">
+      <soap12:operation soapAction="http://tempuri.org/WaitNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelectAppState">
+      <soap12:operation soapAction="http://tempuri.org/SelectAppState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTicketCode">
+      <soap12:operation soapAction="http://tempuri.org/GetTicketCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListTicketCode">
+      <soap12:operation soapAction="http://tempuri.org/GetListTicketCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSer">
+      <soap12:operation soapAction="http://tempuri.org/GetSer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsValid">
+      <soap12:operation soapAction="http://tempuri.org/IsValid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService">
+    <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+      <soap:address location="http://39.108.95.243:8080/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
+      <soap12:address location="http://39.108.95.243:8080/WebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

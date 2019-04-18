@@ -174,28 +174,32 @@ Array.prototype.select = function (selector) {
                 layer.close(layerIndex);
             },
             success: function (result) {
-                var isStandardResult = ("Status" in result) && ("Msg" in result);
-                if (isStandardResult) {
-                    if (result.Status == ResultStatus.Failed) {
-                        layerAlert(result.Msg || "操作失败");
-                        return;
-                    }
-                    if (result.Status == ResultStatus.NotLogin) {
-                        layerAlert(result.Msg || "未登录或登录过期，请重新登录");
-                        return;
-                    }
-                    if (result.Status == ResultStatus.Unauthorized) {
-                        layerAlert(result.Msg || "权限不足，禁止访问");
-                        return;
-                    }
+                try{
+                    var isStandardResult = ("Status" in result) && ("Msg" in result);
+                    if (isStandardResult) {
+                        if (result.Status == ResultStatus.Failed) {
+                            layerAlert(result.Msg || "操作失败");
+                            return;
+                        }
+                        if (result.Status == ResultStatus.NotLogin) {
+                            layerAlert(result.Msg || "未登录或登录过期，请重新登录");
+                            return;
+                        }
+                        if (result.Status == ResultStatus.Unauthorized) {
+                            layerAlert(result.Msg || "权限不足，禁止访问");
+                            return;
+                        }
 
-                    if (result.Status == ResultStatus.OK) {
-                        /* 传 result，用 result.Data 还是 result.Msg，由调用者决定 */
-                        callback(result);
+                        if (result.Status == ResultStatus.OK) {
+                            /* 传 result，用 result.Data 还是 result.Msg，由调用者决定 */
+                            callback(result);
+                        }
                     }
-                }
-                else
+                    else
+                        callback(result);
+                }catch(e){
                     callback(result);
+                }
             },
             error: errorCallback
         });

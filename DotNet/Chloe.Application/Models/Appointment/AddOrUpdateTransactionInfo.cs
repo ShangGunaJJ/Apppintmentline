@@ -22,6 +22,7 @@ namespace Chloe.Application.Models.Appointment
         public int IsApproval { get; set; }
 
         public int IsAutoCode { get; set; }
+        public int ServiceNo { get; set; }
     }
 
     public class AddTransactionInfoInput : AddOrUpdateTransactionInfo

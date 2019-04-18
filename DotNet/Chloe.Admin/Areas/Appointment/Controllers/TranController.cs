@@ -23,6 +23,7 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         }
         [HttpPost]
         public ActionResult Add(AddTransactionInfoInput ti) {
+            if (this.CreateService<ITransactionInfoService>().IsAddOrUpdate(ti.TransactionName, ti.Code)>0) return this.JsonContent(1);
             if (this.CreateService<ITransactionInfoService>().Add(ti).Id != "") {
                 return this.AddSuccessMsg();
             }
@@ -39,6 +40,7 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
         [HttpPost]
         public ActionResult Update(UpdateTransactionInfoInput input)
         {
+            if (this.CreateService<ITransactionInfoService>().IsAddOrUpdate(input.TransactionName, input.Code)>1) return this.JsonContent(1);
             this.CreateService<ITransactionInfoService>().Update(input);
             return this.UpdateSuccessMsg();
         }
@@ -50,5 +52,33 @@ namespace Chloe.Admin.Areas.Appointment.Controllers
             this.CreateService<ITransactionInfoService>().Delete(id);
             return this.DeleteSuccessMsg();
         }
+
+        [HttpGet]
+        public ActionResult CloneData()
+        {
+            WebService.WebService ww = new WebService.WebService();
+            var obj = ww.GetSer();
+            List<int> SerNos = new List<int>();
+            var _ser = this.CreateService<ITransactionInfoService>();
+            foreach (var a in obj) {
+                SerNos.Add(a.ServiceNo);
+                if (_ser.IsAre(a.ServiceNo) > 0)
+                {
+                    _ser.SerUpdate(a.ServiceNo, a.ServiceName, a.ServiceType);
+                }
+                else {
+                    _ser.AddData(a.ServiceNo, a.ServiceName, a.ServiceType);
+                }
+            }
+            _ser.DeleteDate(SerNos);
+            return this.SuccessData();
+        }
+    }
+    public class ServiceInput
+    {
+        public int ServiceNo { get; set; }
+        public string ServiceName { get; set; }
+
+        public string ServiceType { get; set; }
     }
 }

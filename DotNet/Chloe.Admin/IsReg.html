@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+
+<body>
+</body>
+</html> 
+<script src="WeChatApp/dist/example/zepto.min.js"></script>
+<script>
+    var url =location.host;
+    $(function () {
+        var code = GetUrlArgument("code");
+        var PlaceID = GetUrlArgument("PlaceID");
+        localStorage.setItem("PlaceID", PlaceID);
+        $.get(url+"/WeChat/GetUserInfo?code=" + code, function (x) {
+            var m = JSON.parse(x);
+            if (m.ReValue) {
+                var weinfo = JSON.parse(m.ReValue)
+                m.nickname = weinfo.nickname;
+                m.headimgurl = weinfo.headimgurl;
+            }
+            if (!m.openid) {
+                location.href = url+"/WeChat/OpenAccess?PlaceID=" + PlaceID;
+                return false;
+            }
+            if (m.State == -1) {
+                location.href = url+"/WeChatapp/dist/example/#msg_warn";
+                return false;
+            }
+            localStorage.setItem("UserInfo", JSON.stringify(m));
+            location.href = url+"/WeChatapp/dist/example/#";
+        });
+    });
+    function GetUrlArgument(name) {
+        var url = location.href.replace(/([^\?|&]*)=/g, function (rg) { return (rg || "").toLowerCase() });
+        var val = new RegExp(name.toLowerCase() + "=([^&]*)").exec(url);
+        return val && val[1] || "";
+    }
+</script>
