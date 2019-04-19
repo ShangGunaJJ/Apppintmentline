@@ -27,7 +27,7 @@ namespace Chloe.Application.Implements.Appointment
             return this.DbContext.Delete<WorkingDay>(a => date == a.Date);
         }
 
-        public List<WorkingDay> SelectById(DateTime date)
+        public List<WorkingDay> SelectById(DateTime? date)
         {
             var q = this.DbContext.Query<WorkingDay>();
             List<WorkingDay> view = q.Where(a => a.Date == date).Select((a) => new WorkingDay

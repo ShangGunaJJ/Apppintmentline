@@ -539,6 +539,9 @@ namespace Chloe.Admin.Areas
                     return this.JsonContent(-3);//已经预约过同样的业务
             }
             catch { }
+            if (this.CreateService<IWorkingDayService>().SelectById(aapp.AppointmentDate).Count > 0) {
+                return this.JsonContent(-4);//该预约日期为非工作日
+            } 
             int SERN=0; string StartTime=""; string EndTime=""; string BusName = "";
             this.CreateService<IBusinessService>().GetSerNo(aapp.BusinessID,ref SERN,ref StartTime,ref EndTime,ref BusName);
             MALU_Members mm = this.CreateService<IMembersAppService>().GetInfoByID(aapp.MamberID);

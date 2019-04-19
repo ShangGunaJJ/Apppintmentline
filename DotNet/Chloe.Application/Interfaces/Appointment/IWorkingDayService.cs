@@ -14,7 +14,7 @@ namespace Chloe.Application.Interfaces.Appointment
     {
         WorkingDay Add(AddWorkingDayInput input);
         int Delete(DateTime date);
-        List<WorkingDay> SelectById(DateTime date);
+        List<WorkingDay> SelectById(DateTime? date);
         List<WorkingDay> Select();
     }
 }
